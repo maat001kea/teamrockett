@@ -1,28 +1,19 @@
-// src/app/api/update-name/route.js
-import { auth, clerkClient } from "@clerk/nextjs/server";
+import { auth, clerkClient } from "@clerk/nextjs/server"; // ✅ ikke fra @clerk/nextjs
+import { NextResponse } from "next/server";
 
 export async function POST(req) {
-  const { userId } = auth();
-  const { firstName, lastName } = await req.json();
+  const { userId } = auth(); // 👈 får Clerk-brugerID
 
   if (!userId) {
-    return new Response("Ikke logget ind", { status: 401 });
+    return NextResponse.json({ error: "Bruger ikke logget ind" }, { status: 401 });
   }
 
-  try {
-    await clerkClient.users.updateUser(userId, {
-      firstName,
-      lastName,
-    });
+  const { firstName, lastName } = await req.json();
 
-    return new Response(JSON.stringify({ success: true }), {
-      headers: { "Content-Type": "application/json" },
-    });
-  } catch (err) {
-    console.error("❌ Clerk API fejl:", err);
-    return new Response(JSON.stringify({ error: err.message }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
+  await clerkClient.users.updateUser(userId, {
+    firstName,
+    lastName,
+  });
+
+  return NextResponse.json({ success: true });
 }
