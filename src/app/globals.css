@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+/* Custom animation */
+@layer utilities {
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fadeInUp {
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-poppins: var(--font-poppins);
+  --font-lexend: var(--font-lexend);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns:
+    [full-bleed-start]minmax(1rem, 1fr)
+    [content-start]minmax(0, 1400px) [content-end] minmax(1rem, 1fr)
+    [full-bleed-end];
+  row-gap: 1rem;
+}
+
+header,
+footer,
+main,
+.fullbleed {
+  grid-column: full-bleed;
+  display: grid;
+  grid-template-columns: subgrid;
+  > :not(&) {
+    grid-column: content;
+  }
+}
+
+img {
+  align-self: stretch;
+  object-fit: cover;
+}
