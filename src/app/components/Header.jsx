@@ -1,17 +1,24 @@
-"use client";
+"use client"; // Sikrer at komponenten kun kører i browseren (nødvendigt for Clerk hooks)
 
 import React from "react";
 import Link from "next/link";
 import { IoCartOutline } from "react-icons/io5";
 import { useCartStore } from "@/app/store/cartStore";
-import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/nextjs";
+
+// Clerk-imports
+import {
+  SignedIn, // Viser indhold KUN hvis brugeren er logget ind
+  SignedOut, // Viser indhold KUN hvis brugeren IKKE er logget ind
+  UserButton, // Viser brugerens avatar med dropdown (profil, log ud)
+  useUser, // Giver adgang til brugerdata i komponenter
+} from "@clerk/nextjs";
 
 const Header = () => {
   return (
     <header className="sticky top-0 z-50 bg-white" style={{ gridColumn: "full-bleed" }}>
       <div className="grid grid-cols-subgrid" style={{ gridColumn: "content" }}>
         <div className="flex justify-between items-center py-4 px-2">
-          {/* Left: Logo + Product */}
+          {/* Venstre side: logo og produkt-link */}
           <div className="flex flex-1 sm:flex-row items-start sm:items-center gap-2 sm:gap-8">
             <Link href="/" className="flex items-center text-orange-500 text-5xl sm:text-6xl font-bold whitespace-nowrap">
               <span>B</span>
@@ -26,8 +33,9 @@ const Header = () => {
             </Link>
           </div>
 
-          {/* Right: Auth + Cart */}
+          {/* Højre side: Clerk-auth og kurv */}
           <div className="flex items-center gap-6 ml-auto">
+            {/* 🔐 Vises KUN hvis man IKKE er logget ind */}
             <SignedOut>
               <Link href="/login" className="text-lg font-semibold text-gray-700 hover:text-orange-500 transition-colors">
                 Log ind
@@ -37,11 +45,16 @@ const Header = () => {
               </Link>
             </SignedOut>
 
+            {/* ✅ Vises KUN hvis man ER logget ind */}
             <SignedIn>
+              {/* Viser brugerens navn med link til dashboard */}
               <UserInfoLink />
+
+              {/* Clerk’s indbyggede bruger-menu (billede, log ud, indstillinger) */}
               <UserButton afterSignOutUrl="/" />
             </SignedIn>
 
+            {/* Indkøbskurv-ikon */}
             <Link href="/payment" className="text-orange-500 text-4xl sm:text-5xl relative">
               <IoCartOutline className="hover:scale-110 transition-transform duration-200 cursor-pointer" />
               <CartBadge />
@@ -62,10 +75,11 @@ const CartBadge = () => {
   return <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">{totalItems}</span>;
 };
 
-// ✅ Komponent der viser brugerens navn som link
+// 🔍 Viser brugerens navn som link til dashboard (hvis logget ind)
 const UserInfoLink = () => {
-  const { user, isLoaded } = useUser();
+  const { user, isLoaded } = useUser(); // Clerk hook: giver adgang til bruger
 
+  // Vis intet hvis brugeren ikke er klar
   if (!isLoaded || !user) return null;
 
   return (

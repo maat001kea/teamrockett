@@ -1,13 +1,24 @@
-// Importér Clerk’s middlewarefunktion – bruges til at beskytte ruter
-import { clerkMiddleware } from "@clerk/nextjs/server";
+// src/middleware.ts
 
-// Konfigurer middleware'en
-export default clerkMiddleware({
-  // 📂 Disse ruter er offentlige og kræver ikke login
-  publicRoutes: ["/", "/login", "/signup", "/products(.*)"], // produkter + undermapper
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+
+// Liste over offentlige ruter
+const isPublicRoute = createRouteMatcher([
+  "/", // Forside
+  "/events(.*)", // Eksempel på events-rute
+  "/sign-in(.*)", // Clerk login
+  "/sign-up(.*)", // Clerk signup
+]);
+
+export default clerkMiddleware(async (auth, req) => {
+  if (!isPublicRoute(req)) {
+    await auth().protect(); // Beskyt alle andre ruter
+  }
 });
 
-// 📌 Matcher alle ruter undtagen statiske filer og Next.js systemfiler
 export const config = {
-  matcher: ["/((?!_next|.*\\..*).*)"],
+  matcher: [
+    "/((?!_next|.*\\..*).*)", // Beskyt alt undtagen systemfiler og statiske filer
+    "/api/(.*)", // Beskyt også API-ruter
+  ],
 };
