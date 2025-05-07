@@ -4,7 +4,7 @@ Cleak...!
 
 Koden laver en alt-i-én login-, signup- og verifikationsside med Clerk i Next.js, som viser forskellig funktionalitet afhængig af om brugeren er logget ind, og håndterer både oprettelse, login og bekræftelse med en verifikationskode via e-mail.
 
-## api/update-name:
+## api/update-name/route.js:
 
 Denne kode er en API-route i Next.js (server-side) der tillader en logget-in bruger at opdatere sit fornavn og efternavn i Clerk.
 
