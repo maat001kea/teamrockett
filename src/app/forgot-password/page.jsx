@@ -50,7 +50,7 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
+    <div className="min-h-screen flex items-center justify-center px-4 pb-70">
       <div className="max-w-md w-full space-y-6 p-6 border rounded shadow-sm bg-white text-center">
         <h1 className="text-2xl font-bold">Gendan adgangskode</h1>
         {step === "request" ? (
