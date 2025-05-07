@@ -20,8 +20,8 @@ const Header = () => {
               <span className="text-2xl sm:text-3xl font-semibold ml-0">asket</span>
             </Link>
 
-            <Link href="/products" className="relative text-lg font-semibold text-gray-700 hover:text-orange-500 transition-colors px-10 pt-2 hidden [@media(min-width:450px)]:block">
-              All Products
+            <Link href="/events" className="relative text-lg font-semibold text-gray-700 hover:text-orange-500 transition-colors px-10 pt-2 hidden [@media(min-width:450px)]:block">
+              Event List
               <span className="absolute left-0 -bottom-1 w-full h-[2px] bg-orange-500 scale-x-0 hover:scale-x-100 origin-left transition-transform duration-300"></span>
             </Link>
           </div>
@@ -38,7 +38,7 @@ const Header = () => {
               <UserButton afterSignOutUrl="/" />
             </SignedIn>
 
-            <Link href="/payment" className="text-orange-500 text-4xl sm:text-5xl relative">
+            <Link href="/kvitering" className="text-orange-500 text-4xl sm:text-5xl relative">
               <IoCartOutline className="hover:scale-110 transition-transform duration-200 cursor-pointer" />
               <CartBadge />
             </Link>

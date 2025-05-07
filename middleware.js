@@ -23,13 +23,12 @@
 //   ],
 // };
 
-// middleware.js
 import { clerkMiddleware } from "@clerk/nextjs/server";
 
 export default clerkMiddleware({
-  publicRoutes: ["/", "/login", "/signup", "/products(.*)"], // de ruter kræver ikke login
+  publicRoutes: ["/", "/login", "/signup", "/products(.*)", "/forgot-password"],
 });
 
 export const config = {
-  matcher: ["/((?!_next|.*\\..*).*)"], // alt andet bliver tjekket for Clerk-session
+  matcher: ["/((?!_next|.*\\..*).*)"],
 };
