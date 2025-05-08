@@ -35,6 +35,9 @@ const Header = () => {
             </SignedOut>
 
             <SignedIn>
+              <Link href="/dashboard" className="text-lg font-semibold text-gray-700 hover:text-orange-500 transition-colors">
+                Min side
+              </Link>
               <UserButton afterSignOutUrl="/" />
             </SignedIn>
 

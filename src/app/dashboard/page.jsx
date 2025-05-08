@@ -1,52 +1,37 @@
 "use client";
 
-import { useState } from "react";
-import { useAuth } from "@clerk/nextjs";
+import { useEffect, useState } from "react";
+import EventCard from "../components/EventCard";
+import { getAllEvents } from "@/lib/api";
 
 export default function DashboardPage() {
-  const { getToken } = useAuth(); // ✅ Clerk token client-side
+  const [events, setEvents] = useState([]);
+  const [error, setError] = useState(null);
 
-  const [title, setTitle] = useState("");
-  const [location, setLocation] = useState("");
-  const [date, setDate] = useState("");
+  useEffect(() => {
+    getAllEvents()
+      .then(setEvents)
+      .catch((err) => setError(err.message));
+  }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const token = await getToken({ template: "default" }); // 🔑 hent token
-
-      const res = await fetch("http://localhost:3001/api/events", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title,
-          description: "Dette er en test event",
-          date,
-          location,
-          artworks: [],
-        }),
-      });
-
-      const data = await res.json();
-      alert("Event oprettet: " + data.title);
-    } catch (err) {
-      console.error(err);
-      alert("Fejl: " + err.message);
-    }
+  // Slet kun fra lokal state – ingen API-kald
+  const handleDeleteLocally = (id) => {
+    setEvents((prev) => prev.filter((e) => e.id !== id));
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-4 space-y-4">
-      <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Titel" className="border p-2 w-full" />
-      <input value={location} onChange={(e) => setLocation(e.target.value)} placeholder="Lokation" className="border p-2 w-full" />
-      <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="border p-2 w-full" />
-      <button type="submit" className="bg-blue-600 text-white py-2 px-4 rounded">
-        Opret event
-      </button>
-    </form>
+    <div className="p-6 max-w-4xl mx-auto">
+      <h1 className="text-3xl font-bold mb-6">Mit Dashboard</h1>
+      {error && <p className="text-red-600 text-center mb-4">{error}</p>}
+      {events.length === 0 ? (
+        <p className="text-center text-gray-500">Ingen events at vise.</p>
+      ) : (
+        <div className="space-y-4">
+          {events.map((ev) => (
+            <EventCard key={ev.id} event={ev} showDelete onDelete={handleDeleteLocally} />
+          ))}
+        </div>
+      )}
+    </div>
   );
 }

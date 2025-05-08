@@ -1,18 +1,13 @@
-import { clerkMiddleware } from "@clerk/nextjs/server";
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-export default clerkMiddleware({
-  // Disse ruter kræver IKKE login
-  publicRoutes: [
-    "/",
-    "/login",
-    "/signup",
-    "/forgot-password",
-    "/kvittering",
-    "/api/smk(.*)", // Hvis du laver en proxy til SMK API'et
-  ],
+const isPublicRoute = createRouteMatcher(["/", "/events(.*)", "/sign-in(.*)", "/sign-up(.*)"]);
+
+export default clerkMiddleware(async (auth, req) => {
+  if (!isPublicRoute(req)) {
+    await auth.protect();
+  }
 });
 
-// Matcher alle ruter undtagen Next.js intern (_next) og statiske filer
 export const config = {
-  matcher: ["/((?!_next|.*\\..*).*)"],
+  matcher: ["/((?!_next|.*\\..*).*)", "/(api|trpc)(.*)"],
 };

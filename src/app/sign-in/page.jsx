@@ -26,7 +26,6 @@ export default function AuthPage() {
     }, 1500);
   };
 
-  // ✅ Redirect til dashboard efter login
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!signInLoaded) return;
@@ -36,7 +35,7 @@ export default function AuthPage() {
       const result = await signIn.create({ identifier: email, password });
       if (result.status === "complete") {
         await setSignInActive({ session: result.createdSessionId });
-        router.push("/dashboard"); // Redirect til dashboard
+        router.push("/dashboard"); // ✅ redirect til dashboard
       } else {
         setError("Login ikke fuldført.");
       }
@@ -45,7 +44,6 @@ export default function AuthPage() {
     }
   };
 
-  // ✅ Redirect til dashboard efter bekræftet signup
   const handleSignup = async (e) => {
     e.preventDefault();
     if (!signUpLoaded) return;
@@ -68,7 +66,7 @@ export default function AuthPage() {
       if (complete.status === "complete") {
         setError("");
         await setSignUpActive({ session: complete.createdSessionId });
-        router.push("/dashboard"); // Redirect til dashboard
+        router.push("/dashboard"); // ✅ redirect til dashboard
       } else {
         setError("Forkert kode.");
       }
