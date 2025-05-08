@@ -21,7 +21,7 @@ export default function DashboardPage() {
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">Mit Dashboard</h1>
+      <h1 className="text-3xl font-bold mb-6">Mit Dashboards</h1>
       {error && <p className="text-red-600 text-center mb-4">{error}</p>}
       {events.length === 0 ? (
         <p className="text-center text-gray-500">Ingen events at vise.</p>
