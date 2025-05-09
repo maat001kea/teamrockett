@@ -19,15 +19,15 @@
 }
 
 :root {
-  --background: #ffffff;
+  --background: #fffefe;
   --foreground: #171717;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-poppins: var(--font-poppins);
-  --font-lexend: var(--font-lexend);
+  --font-playfair: var(--font-playfair);
+  --font-noto: var(--font-notosans);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -45,6 +45,7 @@ body {
     [content-start]minmax(0, 1400px) [content-end] minmax(1rem, 1fr)
     [full-bleed-end];
   row-gap: 1rem;
+  background-color: var(--background);
 }
 
 header,
