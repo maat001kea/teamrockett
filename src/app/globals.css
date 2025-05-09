@@ -21,6 +21,41 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --darkblue: #151c43;
+  --lightblue: #d5d6e1;
+  --blue: #2b346b;
+  --orange: #d97c2b;
+  --lightorange: #f0cbaa;
+  --darkorange: #bd6111;
+  --black: #0d0d0d;
+  --black-75: #3d3d3d;
+  --black-40: #929292;
+  --gray: #556273;
+  --darkgray: #2c3b4f;
+  --lightgray: #bbc0c7;
+  --white: #ffffff;
+
+  --heading-color: var(--black);
+  --body-color: var(--black-40);
+}
+
+@theme {
+  --color-my-orange: var(--orange);
+  --color-my-orangedark: var(--darkorange);
+  --color-my-orangelight: var(--lightorange);
+  --color-my-blue: var(--blue);
+  --color-my-bluedark: var(--darkblue);
+  --color-my-bluelight: var(--lightblue);
+  --color-my-black: var(--black);
+  --color-my-black75: var(--black-75);
+  --color-my-black40: var(--black-40);
+  --color-my-gray: var(--gray);
+  --color-my-graydark: var(--darkgray);
+  --color-my-graylight: var(--lightgray);
+  --color-my-white: var(--white);
+
+  --color-my-heading: var(--heading-color);
+  --color-my-body: var(--body-color);
 }
 
 @theme inline {
