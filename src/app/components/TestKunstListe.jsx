@@ -1,7 +1,7 @@
 const TestKunstListe = async () => {
   const data = await fetch("https://api.smk.dk/api/v1/art/search/?keys=*&offset=0&rows=100");
   const kunst = await data.json();
-  console.log("wow", kunst);
+
   return (
     <div>
       {kunst.items.map((item) => {
