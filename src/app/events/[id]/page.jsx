@@ -6,11 +6,11 @@ import EventGalleri from "@/app/components/EventGalleri";
 
 export default async function Page({ params }) {
   const { id } = await params;
-  console.log("Params:", params);
+  // console.log("Params:", params);
   const response = await fetch(`http://localhost:8080/events/${id}`);
-  // const response = await fetch(`http://localhost:8080/events/9b9a9dc0-0373-403d-bb28-c7eaa296395a`);
+  // const response = await fetch(`http://localhost:8080/events/4e2e9e9d-049f-46a0-b01b-2f2826cdd911`);
   const data = await response.json();
-  console.log(data);
+  console.log("data", data);
 
   return (
     <div>
