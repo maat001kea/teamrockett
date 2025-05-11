@@ -4,7 +4,7 @@ import crownImg from "@/app/assets/crown.png";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#2B346B] text-white text-center py-10 flex flex-col items-center space-y-6">
+    <footer className="bg-my-blue text-white text-center py-10 flex flex-col items-center space-y-6">
       {/*footer container */}
       <div className="w-full max-w-7xl px-4 flex flex-col sm:flex-row justify-between items-start gap-8 mt-10">
         <div className="w-full sm:max-w-md flex flex-col items-start">
