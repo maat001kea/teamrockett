@@ -1,30 +1,31 @@
 "use client";
 
 import { useState } from "react";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { FaTimes } from "react-icons/fa";
+import { AiOutlineAlignRight } from "react-icons/ai";
 import Link from "next/link";
 
 const BurgerMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // Function to toggle the menu
+  // Funcktion til toggle menu
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
   return (
     <>
-      {/* Burger Icon (visible on mobile) */}
+      {/* Burger Ikon kun for mobil skærm */}
       <div className="lg:hidden cursor-pointer" onClick={toggleMenu}>
-        {isMenuOpen ? <FaTimes size={30} /> : <FaBars size={30} />}
+        <FaTimes size={30} className={`${isMenuOpen ? "block" : "hidden"} text-my-blue`} />
+        <AiOutlineAlignRight size={30} className={`${isMenuOpen ? "hidden" : "block"} text-my-blue`} />
       </div>
 
       {/* Mobile Menu */}
       <div className={`${isMenuOpen ? "block" : "hidden"} absolute top-0 right-0 bg-my-blue w-full h-screen z-20 p-4`}>
-        {/* Close Button on the Right Side */}
+        {/* kryds-knap til højere side  */}
         <div className="flex justify-end">
           <FaTimes size={30} className="text-my-white cursor-pointer mt-4" onClick={toggleMenu} />
-          {/* <FaBars size={30} className="text-my-blue" /> */}
         </div>
 
         {/* Menu Links */}
@@ -42,8 +43,7 @@ const BurgerMenu = () => {
         </ul>
       </div>
 
-      {/* Overlay for better UX */}
-      {isMenuOpen && <div className="absolute inset-0 bg-my-blue opacity-50 z-10" onClick={toggleMenu}></div>}
+      {/* {isMenuOpen && <div className="absolute inset-0 bg-my-blue opacity-50 z-10" onClick={toggleMenu}></div>} */}
     </>
   );
 };

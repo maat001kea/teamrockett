@@ -15,7 +15,7 @@ export default async function Page({ params }) {
   return (
     <div>
       <div className="flex flex-col md:flex-row items-center justify-center gap-8 mt-15 mb-20 p-7">
-        <EventBilledeBox className="w-full md:w-1/2" />
+        <EventBilledeBox className="w-full md:w-1/2 " />
         <EventDetailsBox className="w-full md:w-1/2" />
       </div>
       <EventGalleri />

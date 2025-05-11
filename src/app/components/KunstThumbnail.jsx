@@ -18,17 +18,17 @@ const KunstThumbnail = ({ images = [], main }) => {
   const displayImages = images.length === 0 ? [main, main, main] : images.length === 1 ? [images[0], images[0], images[0]] : images.slice(0, 3);
 
   return (
-    <div>
+    <div className="bg-myorangedark">
       {/* hoved img */}
-      <div className="relative aspect-square mb-4">
+      <div className="relative aspect-square mb-4 bg-my-orangedark">
         <Image src={selectedImage} alt="Main image" fill className="object-cover" priority />
       </div>
 
       {/* Thumbnails */}
-      <div className="flex gap-4 pb-4">
+      <div className="flex gap-4 pb-4  bg-my-orangedark">
         {displayImages.map((img, index) => (
-          <div key={index} className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 lg:w-36 lg:h-36 cursor-pointer" onClick={() => setSelectedImage(img)}>
-            <Image src={img} alt={`Thumbnail ${index}`} fill className=" object-cover hover:opacity-80" />
+          <div key={index} className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 lg:w-36 lg:h-36 cursor-pointer bg-my-orangedark" onClick={() => setSelectedImage(img)}>
+            <Image src={img} alt={`Thumbnail ${index}`} fill className=" object-cover hover:opacity-80 " />
           </div>
         ))}
       </div>
