@@ -16,7 +16,7 @@ export default function EventDetailsBox() {
     },
   };
 
-  const [tickets, setTickets] = useState(1);
+  const [tickets, setTickets] = useState(0);
   const ticketsLeft = event.totalTickets - event.bookedTickets;
 
   const handleIncrement = () => {
@@ -24,7 +24,7 @@ export default function EventDetailsBox() {
   };
 
   const handleDecrement = () => {
-    if (tickets > 1) setTickets(tickets - 1);
+    if (tickets > 0) setTickets(tickets - 1);
   };
 
   return (

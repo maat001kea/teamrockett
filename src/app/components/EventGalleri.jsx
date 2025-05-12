@@ -13,20 +13,17 @@ import kunstseven from "../assets/kunstseven.png";
 import kunsteight from "../assets/kunsteight.png";
 import kunstnine from "../assets/kunstnine.png";
 import kunstten from "../assets/kunstten.png";
+
+const images = [kunstone, kunsttwo, kunstthree, kunstfour, kunstfive, kunstsix, kunstseven, kunsteight, kunstnine, kunstten];
 const EventGalleri = () => {
   return (
     <div>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-10 mb-10">
-        <Image src={kunstone} alt="Event" className="object-cover width={100} height={100}" priority />
-        <Image src={kunsttwo} alt="Event" className="object-cover width={100} height={100}" priority />
-        <Image src={kunstthree} alt="Event" className="object-cover width={100} height={100} h-auto" priority />
-        <Image src={kunstfour} alt="Event" className="object-cover width={100} height={100} h-auto" priority />
-        <Image src={kunstfive} alt="Event" className="object-cover width={100} height={100} h-auto" priority />
-        <Image src={kunstsix} alt="Event" className="object-cover width={100} height={100}h-auto" priority />
-        <Image src={kunstseven} alt="Event" className="object-cover width={100} height={100} h-auto" priority />
-        <Image src={kunsteight} alt="Event" className="object-cover width={100} height={100} h-auto" priority />
-        <Image src={kunstnine} alt="Event" className="object-cover width={100} height={100} h-auto" priority />
-        <Image src={kunstten} alt="Event" className="object-cover width={100} height={100} h-auto" priority />
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-30 mb-20 p-7">
+        {images.map((img, index) => (
+          <div key={index} className="relative w-full aspect-square">
+            <Image src={img} alt={`Event ${index + 1}`} fill className="object-cover" />
+          </div>
+        ))}
       </div>
     </div>
   );
