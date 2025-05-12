@@ -20,7 +20,7 @@ const EventGalleri = () => {
     <div>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-30 mb-20 p-7">
         {images.map((img, index) => (
-          <div key={index} className="relative w-full aspect-square">
+          <div key={index} className="relative w-full aspect-square  hover:bg-orange-500 hover:opacity-80 transition duration-300">
             <Image src={img} alt={`Event ${index + 1}`} fill className="object-cover" />
           </div>
         ))}
