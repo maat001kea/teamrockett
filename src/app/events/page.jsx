@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import EventCard from "../components/EventCard";
-import EventList from "../components/EventList"; // Din opret-event komponent
 import { getAllEvents } from "@/lib/api";
 import Link from "next/link";
 
@@ -11,9 +10,24 @@ export default function EventsPage() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    getAllEvents()
-      .then(setEvents)
-      .catch((err) => setError(err.message));
+    const fetchEvents = async () => {
+      try {
+        const allEvents = await getAllEvents();
+
+        // ✅ Sortér efter første artwork ID (KS1, KS2, ...)
+        const sortedEvents = allEvents.sort((a, b) => {
+          const idA = a.artworkIds?.[0] || "";
+          const idB = b.artworkIds?.[0] || "";
+          return idA.localeCompare(idB);
+        });
+
+        setEvents(sortedEvents);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
+    fetchEvents();
   }, []);
 
   const handleDeleteLocally = (id) => {
@@ -22,15 +36,15 @@ export default function EventsPage() {
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
-      <Link href="/createevents">CreateEvent</Link>
-
       <h1 className="text-3xl font-bold mb-6">Mit Dashboard</h1>
 
       {error && <p className="text-red-600 text-center mb-4">{error}</p>}
 
-      <h2 style={{ fontSize: "18px", fontWeight: "bold" }}>Events</h2>
+      <h2 className="text-xl font-semibold">Events</h2>
+      <Link href="/createevents" className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-800 ">
+        CreateEvent
+      </Link>
 
-      {/* Card-visning */}
       {events.length === 0 ? (
         <p className="text-center text-gray-500">Ingen events at vise.</p>
       ) : (
