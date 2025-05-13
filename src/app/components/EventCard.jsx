@@ -2,7 +2,7 @@ import { SignedIn } from "@clerk/nextjs";
 import BookButton from "./BookButton";
 import DeleteButton from "./Deletebutton";
 import ChangeEventsButton from "./ChangeEventsButton";
-import SingleViewButton from "./SingleViewButton";
+import Link from "next/link";
 
 export default function EventCard({ event }) {
   if (!event) return <p>Fejl: Event mangler.</p>;
@@ -14,14 +14,16 @@ export default function EventCard({ event }) {
       <p className="text-sm">Dato: {event.date}</p>
       <p className="text-sm">Lokation: {event.location?.name || "Ukendt"}</p>
 
-      <SignedIn>
-        <div className="flex gap-2 mt-2">
+      <div className="flex gap-2 mt-2">
+        <SignedIn>
           <BookButton id={event.id} />
           <DeleteButton id={event.id} />
           <ChangeEventsButton id={event.id} />
-        </div>
-      </SignedIn>
-      <SingleViewButton />
+        </SignedIn>
+        <Link href={`/events/${event.id}`} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+          View
+        </Link>
+      </div>
     </div>
   );
 }

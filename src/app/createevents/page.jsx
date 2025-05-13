@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import BackButton from "../components/BackButton";
+import KunstListe from "../components/KunstListe.";
 
 export default function EventForm() {
   const [formData, setFormData] = useState({
@@ -10,9 +11,9 @@ export default function EventForm() {
     locationId: "",
     curator: "",
     description: "",
-    artworkIds: "",
   });
 
+  const [artworkIds, setArtworkIds] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -22,15 +23,26 @@ export default function EventForm() {
     });
   };
 
+  const handleAddArtwork = (id) => {
+    if (!artworkIds.includes(id)) {
+      setArtworkIds([...artworkIds, id]);
+    }
+  };
+
+  const handleRemoveArtwork = (id) => {
+    setArtworkIds(artworkIds.filter((aid) => aid !== id));
+  };
+
+  const handleClearAllArtworks = () => {
+    setArtworkIds([]);
+  };
+
   const handleCreate = async () => {
     setLoading(true);
 
     const dataToSend = {
       ...formData,
-      artworkIds: formData.artworkIds
-        .split(",")
-        .map((id) => id.trim())
-        .filter(Boolean),
+      artworkIds,
     };
 
     try {
@@ -40,18 +52,17 @@ export default function EventForm() {
         body: JSON.stringify(dataToSend),
       });
 
-      // Vis spinner i mindst 1.5 sekunder
       await new Promise((res) => setTimeout(res, 1500));
-
       alert("✅ Event blev oprettet!");
+
       setFormData({
         title: "",
         date: "",
         locationId: "",
         curator: "",
         description: "",
-        artworkIds: "",
       });
+      setArtworkIds([]);
     } catch (err) {
       console.error("❌ Fejl ved oprettelse:", err);
       alert("Der opstod en fejl ved oprettelsen.");
@@ -70,20 +81,39 @@ export default function EventForm() {
       <input name="locationId" placeholder="Lokation ID" value={formData.locationId} onChange={handleChange} className="block mb-3 w-full p-2 border rounded" />
       <input name="curator" placeholder="Kurator" value={formData.curator} onChange={handleChange} className="block mb-3 w-full p-2 border rounded" />
       <textarea name="description" placeholder="Beskrivelse" value={formData.description} onChange={handleChange} className="block mb-3 w-full p-2 border rounded" />
-      <input name="artworkIds" placeholder="Artwork IDs (fx KS1,KS2)" value={formData.artworkIds} onChange={handleChange} className="block mb-3 w-full p-2 border rounded" />
 
-      <button onClick={handleCreate} disabled={loading} className={`px-4 py-2 flex items-center justify-center gap-2 rounded text-white transition ${loading ? "bg-blue-400 cursor-wait" : "bg-blue-600 hover:bg-blue-800"}`}>
-        {loading ? (
-          <>
-            <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24" fill="none">
-              <path fill="currentColor" d="M12 2a10 10 0 1 0 10 10h-2a8 8 0 1 1-8-8V2z" />
-            </svg>
-            Opretter...
-          </>
-        ) : (
-          "Opret Event"
-        )}
-      </button>
+      {/* Valgte artworks vises her */}
+      <div className="mb-4">
+        <label className="block mb-1 font-semibold">Valgte kunstværk IDs:</label>
+        <div className="flex flex-wrap gap-2">
+          {artworkIds.map((id) => (
+            <span key={id} className="bg-gray-200 text-sm px-2 py-1 rounded">
+              {id}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex gap-4 mb-6">
+        <button onClick={handleCreate} disabled={loading} className={`px-4 py-2 flex items-center justify-center gap-2 rounded text-white transition ${loading ? "bg-blue-400 cursor-wait" : "bg-blue-600 hover:bg-blue-800"}`}>
+          {loading ? (
+            <>
+              <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24" fill="none">
+                <path fill="currentColor" d="M12 2a10 10 0 1 0 10 10h-2a8 8 0 1 1-8-8V2z" />
+              </svg>
+              Opretter...
+            </>
+          ) : (
+            "Opret Event"
+          )}
+        </button>
+
+        <button onClick={handleClearAllArtworks} disabled={artworkIds.length === 0} className={`px-4 py-2 rounded text-white transition ${artworkIds.length === 0 ? "bg-red-300 cursor-not-allowed" : "bg-red-600 hover:bg-red-700"}`}>
+          Slet alle artworks
+        </button>
+      </div>
+
+      <KunstListe onAddArtwork={handleAddArtwork} onRemoveArtwork={handleRemoveArtwork} selectedArtworks={artworkIds} />
     </div>
   );
 }
