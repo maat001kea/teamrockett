@@ -14,7 +14,7 @@ export default function BookButton({ id }) {
       await bookEvent(id, { quantity: booked ? -1 : 1 });
 
       // Sikrer at spinner vises i mindst 1.5 sekunder
-      await new Promise((res) => setTimeout(res, 1500));
+      await new Promise((res) => setTimeout(res, 500));
 
       setBooked(!booked);
     } catch (err) {
