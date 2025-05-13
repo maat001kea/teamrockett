@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getAllEvents, updateEvent } from "@/lib/api";
+import BackButton from "../../components/BackButton";
 
 export default function ChangeEventPage({ params }) {
   const { id } = params;
@@ -59,9 +60,6 @@ export default function ChangeEventPage({ params }) {
           .filter(Boolean),
       });
 
-      // Vis spinner i mindst 1.5 sek
-      await new Promise((res) => setTimeout(res, 1500));
-
       router.push("/events");
     } catch (err) {
       setError("Kunne ikke opdatere eventet: " + err.message);
@@ -74,6 +72,7 @@ export default function ChangeEventPage({ params }) {
 
   return (
     <div className="w-full max-w-3xl mx-auto p-6 bg-white rounded shadow mt-6">
+      <BackButton />
       <h1 className="text-2xl font-bold mb-4">Rediger Event</h1>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -109,17 +108,8 @@ export default function ChangeEventPage({ params }) {
           <input type="text" name="artworkIds" value={form.artworkIds} onChange={handleChange} className="w-full p-2 border rounded" />
         </div>
 
-        <button type="submit" disabled={loading} className={`px-4 py-2 flex items-center justify-center gap-2 rounded text-white transition ${loading ? "bg-green-400 cursor-wait" : "bg-green-600 hover:bg-green-700"}`}>
-          {loading ? (
-            <>
-              <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24" fill="none">
-                <path fill="currentColor" d="M12 2a10 10 0 1 0 10 10h-2a8 8 0 1 1-8-8V2z" />
-              </svg>
-              Gemmer...
-            </>
-          ) : (
-            "Gem ændringer"
-          )}
+        <button type="submit" disabled={loading} className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50">
+          Gem ændringer
         </button>
       </form>
     </div>
