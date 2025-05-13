@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import BackButton from "../components/BackButton";
 
 export default function EventForm() {
   const [formData, setFormData] = useState({
@@ -61,6 +62,7 @@ export default function EventForm() {
 
   return (
     <div className="w-full max-w-3xl mx-auto p-6 bg-white rounded shadow mt-6">
+      <BackButton />
       <h2 className="text-xl font-bold mb-4">Opret nyt event</h2>
 
       <input name="title" placeholder="Titel" value={formData.title} onChange={handleChange} className="block mb-3 w-full p-2 border rounded" />
