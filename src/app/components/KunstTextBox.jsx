@@ -3,16 +3,15 @@ import React from "react";
 
 export default function KunstTextBox({ data, className }) {
   // Log data for troubleshooting
-  console.log("Kunst data:", data);
+  // console.log("Kunst data:", data);
 
   // const title = data.titles?.[0]?.title || "Ukendt titel";
 
   // console.log("Titles data:", data.items.documentation);
 
-  const item = data.items?.[0];
-
-  const title = item?.titles?.[0]?.title || "Ukendt dokumentationstitel";
-  const creatorForename = item?.production?.[0]?.creator_forename;
+  const item = data?.items[0];
+  const title = item?.titles[0].title || "Ukendt dokumentationstitel";
+  const creatorForename = item?.production[0]?.creator_forename;
   const creatorSurname = item?.production?.[0]?.creator_surname;
   const birth = item?.production?.[0]?.creator_date_of_birth?.slice(0, 4);
   const death = item?.production?.[0]?.creator_date_of_death?.slice(0, 4);
@@ -20,11 +19,11 @@ export default function KunstTextBox({ data, className }) {
   const fullCreator = `${creatorForename} ${creatorSurname}`;
   const lifeSpan = birth && death ? ` (${birth}–${death})` : "";
   const techniques = item?.techniques?.join(", ") || "Ukendt";
-  const Dimensions = item?.dimensions?.[0]?.notes || "Ukendt størrelse";
+  const Dimensions = item?.dimensions[0]?.value || "Ukendt størrelse";
   const collection = item?.collection?.join(", ") || "Ukendt samling";
   const placering = item?.responsible_department || "Ukendt afdeling";
 
-  console.log(title);
+  console.log(collection);
   // console.log("Beskrivelse titel:", descriptionTitle);
 
   const artist = data.artist?.[0] || "Ukendt kunstner";

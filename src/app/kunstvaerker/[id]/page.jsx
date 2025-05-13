@@ -21,7 +21,7 @@ export default async function Page({ params }) {
   return (
     <div>
       <div className="flex flex-col md:flex-row items-stretch justify-center gap-6 mt-10 mb-20 px-6 max-w-6xl mx-auto">
-        <KunstBilledBox className="w-full md:w-1/2" />
+        <KunstBilledBox data={data} className="w-full md:w-1/2" />
         <KunstTextBox data={data} className="w-full md:w-1/2" />
       </div>
     </div>
