@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-// 🧩 Zod schema til validering af formularfelter
+//  Zod schema til validering af formularfelter
 const eventSchema = z.object({
   title: z.string().min(1, "Titel er påkrævet"),
   date: z.string().min(1, "Dato er påkrævet"),
@@ -20,7 +20,7 @@ export default function EventForm() {
   const [artworks, setArtworks] = useState([]); // valgte kunstværker
   const [loading, setLoading] = useState(false);
 
-  // ⚙️ React Hook Form setup
+  //  React Hook Form setup
   const {
     register,
     handleSubmit,

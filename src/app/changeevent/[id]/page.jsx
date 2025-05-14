@@ -26,7 +26,7 @@ export default function ChangeEventPage({ params }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // ⚙️ React Hook Form setup med Zod validering
+  //  React Hook Form setup med Zod validering
   const {
     register,
     handleSubmit,
@@ -43,7 +43,7 @@ export default function ChangeEventPage({ params }) {
     },
   });
 
-  // 🔄 Henter eventdata og tilknyttede kunstværker
+  // Henter eventdata og tilknyttede kunstværker
   useEffect(() => {
     const loadEvent = async () => {
       try {
@@ -96,7 +96,7 @@ export default function ChangeEventPage({ params }) {
     setArtworks(artworks.filter((a) => a.id !== id));
   };
 
-  // 🔒 Gemmer ændringer (valideret via RHF + Zod)
+  // Gemmer ændringer (valideret via RHF + Zod)
   const onSubmit = async (data) => {
     setLoading(true);
     try {
