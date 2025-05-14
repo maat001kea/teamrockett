@@ -31,7 +31,7 @@ export default function KunstListe({ onAddArtwork, onRemoveArtwork, selectedArtw
 
   return (
     <div className="max-w-screen-xl mx-auto px-4">
-      <h2 className="text-2xl font-bold mb-4">SMK Kunstværker ({sortedEvents.length})</h2>
+      <h2 className="text-2xl font-bold mb-4">SMK Kunstværkerr ({sortedEvents.length})</h2>
 
       <SortSelector sortBy={sortBy} onChange={setSortBy} />
 
