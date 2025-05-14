@@ -14,7 +14,7 @@ export default function CreateEventButton() {
     // Vent 1.5 sekunder før navigation
     setTimeout(() => {
       router.push("/createevents");
-    }, 1500);
+    }, 100);
   };
 
   return (

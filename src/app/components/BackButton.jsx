@@ -17,7 +17,7 @@ export default function BackButton() {
       } else {
         router.push("/events");
       }
-    }, 1500); // kunstig forsinkelse
+    }, 100); // kunstig forsinkelse
   };
 
   return (

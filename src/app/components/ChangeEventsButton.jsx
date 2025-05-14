@@ -16,7 +16,7 @@ export default function ChangeEventButton({ id }) {
     // Vent 1.5 sekund før navigation for at vise spinner
     setTimeout(() => {
       router.push(`/changeevent/${id}`);
-    }, 1500);
+    }, 100);
   };
 
   return (
