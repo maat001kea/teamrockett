@@ -113,7 +113,7 @@ export default function ChangeEventPage({ params }) {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block font-semibold">Titel</label>
-          <input type="text" name="title" value={form.title} onChange={handleChange} className="w-full p-2 border rounded" required />
+          <input type="text" name="title" value={form.title} onChange={handleChange} className="w-full p-2 border roundedx" required />
         </div>
 
         <div>
