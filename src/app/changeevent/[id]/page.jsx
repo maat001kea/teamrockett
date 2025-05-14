@@ -7,7 +7,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { getAllEvents, updateEvent } from "@/lib/api";
 import BackButton from "../../components/BackButton";
-import KunstListe from "@/app/components/KunstListe."; // sørg for at stien er korrekt
+import KunstListe from "@/app/components/KunstListe.";
 
 // 🧩 Zod schema til validering af formularen
 const eventSchema = z.object({
