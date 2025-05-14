@@ -8,6 +8,7 @@ export default function KunstListe({ onAddArtwork, onRemoveArtwork, selectedArtw
   const [error, setError] = useState(null);
   const [sortBy, setSortBy] = useState("artist");
 
+  // Hent kunstværker fra SMK's API
   useEffect(() => {
     fetch("https://api.smk.dk/api/v1/art/search/?keys=*&offset=0&rows=51")
       .then((res) => res.json())
@@ -18,6 +19,7 @@ export default function KunstListe({ onAddArtwork, onRemoveArtwork, selectedArtw
       });
   }, []);
 
+  // Sortér værker efter valgt kriterie
   const sortedEvents = [...events].sort((a, b) => {
     if (sortBy === "artist") {
       return (a.artist_names?.[0] || "").localeCompare(b.artist_names?.[0] || "");
@@ -37,18 +39,31 @@ export default function KunstListe({ onAddArtwork, onRemoveArtwork, selectedArtw
 
       {error && <p className="text-red-600 mb-4">{error}</p>}
 
-      {Array.isArray(sortedEvents) && sortedEvents.length > 0 ? (
+      {sortedEvents.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {sortedEvents.map((item) => {
             const isSelected = selectedArtworks.includes(item.object_number);
+            const title = item.titles?.[0]?.title || "Ukendt titel";
+
             return (
               <div key={item.id} className="border p-4 rounded bg-white shadow hover:shadow-md transition">
-                <p className="font-semibold text-lg">{item.titles?.[0]?.title || "Ingen titel"}</p>
+                <p className="font-semibold text-lg">{title}</p>
                 <p className="text-sm text-gray-600">{item.artist_names?.[0] || "Ukendt kunstner"}</p>
-                {item.image_thumbnail && <img src={item.image_thumbnail} alt={item.titles?.[0]?.title || "Værk"} className="mt-2 w-full h-auto rounded" />}
+                {item.image_thumbnail && <img src={item.image_thumbnail} alt={title} className="mt-2 w-full h-auto rounded" />}
+
                 <div className="mt-2 flex gap-2">
                   {!isSelected ? (
-                    <button onClick={() => onAddArtwork(item.object_number)} className="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition">
+                    // Tilføj værk med id, billede og titel
+                    <button
+                      onClick={() =>
+                        onAddArtwork({
+                          id: item.object_number,
+                          image: item.image_thumbnail,
+                          title: title,
+                        })
+                      }
+                      className="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition"
+                    >
                       Tilføj
                     </button>
                   ) : (

@@ -16,7 +16,7 @@ export default function DeleteButton({ id }) {
       await deleteEvent(id);
 
       // Vis spinner i mindst 1.5 sekunder
-      await new Promise((res) => setTimeout(res, 1500));
+      await new Promise((res) => setTimeout(res, 100));
 
       window.location.reload(); // eller brug callback fx onDelete(id)
     } catch (e) {
