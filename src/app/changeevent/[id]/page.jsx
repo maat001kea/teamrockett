@@ -153,7 +153,7 @@ export default function ChangeEventPage({ params }) {
 
         {/* Valgte kunstværker */}
         <div className="mb-4">
-          <label className="block font-semibold">Valgte kunstværkeer:</label>
+          <label className="block font-semibold">Valgte kunstværker:</label>
           <div className="flex flex-wrap gap-4">
             {artworks.map((art) => (
               <div key={art.id} className="relative p-2 bg-gray-100 border rounded max-w-[120px] group">
