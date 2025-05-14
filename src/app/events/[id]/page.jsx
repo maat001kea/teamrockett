@@ -24,7 +24,7 @@ export default async function Page({ params }) {
         <EventBilledeBox className="w-full md:w-1/2 " />
         <EventDetailsBox data={data} className="w-full md:w-1/2" />
       </div>
-      <EventGalleri />
+      <EventGalleri objectNumbers={data.artworkIds} />
     </div>
   );
 }
