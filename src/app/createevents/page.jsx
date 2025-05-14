@@ -50,10 +50,12 @@ export default function EventForm() {
 
     const dataToSend = {
       ...formData,
-      artworks, // Sender valgte kunstværker med (inkl. id, title, image)
+      artworkIds: artworks.map((a) => a.id), // ✅ kun ID'er sendes til backend
     };
 
     try {
+      console.log("DATA TIL BACKEND:", dataToSend); // Debug output
+
       await fetch("http://localhost:8080/events", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -77,6 +79,8 @@ export default function EventForm() {
       alert("Der opstod en fejl ved oprettelsen.");
     } finally {
       setLoading(false);
+
+      console.log("DATA TIL BACKEND:", dataToSend); // Debug output
     }
   };
 

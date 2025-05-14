@@ -108,35 +108,39 @@
 // }
 // lib/api.js
 
+// Definerer base-URL til API'et – bruger miljøvariabel hvis den findes, ellers fallback til localhost
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
+// Hent alle events fra API'et
 export async function getAllEvents() {
-  const res = await fetch(`${API_URL}/events`);
-  if (!res.ok) throw new Error("Kunne ikke hente events");
-  return await res.json();
+  const res = await fetch(`${API_URL}/events`); // Kalder /events endpoint
+  if (!res.ok) throw new Error("Kunne ikke hente events"); // Fejlhåndtering
+  return await res.json(); // Returnerer JSON med alle events
 }
 
+// Opret et nyt event
 export async function createEvent(data, token) {
   const res = await fetch(`${API_URL}/events`, {
-    method: "POST",
+    method: "POST", // Brug POST til at oprette nyt
     headers: {
       "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...(token ? { Authorization: `Bearer ${token}` } : {}), // Tilføj auth-token hvis den gives
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify(data), // Konverter data til JSON
   });
 
   if (!res.ok) {
-    const error = await res.json();
+    const error = await res.json(); // Læs fejlbesked fra backend
     throw new Error(error.message || "Kunne ikke oprette event");
   }
 
-  return await res.json();
+  return await res.json(); // Returnér det oprettede event
 }
 
+// Book et event (f.eks. tilmelding til deltager)
 export async function bookEvent(id, data) {
   const res = await fetch(`${API_URL}/events/${id}/book`, {
-    method: "PUT",
+    method: "PUT", // Brug PUT til at opdatere booking
     headers: {
       "Content-Type": "application/json",
     },
@@ -151,13 +155,14 @@ export async function bookEvent(id, data) {
   return await res.json();
 }
 
+// Opdater et eksisterende event
 export async function updateEvent(id, data) {
   const res = await fetch(`${API_URL}/events/${id}`, {
-    method: "PATCH",
+    method: "PATCH", // Brug PATCH til at ændre noget eksisterende
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify(data), // Send ændringer som JSON
   });
 
   if (!res.ok) {
@@ -165,12 +170,13 @@ export async function updateEvent(id, data) {
     throw new Error(error.message || "Kunne ikke opdatere event");
   }
 
-  return await res.json();
+  return await res.json(); // Returnér det opdaterede event
 }
 
+// Slet et event
 export async function deleteEvent(id) {
   const res = await fetch(`${API_URL}/events/${id}`, {
-    method: "DELETE",
+    method: "DELETE", // Brug DELETE til at fjerne
   });
 
   if (!res.ok) {
@@ -178,5 +184,5 @@ export async function deleteEvent(id) {
     throw new Error(error.message || "Kunne ikke slette event");
   }
 
-  return true;
+  return true; // Returnér successtatus
 }

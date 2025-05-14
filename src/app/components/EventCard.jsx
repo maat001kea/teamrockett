@@ -24,6 +24,14 @@ export default function EventCard({ event }) {
           View
         </Link>
       </div>
+
+      {/* 👇 Fjern denne blok for at skjule artwork IDs fra visning */}
+      {event.artworkIds && event.artworkIds.length > 0 && (
+        <div>
+          <p>Artwork IDs:</p>
+          <p>{event.artworkIds.join(", ")}</p>
+        </div>
+      )}
     </div>
   );
 }
