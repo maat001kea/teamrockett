@@ -25,7 +25,7 @@ export default function BackButton() {
       {loading ? (
         <>
           <Spinner />
-          <span>Går tilbage...</span>
+          <span>Går tilbagee...</span>
         </>
       ) : (
         <>
