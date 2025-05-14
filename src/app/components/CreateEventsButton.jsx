@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import Spinner from "./Spinner"; // justér sti hvis nødvendigt
+import Spinner from "./Spinner";
 
 export default function CreateEventButton() {
   const router = useRouter();

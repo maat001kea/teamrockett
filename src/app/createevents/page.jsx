@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import BackButton from "../components/BackButton";
-import KunstListe from "../components/KunstListe."; // Henter komponenten med kunstværker fra SMK
+import KunstListe from "../components/KunstListe.";
 
 export default function EventForm() {
   // Gemmer inputfelterne til eventet
