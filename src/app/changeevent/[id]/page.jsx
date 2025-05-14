@@ -2,30 +2,48 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { getAllEvents, updateEvent } from "@/lib/api";
 import BackButton from "../../components/BackButton";
 import KunstListe from "@/app/components/KunstListe."; // sørg for at stien er korrekt
+
+// 🧩 Zod schema til validering af formularen
+const eventSchema = z.object({
+  title: z.string().min(1, "Titel er påkrævet"),
+  description: z.string().min(1, "Beskrivelse er påkrævet"),
+  date: z.string().min(1, "Dato er påkrævet"),
+  locationId: z.string().optional(),
+  curator: z.string().optional(),
+});
 
 export default function ChangeEventPage({ params }) {
   const { id } = params;
   const router = useRouter();
 
-  // Formularfelter
-  const [form, setForm] = useState({
-    title: "",
-    description: "",
-    date: "",
-    locationId: "",
-    curator: "",
-  });
-
-  // Valgte kunstværker [{ id, title, image }]
-  const [artworks, setArtworks] = useState([]);
-
+  const [artworks, setArtworks] = useState([]); // valgte værker
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Hent eksisterende event og SMK-data
+  // ⚙️ React Hook Form setup med Zod validering
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(eventSchema),
+    defaultValues: {
+      title: "",
+      description: "",
+      date: "",
+      locationId: "",
+      curator: "",
+    },
+  });
+
+  // 🔄 Henter eventdata og tilknyttede kunstværker
   useEffect(() => {
     const loadEvent = async () => {
       try {
@@ -33,17 +51,15 @@ export default function ChangeEventPage({ params }) {
         const found = events.find((e) => e.id === id);
         if (!found) throw new Error("Event ikke fundet.");
 
-        setForm({
-          title: found.title,
-          description: found.description,
-          date: found.date,
-          locationId: found.location?.id || "",
-          curator: found.curator || "",
-        });
+        // Sæt formularfelter vha. setValue
+        setValue("title", found.title);
+        setValue("description", found.description);
+        setValue("date", found.date);
+        setValue("locationId", found.location?.id || "");
+        setValue("curator", found.curator || "");
 
         const artworkIds = found.artworkIds || [];
 
-        // Hent værkinfo fra SMK for hvert ID
         const responses = await Promise.all(
           artworkIds.map((id) =>
             fetch(`https://api.smk.dk/api/v1/art/search/?keys=${id}&object_number=${id}`)
@@ -68,11 +84,7 @@ export default function ChangeEventPage({ params }) {
     };
 
     loadEvent();
-  }, [id]);
-
-  const handleChange = (e) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
+  }, [id, setValue]);
 
   const handleAddArtwork = (artwork) => {
     if (!artworks.find((a) => a.id === artwork.id)) {
@@ -84,16 +96,14 @@ export default function ChangeEventPage({ params }) {
     setArtworks(artworks.filter((a) => a.id !== id));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // 🔒 Gemmer ændringer (valideret via RHF + Zod)
+  const onSubmit = async (data) => {
     setLoading(true);
-
     try {
       await updateEvent(id, {
-        ...form,
-        artworkIds: artworks.map((a) => a.id), // kun ID'er sendes
+        ...data,
+        artworkIds: artworks.map((a) => a.id),
       });
-
       router.push("/events");
     } catch (err) {
       setError("Kunne ikke opdatere eventet: " + err.message);
@@ -109,36 +119,39 @@ export default function ChangeEventPage({ params }) {
       <BackButton />
       <h1 className="text-2xl font-bold mb-4">Rediger Event</h1>
 
-      {/* Formular til eventfelter */}
-      <form onSubmit={handleSubmit} className="space-y-4">
+      {/* Form med React Hook Form + Zod validering */}
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
           <label className="block font-semibold">Titel</label>
-          <input type="text" name="title" value={form.title} onChange={handleChange} className="w-full p-2 border rounded" required />
+          <input {...register("title")} className="w-full p-2 border rounded" />
+          {errors.title && <p className="text-red-600 text-sm">{errors.title.message}</p>}
         </div>
 
         <div>
           <label className="block font-semibold">Beskrivelse</label>
-          <textarea name="description" value={form.description} onChange={handleChange} className="w-full p-2 border rounded" required />
+          <textarea {...register("description")} className="w-full p-2 border rounded" />
+          {errors.description && <p className="text-red-600 text-sm">{errors.description.message}</p>}
         </div>
 
         <div className="flex gap-4">
           <div className="w-1/2">
             <label className="block font-semibold">Dato</label>
-            <input type="date" name="date" value={form.date} onChange={handleChange} className="w-full p-2 border rounded" required />
+            <input type="date" {...register("date")} className="w-full p-2 border rounded" />
+            {errors.date && <p className="text-red-600 text-sm">{errors.date.message}</p>}
           </div>
 
           <div className="w-1/2">
             <label className="block font-semibold">Lokation ID</label>
-            <input type="text" name="locationId" value={form.locationId} onChange={handleChange} className="w-full p-2 border rounded" />
+            <input {...register("locationId")} className="w-full p-2 border rounded" />
           </div>
         </div>
 
         <div>
           <label className="block font-semibold">Kurator</label>
-          <input type="text" name="curator" value={form.curator} onChange={handleChange} className="w-full p-2 border rounded" />
+          <input {...register("curator")} className="w-full p-2 border rounded" />
         </div>
 
-        {/* Vis valgte værker med title + image */}
+        {/* Valgte kunstværker */}
         <div className="mb-4">
           <label className="block font-semibold">Valgte kunstværker:</label>
           <div className="flex flex-wrap gap-4">
@@ -165,7 +178,7 @@ export default function ChangeEventPage({ params }) {
         </button>
       </form>
 
-      {/* Vælg værker fra SMK */}
+      {/* Komponent til valg af kunstværker */}
       <KunstListe onAddArtwork={handleAddArtwork} onRemoveArtwork={handleRemoveArtwork} selectedArtworks={artworks.map((a) => a.id)} />
     </div>
   );
