@@ -95,13 +95,17 @@ export default function EventForm() {
         <input {...register("title")} placeholder="Titel" className="block w-full p-2 border rounded" />
         {errors.title && <p className="text-red-600 text-sm">{errors.title.message}</p>}
 
-        <input type="date" {...register("date")} placeholder="Dato" className="block w-full p-2 border rounded" />
-        {errors.date && <p className="text-red-600 text-sm">{errors.date.message}</p>}
+        <div className="flex gap-4">
+          <div className="w-1/2">
+            <input type="date" {...register("date")} placeholder="Dato" className="block w-full p-2 border rounded" />
+            {errors.date && <p className="text-red-600 text-sm">{errors.date.message}</p>}
+          </div>
 
-        <input {...register("locationId")} placeholder="Lokation ID" className="block w-full p-2 border rounded" />
-
+          <div className="w-1/2">
+            <input {...register("locationId")} placeholder="Lokation ID" className="block w-full p-2 border rounded" />
+          </div>
+        </div>
         <input {...register("curator")} placeholder="Kurator" className="block w-full p-2 border rounded" />
-
         <textarea {...register("description")} placeholder="Beskrivelse" className="block w-full p-2 border rounded" />
         {errors.description && <p className="text-red-600 text-sm">{errors.description.message}</p>}
 
