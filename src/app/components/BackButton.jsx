@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ArrowLeftIcon } from "@heroicons/react/24/solid";
+// import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
 import Spinner from "../components/Spinner";
 export default function BackButton() {
@@ -29,7 +29,7 @@ export default function BackButton() {
         </>
       ) : (
         <>
-          <ArrowLeftIcon className="w-5 h-5" />
+          {/* <ArrowLeftIcon className="w-5 h-5" /> */}
           <span>Tilbage</span>
         </>
       )}
