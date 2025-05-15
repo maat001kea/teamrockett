@@ -1,3 +1,5 @@
+import AnimatedButton from "./AnimatedButton";
+
 const EventButton = (props) => {
   const ticketGet = () => {
     fetch(`http://localhost:8080/events/${props.id}/book`, {
@@ -15,9 +17,9 @@ const EventButton = (props) => {
   return (
     <div>
       {/* {" "} */}
-      <button onClick={ticketGet} className="mt-4 py-2 px-4 bg-[#D97C2B] hover:bg-[#FFA04E] text-white transition font-noto">
+      <AnimatedButton onClick={ticketGet} className="">
         Tilmeld event
-      </button>
+      </AnimatedButton>
     </div>
   );
 };
