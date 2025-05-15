@@ -3,6 +3,7 @@ import React from "react";
 import EventDetailsBox from "@/app/components/EventDetailsBox";
 import EventBilledeBox from "@/app/components/EventBilledeBox";
 import EventGalleri from "@/app/components/EventGalleri";
+// import EventButton from "@/app/components/EventButton";
 
 export default async function Page({ params }) {
   const { id } = await params;
@@ -16,7 +17,6 @@ export default async function Page({ params }) {
     },
   });
   const data = await response.json();
-  console.log("Event data:", data);
 
   return (
     <div>
@@ -24,6 +24,7 @@ export default async function Page({ params }) {
         <EventBilledeBox className="w-full md:w-1/2 " />
         <EventDetailsBox data={data} className="w-full md:w-1/2" />
       </div>
+
       <EventGalleri objectNumbers={data.artworkIds} />
     </div>
   );

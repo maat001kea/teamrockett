@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import EventButton from "@/app/components/EventButton";
 
 export default function EventDetailsBox({ data, className }) {
   const { title, description, date, curator, totalTickets, bookedTickets, location } = data;
-
-  const [tickets, setTickets] = useState(0);
+  console.log(data.id, "id");
+  const [tickets, setTickets] = useState(1);
   const ticketsLeft = totalTickets - bookedTickets;
 
   const handleIncrement = () => {
@@ -13,7 +14,7 @@ export default function EventDetailsBox({ data, className }) {
   };
 
   const handleDecrement = () => {
-    if (tickets > 0) setTickets(tickets - 1);
+    if (tickets > 1) setTickets(tickets - 1);
   };
 
   return (
@@ -48,7 +49,9 @@ export default function EventDetailsBox({ data, className }) {
         </div>
       </div>
 
-      <button className="mt-4 py-2 px-4 bg-[#D97C2B] hover:bg-[#FFA04E] text-white transition font-noto">Tilmeld event</button>
+      {/* <button className="mt-4 py-2 px-4 bg-[#D97C2B] hover:bg-[#FFA04E] text-white transition font-noto">Tilmeld event</button> */}
+
+      <EventButton tickets={tickets} id={data.id}></EventButton>
     </section>
   );
 }
