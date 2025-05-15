@@ -9,7 +9,7 @@ import { getAllEvents, updateEvent } from "@/lib/api";
 import BackButton from "../../components/BackButton";
 import KunstListe from "@/app/components/KunstListe.";
 
-// 🧩 Zod schema til validering af formularen
+// 🧩 Zod schema: definerer krav til hvert felt i formularen
 const eventSchema = z.object({
   title: z.string().min(1, "Titel er påkrævet"),
   description: z.string().min(1, "Beskrivelse er påkrævet"),
@@ -22,18 +22,18 @@ export default function ChangeEventPage({ params }) {
   const { id } = params;
   const router = useRouter();
 
-  const [artworks, setArtworks] = useState([]); // valgte værker
+  const [artworks, setArtworks] = useState([]); // Valgte kunstværker gemmes her
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  //  React Hook Form setup med Zod validering
+  // React Hook Form setup med Zod validering
   const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
+    register, // Binder inputfelter til RHF
+    handleSubmit, // Håndterer submit + validering
+    setValue, // Bruges til at pre-utfylde felter
+    formState: { errors }, // Indeholder Zod-valideringsfejl
   } = useForm({
-    resolver: zodResolver(eventSchema),
+    resolver: zodResolver(eventSchema), // Bruger Zod til at validere formular
     defaultValues: {
       title: "",
       description: "",
@@ -43,7 +43,7 @@ export default function ChangeEventPage({ params }) {
     },
   });
 
-  // Henter eventdata og tilknyttede kunstværker
+  // Henter event-data og SMK-kunstværker ved sideindlæsning
   useEffect(() => {
     const loadEvent = async () => {
       try {
@@ -51,13 +51,14 @@ export default function ChangeEventPage({ params }) {
         const found = events.find((e) => e.id === id);
         if (!found) throw new Error("Event ikke fundet.");
 
-        // Sæt formularfelter vha. setValue
+        // Udfylder formularfelter
         setValue("title", found.title);
         setValue("description", found.description);
         setValue("date", found.date);
         setValue("locationId", found.location?.id || "");
         setValue("curator", found.curator || "");
 
+        // Finder SMK-data til hvert værk-id
         const artworkIds = found.artworkIds || [];
 
         const responses = await Promise.all(
@@ -96,14 +97,15 @@ export default function ChangeEventPage({ params }) {
     setArtworks(artworks.filter((a) => a.id !== id));
   };
 
-  // Gemmer ændringer (valideret via RHF + Zod)
+  // Når formularen sendes og valideres
   const onSubmit = async (data) => {
     setLoading(true);
     try {
       await updateEvent(id, {
         ...data,
-        artworkIds: artworks.map((a) => a.id),
+        artworkIds: artworks.map((a) => a.id), // Sender kun ID’er til backend
       });
+      alert("✅ Event opdateret!");
       router.push("/events");
     } catch (err) {
       setError("Kunne ikke opdatere eventet: " + err.message);
@@ -119,7 +121,7 @@ export default function ChangeEventPage({ params }) {
       <BackButton />
       <h1 className="text-2xl font-bold mb-4">Rediger Event</h1>
 
-      {/* Form med React Hook Form + Zod validering */}
+      {/* Form med RHF og Zod */}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
           <label className="block font-semibold">Titel</label>
@@ -151,19 +153,13 @@ export default function ChangeEventPage({ params }) {
           <input {...register("curator")} className="w-full p-2 border rounded" />
         </div>
 
-        {/* Valgte kunstværker */}
+        {/* Viser valgte værker */}
         <div className="mb-4">
           <label className="block font-semibold">Valgte kunstværker:</label>
           <div className="flex flex-wrap gap-4">
             {artworks.map((art) => (
               <div key={art.id} className="relative p-2 bg-gray-100 border rounded max-w-[120px] group">
-                <button
-                  onClick={() => handleRemoveArtwork(art.id)}
-                  className="absolute top-1 right-1 bg-red-600 text-white text-xs px-1 rounded 
-                             opacity-100 group-hover:opacity-100 md:opacity-0 md:group-hover:opacity-100 
-                             transition"
-                  title="Fjern"
-                >
+                <button onClick={() => handleRemoveArtwork(art.id)} className="absolute top-1 right-1 bg-red-600 text-white text-xs px-1 rounded opacity-100 group-hover:opacity-100 md:opacity-0 md:group-hover:opacity-100 transition" title="Fjern">
                   ✕
                 </button>
                 <img src={art.image || "/placeholder.jpg"} alt={art.title} className="w-full h-auto mb-1 rounded" />
@@ -178,7 +174,7 @@ export default function ChangeEventPage({ params }) {
         </button>
       </form>
 
-      {/* Komponent til valg af kunstværker */}
+      {/* Kunstværk-komponent */}
       <KunstListe onAddArtwork={handleAddArtwork} onRemoveArtwork={handleRemoveArtwork} selectedArtworks={artworks.map((a) => a.id)} />
     </div>
   );

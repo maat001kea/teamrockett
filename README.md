@@ -20,6 +20,10 @@ Lader en bruger nulstille sin adgangskode i to trin,
 
 ---
 
+## React Hook Form
+
+## Zod
+
 run the development server:
 
 ```bash
