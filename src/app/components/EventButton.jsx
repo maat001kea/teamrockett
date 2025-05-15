@@ -21,5 +21,4 @@ const EventButton = (props) => {
     </div>
   );
 };
-
 export default EventButton;
