@@ -9,7 +9,7 @@ import { getAllEvents, updateEvent } from "@/lib/api";
 import BackButton from "../../components/BackButton";
 import KunstListe from "@/app/components/KunstListe.";
 
-// 🧩 Zod schema: definerer krav til hvert felt i formularen
+// 🧩 Zod schema: definerer krav til hvert felt i formularene
 const eventSchema = z.object({
   title: z.string().min(1, "Titel er påkrævet"),
   description: z.string().min(1, "Beskrivelse er påkrævet"),
