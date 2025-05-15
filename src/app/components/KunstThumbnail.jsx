@@ -1,9 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import kunsttwo from "../assets/kunsttwo.png"; // fallback image (imported statically)
+import dummy from "../assets/dummy.webp"; // fallback image (imported statically)
 
 const KunstThumbnail = ({ images }) => {
-  const fallbackImage = kunsttwo.src; // Ensure .src for static imports
+  const fallbackImage = dummy.src; // Ensure .src for static imports
   const [mainLoading, setMainLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(images || fallbackImage);
   const [validatedThumbnails, setValidatedThumbnails] = useState([]);

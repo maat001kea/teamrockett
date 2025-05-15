@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import Kunstone from "../assets/kunstone.png"; // Fallback image
+import dummy from "../assets/dummy.webp"; // Fallback image
 import Image from "next/image";
 
 const EventGalleri = ({ objectNumbers = [] }) => {
@@ -20,7 +20,7 @@ const EventGalleri = ({ objectNumbers = [] }) => {
           if (!item) return null;
 
           return {
-            image: item.has_image ? item.image_thumbnail : Kunstone.src,
+            image: item.has_image ? item.image_thumbnail : dummy.src,
             objectNumber: item.object_number,
           };
         });
