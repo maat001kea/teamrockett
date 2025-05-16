@@ -17,7 +17,7 @@ const eventSchema = z.object({
 });
 
 export default function EventForm() {
-  const [artworks, setArtworks] = useState([]); // valgte kunstværker
+  const [artworks, setArtworks] = useState([]); // valgte kunstværkerr
   const [loading, setLoading] = useState(false);
 
   //  React Hook Form setup
