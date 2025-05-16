@@ -18,7 +18,7 @@ const EventButton = (props) => {
     <div>
       {/* {" "} */}
       <AnimatedButton onClick={ticketGet} className="">
-        Tilmeld event
+        Book event
       </AnimatedButton>
     </div>
   );

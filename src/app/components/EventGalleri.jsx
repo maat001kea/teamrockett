@@ -54,9 +54,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { fetchArtworks } from "@/lib/art";
+import FlipCard from "./FlipCard";
 import Link from "next/link";
-import Image from "next/image";
-import dummy from "../assets/dummy.webp";
 
 const EventGalleri = ({ objectNumbers = [] }) => {
   const [images, setImages] = useState([]);
@@ -68,11 +67,17 @@ const EventGalleri = ({ objectNumbers = [] }) => {
   }, [objectNumbers.join(",")]);
 
   return (
+    // <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-30 mb-20 p-7">
+    //   {images.map((img, index) => (
+    //     <FlipCard key={index} data={img} />
+    //   ))}
+    // </div>
     <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-30 mb-20 p-7">
       {images.map((img, index) => (
         <Link key={index} href={`/kunstvaerker/${img.objectNumber}`}>
-          <div className="relative w-full aspect-square hover:bg-orange-500 hover:opacity-80 transition duration-300 cursor-pointer">
-            <Image src={img.image || dummy.src} alt={`Artwork ${index + 1}`} width={400} height={400} className="object-cover w-full h-full" />
+          {/* Wrap FlipCard inside Link */}
+          <div>
+            <FlipCard data={img} />
           </div>
         </Link>
       ))}

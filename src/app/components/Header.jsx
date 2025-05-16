@@ -11,7 +11,7 @@ const Header = () => {
   return (
     <header className="sticky top-0 z-50 bg-white" style={{ gridColumn: "full-bleed" }}>
       <div className="grid grid-cols-subgrid" style={{ gridColumn: "content" }}>
-        <div className="flex justify-between items-center py-4 px-2 w-full">
+        <div className="flex justify-between items-center py-4 px-2 w-full ">
           {/*  Logo */}
           <Link href="/" className="flex items-center whitespace-nowrap">
             <Image src={logoImg} alt="Logo" width={100} height={100} className="mr-2" />

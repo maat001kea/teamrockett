@@ -99,3 +99,16 @@ img {
   align-self: stretch;
   object-fit: cover;
 }
+/** flip-card animation */
+
+.perspective {
+  perspective: 1000px;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
