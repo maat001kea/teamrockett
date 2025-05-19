@@ -53,13 +53,13 @@ const KunstThumbnail = ({ images }) => {
       </div>
 
       {/* Thumbnails */}
-      <div className="flex gap-4 pb-4 ">
+      {/* <div className="flex gap-4 pb-4 ">
         {displayImages.map((img, index) => (
           <div key={index} className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 lg:w-36 lg:h-36 cursor-pointer" onClick={() => setSelectedImage(img || fallbackImage)}>
             <img src={img} alt={`Thumbnail ${index}`} className="w-full h-full object-cover hover:opacity-80" onError={(e) => (e.target.src = fallbackImage)} />
           </div>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };

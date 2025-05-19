@@ -6,7 +6,7 @@ const FlipCard = ({ data }) => {
   const [flipped, setFlipped] = useState(false);
 
   return (
-    <motion.div className="relative w-full aspect-square perspective cursor-pointer hover:ring-2 hover:ring-my-blue transition duration-300 " onHoverStart={() => setFlipped(true)} onHoverEnd={() => setFlipped(false)}>
+    <motion.div className="relative w-full aspect-square perspective cursor-pointer  hover:ring-my-blue transition duration-300 " onHoverStart={() => setFlipped(true)} onHoverEnd={() => setFlipped(false)}>
       <motion.div animate={{ rotateY: flipped ? 180 : 0 }} transition={{ duration: 3.5, delay: 0.2, ease: "easeInOut" }} className="relative w-full h-full" style={{ transformStyle: "preserve-3d" }}>
         {/* Front */}
         <div className="absolute w-full h-full backface-hidden">

@@ -14,7 +14,7 @@ const KunstBilledeBox = ({ data }) => {
   const imageUrl = hasImage ? item.image_thumbnail : dummy;
 
   return (
-    <div>
+    <div className="flex-grow  h-full">
       <KunstThumbnail images={imageUrl} />
     </div>
   );
