@@ -43,18 +43,19 @@ export default function KunstTextBox({ data, className }) {
       {/* beskrivelse */}
       {documentation.length > 0 && (
         <section>
-          {/* <h2 className="text-xl font-semibold text-my-blue font-playfair mb-2 mt-4">Dokumentation</h2> */}
           <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-my-blue font-playfair mb-2 mt-4">Dokumentation</h2>
           <div className="space-y-2 text-my-blue font-noto leading-relaxed text-sm sm:text-base md:text-lg">
-            {documentation.map((doc, index) => (
+            {documentation.slice(0, 1).map((doc, index) => (
               <p key={index}>
-                <strong className="font-medium">{doc.title}</strong> af {doc.author}, {doc.year_of_publication}, {doc.shelfmark && `Hyldenummer: ${doc.shelfmark}`}
+                <strong className="font-medium">{doc.title}</strong>
+                {doc.author && <> af {doc.author}</>}
+                {doc.year_of_publication && `, ${doc.year_of_publication}`}
+                {doc.shelfmark && `, Hyldenummer: ${doc.shelfmark}`}
               </p>
             ))}
           </div>
         </section>
       )}
-
       <section>
         <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-my-blue font-playfair mb-2 mt-2">Detaljer</h2>
 

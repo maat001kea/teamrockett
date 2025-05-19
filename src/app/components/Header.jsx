@@ -15,19 +15,28 @@ const Header = () => {
       <div className="grid grid-cols-subgrid" style={{ gridColumn: "content" }}>
         <div className="flex justify-between items-center py-4 px-2 w-full ">
           {/* Logo */}
-          <Link href="/" className="flex items-center whitespace-nowrap">
+          {/* <Link href="/" className="flex items-center whitespace-nowrap">
             <motion.div
-              animate={{
-                filter: ["drop-shadow(0 0 1px #D7D8D5) drop-shadow(0 0 1px #BFA76F)", "drop-shadow(0 0 3px #D7D8D5) drop-shadow(0 0 2px #BFA76F)", "drop-shadow(0 0 1px #D7D8D5) drop-shadow(0 0 1px #BFA76F)"],
+              whileHover={{
+                filter: "drop-shadow(0 0 6px #FFD580) drop-shadow(0 0 4px #FF8C00)",
+                scale: 1.05,
               }}
               transition={{
-                duration: 3,
-                repeat: Infinity,
+                duration: 0.3, // smooth entry
                 ease: "easeInOut",
               }}
-              whileHover={{
-                filter: "drop-shadow(0 0 6px #D7D8D5) drop-shadow(0 0 4px #BFA76F)",
-                scale: 1.05,
+            >
+              <Image src={logoImg} alt="Logo" width={100} height={100} className="mr-2" />
+            </motion.div>
+          </Link> */}
+          <Link href="/" className="flex items-center whitespace-nowrap focus:outline-none">
+            <motion.div
+              whileTap={{
+                scale: 1.2,
+              }}
+              transition={{
+                duration: 0.2,
+                ease: "easeInOut",
               }}
             >
               <Image src={logoImg} alt="Logo" width={100} height={100} className="mr-2" />

@@ -8,10 +8,6 @@ export const bookEvent = async (eventId, tickets) => {
       body: JSON.stringify({ tickets }),
     });
 
-    // if (!response.ok) {
-    //   throw new Error("Booking failed");
-    // }
-
     const data = await response.json();
     return data;
   } catch (error) {
