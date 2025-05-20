@@ -2,7 +2,7 @@
 
 export const bookEvent = async (eventId, tickets) => {
   try {
-    const response = await fetch(`http://localhost:8080/events/${eventId}/book`, {
+    const response = await fetch(`https://async-exhibit-server-2awc.onrender.com/events/${eventId}/book`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ tickets }),

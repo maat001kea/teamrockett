@@ -10,7 +10,7 @@ export default async function Page({ params }) {
   console.log("Params:", params);
   // console.log("ID:", id);
 
-  const response = await fetch(`http://localhost:8080/events/${id}`, {
+  const response = await fetch(`https://async-exhibit-server-2awc.onrender.com/events/${id}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
