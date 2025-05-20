@@ -65,7 +65,7 @@ const CreateEvent = (props) => {
       artworkIds: artworks.map((a) => a.id),
     };
 
-    const response = await fetch("http://localhost:8080/events", {
+    const response = await fetch("https://async-exhibit-server-2awc.onrender.com/events", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(dataToSend),
