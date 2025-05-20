@@ -7,7 +7,7 @@ const FlipCard = ({ data }) => {
 
   return (
     <motion.div className="relative w-full aspect-square perspective cursor-pointer  hover:ring-my-blue transition duration-300 " onHoverStart={() => setFlipped(true)} onHoverEnd={() => setFlipped(false)}>
-      <motion.div animate={{ rotateY: flipped ? 180 : 0 }} transition={{ duration: 3.5, delay: 0.2, ease: "easeInOut" }} className="relative w-full h-full" style={{ transformStyle: "preserve-3d" }}>
+      <motion.div animate={{ rotateY: flipped ? 180 : 0 }} transition={{ duration: 2, delay: 0.2, ease: "easeInOut" }} className="relative w-full h-full" style={{ transformStyle: "preserve-3d" }}>
         {/* Front */}
         <div className="absolute w-full h-full backface-hidden">
           <img src={data.image} alt={data.title} className="w-full h-full object-cover shadow-xl" />

@@ -4,11 +4,11 @@ import CreateEvent from "../components/CrateEvent";
 
 export default async function EventForm() {
   // Hent datoer
-  const resDates = await fetch("http://localhost:8080/dates");
+  const resDates = await fetch("https://async-exhibit-server-2awc.onrender.com/dates");
   const dateData = await resDates.json();
 
   // Hent lokationer
-  const resLoc = await fetch("http://localhost:8080/locations");
+  const resLoc = await fetch("https://async-exhibit-server-2awc.onrender.com/locations");
   const locData = await resLoc.json();
 
   return <CreateEvent date={dateData} locations={locData} />;

@@ -18,7 +18,7 @@ export default function CreateEventButton() {
   };
 
   return (
-    <button onClick={handleClick} disabled={loading} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-800 disabled:opacity-50">
+    <button onClick={handleClick} disabled={loading} className="flex items-center gap-2 px-4 py-2  hover:text-[#FFA04E] text-my-orangedark disabled:opacity-50">
       {loading ? <Spinner /> : "Opret Event"}
     </button>
   );

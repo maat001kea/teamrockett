@@ -6,6 +6,8 @@ import EventCard from "../components/EventCard";
 import { getAllEvents } from "@/lib/api";
 import Spinner from "../components/Spinner"; // Justér stien hvis nødvendigt
 import { SignedIn } from "@clerk/nextjs"; // <-- VIGTIGT!
+import AnimatedButton from "../components/AnimatedButton";
+// import { motion } from "framer-motion";
 
 export default function EventsPage() {
   const [events, setEvents] = useState([]);
@@ -49,26 +51,27 @@ export default function EventsPage() {
   };
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">Mit Dashboard</h1>
+    <div className="p-6 max-w-4xl mx-auto mb-15">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 mt-10 gap-4">
+        <h1 className="text-3xl font-bold mb-6 font-playfair text-my-blue mt-5">Upcoming Events</h1>
 
-      {error && <p className="text-red-600 text-center mb-4">{error}</p>}
+        {error && <p className="text-my-blue text-center mb-4">{error}</p>}
 
-      <h2 className="text-xl font-semibold mb-5">Events</h2>
-      <SignedIn>
-        <div className="flex gap-3 mb-4">
-          <button onClick={() => handleNavigate("create")} disabled={loadingTarget !== null} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-800 disabled:opacity-50">
-            {loadingTarget === "create" ? (
-              <>
-                <Spinner />
-                Åbner...
-              </>
-            ) : (
-              "CreateEvent"
-            )}
-          </button>
-        </div>
-      </SignedIn>
+        <SignedIn>
+          <div className="flex gap-3 mb-4">
+            <AnimatedButton onClick={() => handleNavigate("create")} disabled={loadingTarget === "create"} className="flex items-center gap-2">
+              {loadingTarget === "create" ? (
+                <>
+                  <Spinner />
+                  Åbner...
+                </>
+              ) : (
+                "CreateEvent"
+              )}
+            </AnimatedButton>
+          </div>
+        </SignedIn>
+      </div>
 
       {events.length === 0 ? (
         <p className="text-center text-gray-500">Ingen events at vise.</p>
