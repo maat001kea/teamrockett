@@ -131,6 +131,7 @@ export async function createEvent(data, token) {
 
   if (!res.ok) {
     const error = await res.json(); // Læs fejlbesked fra backend
+    console.log(error);
     throw new Error(error.message || "Kunne ikke oprette event");
   }
 
