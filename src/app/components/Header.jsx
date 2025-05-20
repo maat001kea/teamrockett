@@ -1,107 +1,63 @@
-// "use client";
-
-// import React from "react";
-// import Link from "next/link";
-// import logoImg from "@/app/assets/logo.png";
-// import Image from "next/image";
-// // import { IoCartOutline } from "react-icons/io5";
-// // import { useCartStore } from "@/app/store/cartStore";
-// import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-
-// const Header = () => {
-//   return (
-//     <header className="sticky top-0 z-50 bg-white" style={{ gridColumn: "full-bleed" }}>
-//       <div className="grid grid-cols-subgrid" style={{ gridColumn: "content" }}>
-//         <div className="flex justify-between items-center py-4 px-2 w-full">
-//           {/* Left: Logo */}
-//           <Link href="/" className="flex items-center whitespace-nowrap">
-//             <Image src={logoImg} alt="Logo" width={100} height={100} className="mr-2" />
-//           </Link>
-
-//           {/* Right: Event List + Konto/Auth */}
-//           <div className="flex items-center gap-10 ml-auto font-playfair">
-//             <Link href="/events" className="relative text-lg font-semibold text-[#2B346B] hover:text-gray-500 transition-colors px-4 pt-2 hidden [@media(min-width:450px)]:block">
-//               Event Liste
-//               <span className="absolute left-0 -bottom-1 w-full h-[2px] bg-orange-500 scale-x-0 hover:scale-x-100 origin-left transition-transform duration-300"></span>
-//             </Link>
-
-//             <SignedOut>
-//               <Link href="/sign-in" className="text-lg font-semibold text-[#2B346B] hover:text-gray-500 transition-colors px-4 pt-2">
-//                 Konto
-//               </Link>
-//             </SignedOut>
-
-//             <SignedIn>
-//               <Link href="/dashboard" className="text-lg font-semibold text-[#2B346B] hover:text-gray-500 transition-colors">
-//                 Min side
-//               </Link>
-//               <UserButton afterSignOutUrl="/" />
-//             </SignedIn>
-//             {/*
-//             <Link href="/kvitering" className="text-orange-500 text-4xl sm:text-5xl relative">
-//               <IoCartOutline className="hover:scale-110 transition-transform duration-200 cursor-pointer" />
-//               <CartBadge />
-//             </Link> */}
-//           </div>
-//         </div>
-//       </div>
-//     </header>
-//   );
-// };
-
-// // Badge på kurv hvis der er varer
-// // const CartBadge = () => {
-// //   const cart = useCartStore((state) => state.cart);
-// //   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-
-// //   if (totalItems === 0) return null;
-
-// //   return <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">{totalItems}</span>;
-// // };
-
-// export default Header;
-
 "use client";
 
 import React from "react";
 import Link from "next/link";
-import logoImg from "@/app/assets/logo.png";
+import logoImg from "@/app/assets/bluelogo.png";
 import Image from "next/image";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import BurgerMenu from "./BurgerMenu";
+import NavLink from "./NavLink";
+import { motion } from "framer-motion";
 
 const Header = () => {
   return (
-    <header className="sticky top-0 z-50 bg-white" style={{ gridColumn: "full-bleed" }}>
+    <header className="sticky top-0 z-50 bg-background" style={{ gridColumn: "full-bleed" }}>
       <div className="grid grid-cols-subgrid" style={{ gridColumn: "content" }}>
-        <div className="flex justify-between items-center py-4 px-2 w-full">
-          {/*  Logo */}
-          <Link href="/" className="flex items-center whitespace-nowrap">
-            <Image src={logoImg} alt="Logo" width={100} height={100} className="mr-2" />
+        <div className="flex justify-between items-center py-4 px-2 w-full ">
+          {/* Logo */}
+          {/* <Link href="/" className="flex items-center whitespace-nowrap">
+            <motion.div
+              whileHover={{
+                filter: "drop-shadow(0 0 6px #FFD580) drop-shadow(0 0 4px #FF8C00)",
+                scale: 1.05,
+              }}
+              transition={{
+                duration: 0.3, // smooth entry
+                ease: "easeInOut",
+              }}
+            >
+              <Image src={logoImg} alt="Logo" width={100} height={100} className="mr-2" />
+            </motion.div>
+          </Link> */}
+          <Link href="/" className="flex items-center whitespace-nowrap focus:outline-none">
+            <motion.div
+              whileTap={{
+                scale: 1.2,
+              }}
+              transition={{
+                duration: 0.2,
+                ease: "easeInOut",
+              }}
+            >
+              <Image src={logoImg} alt="Logo" width={100} height={100} className="mr-2" />
+            </motion.div>
           </Link>
 
-          {/* (for store skærmer) */}
-          <div className=" items-center gap-10 ml-auto font-playfair hidden lg:flex">
-            <Link href="/events" className="relative text-lg font-semibold text-[#2B346B] hover:text-gray-500 transition-colors px-4 pt-2">
-              Event Liste
-              <span className="absolute left-0 -bottom-1 w-full h-[2px] bg-orange-500 scale-x-0 hover:scale-x-100 origin-left transition-transform duration-300"></span>
-            </Link>
+          {/* Desktop nav */}
+          <div className="items-center gap-10 ml-auto font-playfair hidden lg:flex">
+            <NavLink href="/events">Event Liste</NavLink>
 
             <SignedOut>
-              <Link href="/sign-in" className="text-lg font-semibold text-[#2B346B] hover:text-gray-500 transition-colors px-4 pt-2">
-                Konto
-              </Link>
+              <NavLink href="/sign-in">Konto</NavLink>
             </SignedOut>
 
             <SignedIn>
-              <Link href="/dashboard" className="text-lg font-semibold text-[#2B346B] hover:text-gray-500 transition-colors">
-                Min side
-              </Link>
+              <NavLink href="/dashboard">Min side</NavLink>
               <UserButton afterSignOutUrl="/" />
             </SignedIn>
           </div>
 
-          {/* kun for små skærmer */}
+          {/* Mobile menu */}
           <BurgerMenu />
         </div>
       </div>

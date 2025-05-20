@@ -1,22 +1,6 @@
-// "use client";
-// import React from "react";
-// import kunsttwo from "../assets/kunsttwo.png";
-// import KunstThumbnail from "./KunstThumbnail";
-
-// const KunstBilledeBox = () => {
-//   const images = [kunsttwo];
-
-//   return (
-//     <div>
-//       <KunstThumbnail images={images} main={kunsttwo} />
-//     </div>
-//   );
-// };
-
-// export default KunstBilledeBox;
 "use client";
 import React from "react";
-import kunsttwo from "../assets/kunsttwo.png"; // fallback image
+import dummy from "../assets/dummy.webp"; // fallback img
 import KunstThumbnail from "./KunstThumbnail";
 
 const KunstBilledeBox = ({ data }) => {
@@ -24,14 +8,13 @@ const KunstBilledeBox = ({ data }) => {
 
   // console.log("Item data:", item);
 
-  // Try to get the image, otherwise use fallback
+  // vis fetch img ellers fallback img
   const hasImage = item?.has_image;
-  // or .src or similar, depending on your data
 
-  const imageUrl = hasImage ? item.image_thumbnail : kunsttwo;
+  const imageUrl = hasImage ? item.image_thumbnail : dummy;
 
   return (
-    <div>
+    <div className="flex-grow  h-full">
       <KunstThumbnail images={imageUrl} />
     </div>
   );
