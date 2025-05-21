@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import EventCard from "../components/EventCard";
 import { getAllEvents } from "@/lib/api";
-import Spinner from "../components/Spinner"; // Justér stien hvis nødvendigt
+import Spinner from "../components/Spinner";
 import { SignedIn } from "@clerk/nextjs"; // <-- VIGTIGT!
 import AnimatedButton from "../components/AnimatedButton";
 // import { motion } from "framer-motion";

@@ -69,13 +69,7 @@ export default function KunstListe({ onAddArtwork, onRemoveArtwork, selectedArtw
           setSortBy(val);
         }}
       />
-      {/* <form className="flex mb-4" onSubmit={handleSearchSubmit}>
-        <input type="text" value={searchInput} onChange={handleSearchChange} className="border border-gray-500 bg-white p-2 w-full focus:outline-none focus:ring-2 focus:ring-my-blue transition-all duration-200" placeholder="Søg..." />
-        <button type="submit" className="bg-my-blue text-white p-4 ">
-          Søg
-        </button>
-      </form> */}
-      {/* søg feltet */}
+      {/* form opret event */}
       <div className="w-full max-w-2xl ">
         <form className="flex mb-4" onSubmit={handleSearchSubmit}>
           <input type="text" value={searchInput} onChange={handleSearchChange} className="flex-grow border border-gray-500 bg-white p-2 focus:outline-none focus:ring-2 focus:ring-my-blue transition-all duration-200 rounded-l" placeholder="Søg..." />
@@ -95,41 +89,11 @@ export default function KunstListe({ onAddArtwork, onRemoveArtwork, selectedArtw
           {sortedEvents.map((item) => {
             const isSelected = selectedArtworks.includes(item.object_number);
             const title = item.titles?.[0]?.title || "Ukendt titel";
+            // const fullTitle = item.titles?.[0]?.title || "Ukendt titel";
+            // const title = fullTitle.split(":")[0]; /* slice title array til semi colon */
 
             return (
               <div key={item.id} className=" p-4  bg-white shadow hover:shadow-md transition">
-                {/* <h2 className="font-semibold text-lg text-my-blue font-playfair">{title}</h2>
-
-              
-                <Image src={item.has_image ? item.image_thumbnail : dummy} alt={title} width={500} height={300} className="mt-2 w-full h-auto rounded object-cover" />
-
-                <div className="mt-2 flex gap-2">
-                  {!isSelected ? (
-                    <button
-                      onClick={() =>
-                        onAddArtwork({
-                          id: item.object_number,
-                          image: item.image_thumbnail,
-                          title: title,
-                        })
-                      }
-                      className="px-3 py-1 bg-my-orangedark text-white text-sm hover:bg-[#FFA04E] transition"
-                    >
-                      Tilføj
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => {
-                        console.log("Fjerner værk:", item.object_number);
-                        onRemoveArtwork(item.object_number);
-                      }}
-                      className="px-3 py-1 bg-red-600 text-white rounded text-sm hover:bg-red-700 transition"
-                    >
-                      Fjern
-                    </button>
-                  )}
-                </div> */}
-
                 <motion.div
                   key={item.id}
                   initial={{ opacity: 0, y: 30 }}
@@ -140,7 +104,7 @@ export default function KunstListe({ onAddArtwork, onRemoveArtwork, selectedArtw
                   className="bg-white/70 backdrop-blur-sm shadow-lg  overflow-hidden 
                    transition-transform duration-300 p-4"
                 >
-                  <h2 className="font-playfair text-lg font-semibold text-my-blue mb-2">{title}</h2>
+                  <h2 className="font-playfair text-lg font-semibold text-my-blue mb-2 truncate max-w-xs">{title}</h2>
 
                   <Image src={item.has_image ? item.image_thumbnail : dummy} alt={title} width={500} height={300} className=" w-full h-48 object-cover" />
 
@@ -155,7 +119,7 @@ export default function KunstListe({ onAddArtwork, onRemoveArtwork, selectedArtw
                           })
                         }
                         className="w-full py-2 px-4 bg-white text-my-blue text-sm font-medium border border-my-blue
-                         hover:bg-[#FFA04E] transition-colors"
+                         hover:bg-my-orangelight hover:text-my-white hover:border-my-white transition-colors"
                       >
                         Tilføj
                       </button>

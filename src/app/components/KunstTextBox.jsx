@@ -30,13 +30,13 @@ export default function KunstTextBox({ data, className }) {
       <header className="mt-10 mr-23">
         <h1 className="text-[20px] sm:text-lg md:text-4xl font-bold text-my-blue font-playfair whitespace-nowrap">{title}</h1>
 
-        <p className="text-sm sm:text-base md:text-lg text-gray-700 mt-1  font-noto  md:whitespace-nowrap">
+        <p className="text-sm sm:text-base md:text-lg text-my-blue mt-1  font-sans font-light  md:whitespace-nowrap">
           af{" "}
           <span className="italic">
             {fullCreator}
             {lifeSpan}
           </span>{" "}
-          • {period}
+          {period}
         </p>
       </header>
 
@@ -44,7 +44,7 @@ export default function KunstTextBox({ data, className }) {
       {documentation.length > 0 && (
         <section>
           <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-my-blue font-playfair mb-2 mt-4">Dokumentation</h2>
-          <div className="space-y-2 text-my-blue font-noto leading-relaxed text-sm sm:text-base md:text-lg">
+          <div className="space-y-2 font-sans font-normal text-my-blue  leading-relaxed text-sm sm:text-base md:text-lg">
             {documentation.slice(0, 1).map((doc, index) => (
               <p key={index}>
                 <strong className="font-medium">{doc.title}</strong>
@@ -59,7 +59,7 @@ export default function KunstTextBox({ data, className }) {
       <section>
         <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-my-blue font-playfair mb-2 mt-2">Detaljer</h2>
 
-        <ul className="text-my-blue font-noto space-y-1 text-sm sm:text-base md:text-lg">
+        {/* <ul className="text-my-blue font-playfair font-light space-y-1 text-sm sm:text-base md:text-lg">
           <li className="mb-2 mt-2">
             <strong>Techniques:</strong> {techniques}
           </li>
@@ -71,6 +71,20 @@ export default function KunstTextBox({ data, className }) {
           </li>
           <li className="mb-2 mt-2">
             <strong>Kollektion:</strong> {collection}
+          </li>
+        </ul> */}
+        <ul className="text-my-blue space-y-1 text-sm sm:text-base md:text-lg">
+          <li className="mb-2 mt-2 ">
+            <strong className="font-playfair">Techniques:</strong> <span className="font-sans">{techniques}</span>
+          </li>
+          <li className="mb-2 mt-2 ">
+            <strong className="font-playfair">Dimensions:</strong> <span className="font-sans">{Dimensions}</span>
+          </li>
+          <li className="mb-2 mt-2 ">
+            <strong className="font-playfair">Placering:</strong> <span className="font-sans">{placering}</span>
+          </li>
+          <li className="mb-2 mt-2 ">
+            <strong className="font-playfair">Kollektion:</strong> <span className="font-sans">{collection}</span>
           </li>
         </ul>
       </section>

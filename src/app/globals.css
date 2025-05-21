@@ -25,7 +25,7 @@
   --lightblue: #d5d6e1;
   --blue: #2b346b;
   --orange: #d97c2b;
-  --lightorange: #f0cbaa;
+  --lightorange: #ffa04e;
   --darkorange: #bd6111;
   --black: #0d0d0d;
   --black-75: #3d3d3d;
@@ -34,6 +34,7 @@
   --darkgray: #2c3b4f;
   --lightgray: #bbc0c7;
   --white: #ffffff;
+  --my-flipcardgray: #9ca3af;
 
   --heading-color: var(--black);
   --body-color: var(--black-40);
@@ -56,6 +57,7 @@
 
   --color-my-heading: var(--heading-color);
   --color-my-body: var(--body-color);
+  --color-my-flipcardgray: var(--my-flipcardgray);
 }
 
 @theme inline {

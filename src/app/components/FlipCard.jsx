@@ -18,7 +18,7 @@ const FlipCard = ({ data }) => {
           {/* <h2 className="text-xl font-semibold mb-2 font-playfair text-my-white">{data.title}</h2>
           <p className="text-sm text-gray-400 font-noto font-semibold">{data.artist}</p> */}
           <h2 className="hidden min-[420px]:block text-base sm:text-lg md:text-xl lg:text-2xl font-semibold mb-2 font-playfair text-my-white">{data.title}</h2>
-          <p className="text-sm sm:text-base text-gray-400 font-noto italic">{data.artist}</p>
+          <p className="text-sm sm:text-base text-my-flipcardgray font-sans italic font-medium">{data.artist}</p>
         </div>
       </motion.div>
     </motion.div>

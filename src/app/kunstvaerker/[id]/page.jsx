@@ -4,6 +4,7 @@ import React from "react";
 import KunstBilledBox from "@/app/components/KunstBilledBox";
 import KunstTextBox from "@/app/components/KunstTextBox";
 import KunstGalleri from "@/app/components/KunstGalleri";
+import BackButton from "@/app/components/BackButton";
 
 export default async function Page({ params }) {
   const { id } = params;
@@ -34,6 +35,9 @@ export default async function Page({ params }) {
         </div>
       </div>
       <KunstGalleri />
+      <div className="cursor-pointer hover:opacity-80 transition font-sans font-semibold mb-4 mt-3">
+        <BackButton />
+      </div>
     </div>
   );
 }

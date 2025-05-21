@@ -1,13 +1,26 @@
 import { SignedIn } from "@clerk/nextjs";
-import BookButton from "./BookButton";
+// import BookButton from "./BookButton";
 import DeleteButton from "./Deletebutton";
 import ChangeEventsButton from "./ChangeEventsButton";
 import Link from "next/link";
 import AnimatedButton from "./AnimatedButton";
 import { motion } from "framer-motion";
+import Spinner from "./Spinner";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function EventCard({ event }) {
   if (!event) return <p>Fejl: Event mangler.</p>;
+  const router = useRouter();
+  const [viewLoading, setViewLoading] = useState(false);
+
+  // delay til at vise  spinner på view knappen
+  const handleViewClick = () => {
+    setViewLoading(true);
+    setTimeout(() => {
+      router.push(`/events/${event.id}`);
+    }, 500); // delay til at vise  spinner på view knappen
+  };
 
   return (
     <div className="p-4 bg-white/80">
@@ -18,7 +31,7 @@ export default function EventCard({ event }) {
         className="w-full max-w-md mx-auto sm:max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-3xl 
        p-4 sm:p-6 md:p-8 
        border border-my-orangedark/20 
-       bg-gradient-to-br from-white/70 to-orange-100/40 
+       bg-gradient-to-br from-white/70 to-my-bluelight/40 
        shadow-md backdrop-blur-sm 
        transition-transform duration-300 hover:scale-[1.02]"
       >
@@ -40,9 +53,17 @@ export default function EventCard({ event }) {
             </div>
           </SignedIn>
 
-          {/* Right side: View button (always visible) */}
+          {/*  View knap */}
           <div className="font-sans mt-4">
-            <AnimatedButton href={`/events/${event.id}`}>View</AnimatedButton>
+            <AnimatedButton onClick={handleViewClick} disabled={viewLoading} className="flex items-center gap-2">
+              {viewLoading ? (
+                <>
+                  <Spinner /> Åbner...
+                </>
+              ) : (
+                "View"
+              )}
+            </AnimatedButton>
           </div>
         </div>
       </motion.div>

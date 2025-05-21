@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import BackButton from "../components/BackButton";
-import KunstListe from "../components/KunstListe.";
+import BackButton from "./BackButton";
+import KunstListe from "./KunstListe";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaTrash, FaCheck } from "react-icons/fa";
 import AnimatedButton from "./AnimatedButton";
+import Spinner from "./Spinner";
 
 // Validering
 const eventSchema = z.object({
@@ -88,14 +89,16 @@ const CreateEvent = (props) => {
 
   return (
     <div>
-      <div className="w-full max-w-3xl mx-auto p-6 bg-white rounded shadow mt-6">
-        <div>
-          {" "}
-          <h2 className="text-xl font-bold mb-4 font-playfair text-my-blue">Opret nyt event</h2>
-        </div>
+      <div className="cursor-pointer hover:opacity-80 transition font-sans font-semibold">
         <BackButton />
+      </div>
+      <div className="w-full max-w-3xl mx-auto p-6 bg-white shadow mt-6">
+        <div>
+          <h2 className="text-xl md:text-2xl font-bold mb-8  font-playfair text-my-blue">Opret Nyt Event</h2>
+        </div>
+        {/* <BackButton /> */}
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 text-my-blue">
           <input {...register("title")} placeholder="Titel" className="block w-full p-2 border text-my-blue font-sans" />
           {errors.title && <p className="text-red-600 text-sm">{errors.title.message}</p>}
           <div className="flex gap-4">
@@ -139,20 +142,14 @@ const CreateEvent = (props) => {
               ))}
             </div>
           </div>
-          {/* <div className="flex gap-4">
-          <button type="submit" disabled={loading} className={`px-4 py-2 flex items-center justify-center gap-2  text-white transition ${loading ? " cursor-wait" : "bg-my-orangedark hover:bg-[#FFA04E]"}`}>
-            {loading ? "Opretter..." : "Opret Event"}
-          </button>
-
-          <button type="button" onClick={handleClearAllArtworks} disabled={artworks.length === 0} className={`px-4 py-2 text-white transition ${artworks.length === 0 ? "bg-red-300 cursor-not-allowed" : "bg-my-orangedark hover:bg-[#FFA04E]"}`}>
-            Slet alle værker
-          </button>
-        </div> */}
-
-          <div className="flex gap-4">
-            <AnimatedButton type="submit" disabled={loading} className={`${loading ? "cursor-wait opacity-70" : "hover:bg-[#FFA04E]"} flex items-center justify-center gap-2`}>
+          {/* buttons*/}
+          <div className="flex flex-col sm:flex-row gap-4 w-full">
+            {/* Opret Event button with spinner */}
+            <AnimatedButton type="submit" disabled={loading} className={`${loading ? "cursor-wait opacity-70" : "hover:bg-[#FFA04E]"} flex items-center justify-center gap-2 w-full sm:w-auto`}>
               {loading ? (
-                "Opretter..."
+                <>
+                  <Spinner /> Opretter...
+                </>
               ) : (
                 <>
                   <FaCheck /> Opret Event
@@ -160,7 +157,7 @@ const CreateEvent = (props) => {
               )}
             </AnimatedButton>
 
-            <AnimatedButton type="button" onClick={handleClearAllArtworks} disabled={artworks.length === 0} className={`text-my-orangedark border border-[#D97C2B] hover:bg-[#D97C2B] flex items-center justify-center gap-2 ${artworks.length === 0 ? "opacity-50 cursor-not-allowed hover:bg-white hover:text-[#D97C2B]" : ""}`}>
+            <AnimatedButton type="button" onClick={handleClearAllArtworks} disabled={artworks.length === 0} className={`text-my-orangedark border border-[#D97C2B] hover:bg-[#D97C2B] flex items-center justify-center gap-2 w-full sm:w-auto ${artworks.length === 0 ? "opacity-50 cursor-not-allowed hover:bg-white hover:text-[#D97C2B]" : ""}`}>
               <FaTrash /> Slet alle værker
             </AnimatedButton>
           </div>

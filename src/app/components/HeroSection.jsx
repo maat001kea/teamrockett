@@ -1,63 +1,3 @@
-// "use client";
-
-// import Image from "next/image";
-// import React from "react";
-// import { motion } from "framer-motion";
-// import image from "../assets/heropic.png";
-// import AnimatedButton from "./AnimatedButton";
-
-// const headingWords = ["STATENS", "MUSEUM", "FOR", "KUNST"];
-
-// const container = {
-//   hidden: {},
-//   visible: {
-//     transition: {
-//       staggerChildren: 0.15,
-//     },
-//   },
-// };
-
-// const wordAnimation = {
-//   hidden: { opacity: 0, y: 20 },
-//   visible: { opacity: 1, y: 0 },
-// };
-
-// const letterAnimation = {
-//   hidden: { opacity: 0, y: 25 },
-//   visible: { opacity: 1, y: 0 },
-// };
-// const HeroSection = () => {
-//   return (
-//     <section className="w-full min-h-screen grid grid-cols-1 md:grid-cols-2">
-//       <div className="flex flex-col justify-center items-start px-8 py-16 space-y-6">
-//         <motion.h1 className="text-4xl sm:text-6xl font-extrabold font-playfair leading-tight text-[#2B346B]" variants={container} initial="hidden" animate="visible">
-//           {headingWords.map((word, i) => (
-//             <motion.span key={i} variants={wordAnimation} className="inline-block mr-2">
-//               {word}
-//             </motion.span>
-//           ))}
-//         </motion.h1>
-
-//         {/* <h2 className="text-lg sm:text-xl font-noto text-[#2B346B]">Vi bevarer og formidler historien gennem kunst og kultur</h2> */}
-//         <motion.h2 className="text-lg sm:text-xl font-noto text-[#2B346B]" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.6, ease: "easeOut" }}>
-//           Vi bevarer og formidler historien gennem kunst og kultur
-//         </motion.h2>
-
-//         <AnimatedButton className="mt-2.5">See events</AnimatedButton>
-//       </div>
-
-//       {/* <div className="relative w-full h-[400px] md:h-auto">
-//         <Image src={image} alt="Hero" fill className="object-contain md:object-cover" priority />
-//       </div> */}
-//       <motion.div className="relative w-full h-[400px] md:h-auto overflow-hidden" initial={{ clipPath: "inset(0% 100% 0% 0%)" }} animate={{ clipPath: "inset(0% 0% 0% 0%)" }} transition={{ delay: 0.8, duration: 1.2, ease: "easeInOut" }}>
-//         <Image src={image} alt="Hero" fill className="object-contain md:object-cover" priority />
-//       </motion.div>
-//     </section>
-//   );
-// };
-
-// export default HeroSection;
-
 "use client";
 
 import Image from "next/image";
@@ -117,18 +57,14 @@ const HeroSection = () => {
           ))}
         </motion.h1>
 
-        <motion.h2 className="text-lg sm:text-xl font-noto text-[#2B346B]" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.6, ease: "easeOut" }}>
+        <motion.h2 className="text-lg sm:text-xl font-sans text-my-blue" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.6, ease: "easeOut" }}>
           Vi bevarer og formidler historien gennem kunst og kultur
         </motion.h2>
 
         {/* <AnimatedButton className="mt-2.5">See events</AnimatedButton> */}
         <Link href="/events">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2, duration: 0.6, ease: "easeOut" }} // adjust delay to match rest
-          >
-            <AnimatedButton className="mt-2.5">See events</AnimatedButton>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.2, duration: 0.6, ease: "easeOut" }}>
+            <AnimatedButton className="mt-2.5 font-sans">See events</AnimatedButton>
           </motion.div>
         </Link>
       </div>

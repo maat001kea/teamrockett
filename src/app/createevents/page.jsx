@@ -1,4 +1,4 @@
-import CreateEvent from "../components/CrateEvent";
+import CreateEvent from "../components/CreateEvent";
 
 // Zod validering (du kan stadig bruge det i JS)
 
