@@ -26,15 +26,10 @@ export default async function Page({ params }) {
         <BackButton />
       </div>
       <div className="flex flex-col lg:flex-row items-stretch justify-center gap-6 mt-20 mb-20 px-6 max-w-6xl mx-auto">
-        {/* <div className="w-full md:w-1/2 flex flex-col min-h-0">
-          <KunstBilledBox data={data} className="flex-grow " />
-        </div>
-        <div className="w-full md:w-1/2 flex flex-col min-h-0">
-          <KunstTextBox data={data} className="flex-grow overflow-auto" />
-        </div> */}
         <div className="w-full lg:w-1/2 flex flex-col min-h-0 md:p-5">
           <KunstBilledBox data={data} className="flex-grow" />
         </div>
+
         <div className="w-full lg:w-1/2 flex flex-col min-h-0">
           <KunstTextBox data={data} className="flex-grow overflow-auto" />
         </div>

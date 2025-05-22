@@ -21,11 +21,11 @@ export default async function Page({ params }) {
 
   return (
     <div>
-      <div className="cursor-pointer hover:opacity-80 transition font-sans font-semibold mb-12 mt-5 pr-2">
+      <div className="cursor-pointer hover:opacity-80 transition font-sans font-semibold mb-15 mt-8 pr-2">
         <BackButton />
       </div>
 
-      <div className="flex flex-col lg:flex-row items-center justify-center gap-10 lg:gap-20 mt-4 mb-6  max-w-6xl mx-auto">
+      <div className="flex flex-col lg:flex-row items-center justify-center gap-15 lg:gap-20 mt-4 mb-6  max-w-6xl mx-auto">
         <div className="w-full lg:w-3/5  mb-6 lg:mb-0">
           <EventBilledeBox />
         </div>
@@ -33,12 +33,6 @@ export default async function Page({ params }) {
         <div className="w-full lg:w-2/5">
           <EventDetailsBox eventId={data.id} />
         </div>
-        {/* <div className="w-full lg:w-2/3 px-4 mb-6 lg:mb-0">
-          <EventBilledeBox />
-        </div>
-        <div className="w-full lg:w-1/3 px-4">
-          <EventDetailsBox eventId={data.id} />
-        </div> */}
       </div>
 
       <div className=" max-w-6xl mx-auto mt-10 px-0">

@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import lightgray from "../assets/lightgray.svg"; // SVG frame
+import lightgray from "../assets/lightgray.svg";
 import Image from "next/image";
 
 const FlipCard = ({ data }) => {
@@ -42,7 +42,8 @@ const FlipCard = ({ data }) => {
           <Image src={data.image} alt={data.title} fill className="object-cover" />
 
           {/* SVG Frame Overlay*/}
-          <Image src={lightgray} alt="Museum Frame" fill className="absolute inset-0 w-full h-full pointer-events-none z-10" />
+
+          <Image src={lightgray} alt="Museum Frame" className="absolute inset-0 w-full h-full pointer-events-none z-10 scale-[1.0]" />
         </div>
 
         {/* Back side */}
