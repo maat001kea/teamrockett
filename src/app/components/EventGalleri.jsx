@@ -14,14 +14,14 @@ const EventGalleri = ({ objectNumbers = [] }) => {
   }, [objectNumbers.join(",")]);
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-20 mb-20 p-6">
-      {images.map((img, index) => (
-        <Link key={index} href={`/kunstvaerker/${img.objectNumber}`}>
-          <div>
+    <div className="max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-30 mb-20 p-4">
+        {images.map((img, index) => (
+          <Link key={index} href={`/kunstvaerker/${img.objectNumber}`}>
             <FlipCard data={img} />
-          </div>
-        </Link>
-      ))}
+          </Link>
+        ))}
+      </div>
     </div>
   );
 };

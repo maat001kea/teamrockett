@@ -5,9 +5,9 @@ import singleevent from "../assets/singleevent.png";
 
 const EventBilledeBox = () => {
   return (
-    <div className="w-full relative aspect-video ">
-      {/* <Image src={singleevent} alt="Event" width={500} height={200} className="object-cover  h-auto" /> */}
-      // <Image src={singleevent} alt="Event" fill className="object-cover" priority />
+    // <div className="w-full relative aspect-video ">
+    <div className="w-full relative aspect-video lg:aspect-[4/3] lg:h-[500px]">
+      <Image src={singleevent} alt="Event" fill className="object-cover px-4 lg:px-0 " />
     </div>
   );
 };

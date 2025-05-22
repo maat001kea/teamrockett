@@ -24,8 +24,6 @@ export default function KunstTextBox({ data, className }) {
   const period = data.production_dates_notes?.[1] || "";
 
   return (
-    // <div className={`p-8 space-y-6 h-auto ${className}`}>
-    // <div className={`px-4 sm:px-6 md:px-8  space-y-4 h-auto ${className}`}>
     <div className={`sm:px-4 md:px-10 space-y-4 h-auto ${className}`}>
       <header className="mt-10 mr-23">
         <h1 className="text-[20px] sm:text-lg md:text-4xl font-bold text-my-blue font-playfair whitespace-nowrap">{title}</h1>
@@ -58,21 +56,6 @@ export default function KunstTextBox({ data, className }) {
       )}
       <section>
         <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-my-blue font-playfair mb-2 mt-2">Detaljer</h2>
-
-        {/* <ul className="text-my-blue font-playfair font-light space-y-1 text-sm sm:text-base md:text-lg">
-          <li className="mb-2 mt-2">
-            <strong>Techniques:</strong> {techniques}
-          </li>
-          <li className="mb-2 mt-2">
-            <strong>Dimensions:</strong> {Dimensions}
-          </li>
-          <li className="mb-2 mt-2">
-            <strong>Placering:</strong> {placering}
-          </li>
-          <li className="mb-2 mt-2">
-            <strong>Kollektion:</strong> {collection}
-          </li>
-        </ul> */}
         <ul className="text-my-blue space-y-1 text-sm sm:text-base md:text-lg">
           <li className="mb-2 mt-2 ">
             <strong className="font-playfair">Techniques:</strong> <span className="font-sans">{techniques}</span>

@@ -1,6 +1,6 @@
 // src/app/layout.js eller src/pages/_app.js
 import { ClerkProvider } from "@clerk/nextjs";
-import { Playfair_Display, Noto_Sans } from "next/font/google";
+import { Playfair_Display } from "next/font/google";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import "./globals.css";
@@ -11,16 +11,16 @@ const playfair = Playfair_Display({
   variable: "--font-playfair",
 });
 
-const notosans = Noto_Sans({
-  weight: ["200", "900"],
-  subsets: ["latin"],
-  variable: "--font-notosans",
-});
+// const notosans = Noto_Sans({
+//   weight: ["200", "900"],
+//   subsets: ["latin"],
+//   variable: "--font-notosans",
+// });
 
 export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
-      <html lang="en" className={`${playfair.variable} ${notosans.variable}`}>
+      <html lang="en" className={`${playfair.variable}`}>
         <body suppressHydrationWarning>
           <Header />
           <main>{children}</main>
