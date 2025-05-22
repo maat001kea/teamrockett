@@ -78,7 +78,7 @@ export default function AuthPage() {
         captchaToken,
       });
 
-      console.log("📤 Clerk signup respons:", res);
+      console.log("📤 Clerk signup responss:", res);
 
       await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
       console.log("📧 Verifikationsmail sendt.");
