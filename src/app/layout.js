@@ -1,4 +1,4 @@
-// src/app/layout.js eller src/pages/_app.js
+// src/app/layout.js
 import { ClerkProvider } from "@clerk/nextjs";
 import { Playfair_Display, Noto_Sans } from "next/font/google";
 import Header from "./components/Header";
@@ -19,7 +19,7 @@ const notosans = Noto_Sans({
 
 export default function RootLayout({ children }) {
   return (
-    <ClerkProvider>
+    <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
       <html lang="en" className={`${playfair.variable} ${notosans.variable}`}>
         <body suppressHydrationWarning>
           <Header />
