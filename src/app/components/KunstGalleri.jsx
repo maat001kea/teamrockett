@@ -70,8 +70,8 @@ const KunstGalleri = () => {
 
         <div ref={scrollRef} className=" pt-10 px-6 w-full flex overflow-x-auto gap-4 pb-4 scroll-smooth mb-30 scrollbar-hide ">
           {artworks.map((art, index) => (
-            <Link key={art.id || index} href={`/kunstvaerker/${art.object_number}`} className=" bg-my-white min-w-[80%] sm:min-w-[300px] md:min-w-[250px] lg:min-w-[200px] flex-shrink-0 overflow-hidden shadow block mb-18 mx-3 border-[5px] border-[#7C7677]">
-              <div className="relative w-full h-80 sm:h-60 sm:max-w-80">
+            <Link key={art.id || index} href={`/kunstvaerker/${art.object_number}`} className=" bg-my-white min-w-[80%] sm:min-w-[300px] md:min-w-[250px] lg:min-w-[200px] flex-shrink-0 overflow-hidden shadow block mb-18 mx-3 border-[8px] border-[#807B7A]">
+              <div className="relative w-full h-80 sm:h-60 sm:max-w-90">
                 <Image
                   src={art.image_thumbnail || "/dummy.webp"}
                   alt={art.titles?.[0]?.title || "Artwork"}

@@ -43,7 +43,7 @@ const FlipCard = ({ data }) => {
 
           {/* SVG Frame Overlay*/}
 
-          <Image src={lightgray} alt="Museum Frame" className="absolute inset-0 w-full h-full pointer-events-none z-10 scale-[1.0]" />
+          <Image src={lightgray} alt="Museum Frame" className="absolute inset-0 w-full h-full pointer-events-none z-10 scale-[1.05]" />
         </div>
 
         {/* Back side */}
@@ -53,8 +53,11 @@ const FlipCard = ({ data }) => {
 
           {/* Content */}
           <div className="relative z-10">
-            <h2 className="hidden min-[420px]:block text-base sm:text-lg md:text-xl lg:text-2xl font-semibold mb-2 font-playfair text-my-white">{data.title}</h2>
-            <p className="text-sm sm:text-base text-my-flipcardgray font-sans italic font-medium">{data.artist}</p>
+            <h2 className="hidden min-[420px]:block text-base sm:text-lg md:text-xl lg:text-2xl font-semibold mb-2 font-playfair text-my-white max-[640px]:text-2xl">{data.title}</h2>
+            {/* <p className="text-sm sm:text-base text-my-flipcardgray font-sans italic font-medium">{data.artist}</p> */}
+            <p className="text-sm sm:text-base text-my-flipcardgray font-sans italic font-medium max-[419px]:text-xl max-[419px]:text-my-white max-[640px]:text-lg">{data.artist}</p>
+
+            <button className="text-sm sm:text-base font-sans italic font-medium text-my-flipcardgray border-b border-my-flipcardgray hover:border-b-2 transition duration-200">læse mere om kunst</button>
           </div>
         </div>
       </motion.div>
