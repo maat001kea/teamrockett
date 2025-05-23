@@ -12,12 +12,13 @@ export default function KunstListe({ onAddArtwork, onRemoveArtwork, selectedArtw
   const [sortBy, setSortBy] = useState("artist");
   const [searchInput, setSearchInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("*");
+  const [rows, setRows] = useState(52);
 
   // Fetch data when searchQuery changes
   useEffect(() => {
     // console.log(" Udfører fetch med søgeord:", searchQuery);
 
-    fetch(`https://api.smk.dk/api/v1/art/search/?keys=${searchQuery}&offset=0&rows=51`)
+    fetch(`https://api.smk.dk/api/v1/art/search/?keys=${searchQuery}&offset=0&rows=${rows}`)
       .then((res) => {
         // console.log("Forespørgsel sendt, venter på svar...");
         return res.json();
@@ -31,7 +32,7 @@ export default function KunstListe({ onAddArtwork, onRemoveArtwork, selectedArtw
         console.error(" Fejl under hentning:", err);
         setError("Kunne ikke hente værker fra SMK.");
       });
-  }, [searchQuery]);
+  }, [searchQuery][rows]);
 
   // Search input change
   const handleSearchChange = (e) => {
@@ -53,7 +54,7 @@ export default function KunstListe({ onAddArtwork, onRemoveArtwork, selectedArtw
     } else if (sortBy === "title") {
       return (a.titles?.[0]?.title || "").localeCompare(b.titles?.[0]?.title || "");
     } else if (sortBy === "year") {
-      return (a.production_years?.[0] || 0) - (b.production_years?.[0] || 0);
+      return (a.production_date?.[0].period || "").localeCompare(b.production_date?.[0].period || "");
     }
     return 0;
   });
@@ -89,6 +90,7 @@ export default function KunstListe({ onAddArtwork, onRemoveArtwork, selectedArtw
           {sortedEvents.map((item) => {
             const isSelected = selectedArtworks.includes(item.object_number);
             const title = item.titles?.[0]?.title || "Ukendt titel";
+
             // const fullTitle = item.titles?.[0]?.title || "Ukendt titel";
             // const title = fullTitle.split(":")[0]; /* slice title array til semi colon */
 
@@ -105,6 +107,7 @@ export default function KunstListe({ onAddArtwork, onRemoveArtwork, selectedArtw
                    transition-transform duration-300 p-4"
                 >
                   <h2 className="font-playfair text-lg font-semibold text-my-blue mb-2 truncate max-w-xs">{title}</h2>
+                  <h2 className="font-playfair text-lg font-semibold text-my-blue mb-2 truncate max-w-xs">{item.production_date?.[0].period}</h2>
 
                   <Image src={item.has_image ? item.image_thumbnail : dummy} alt={title} width={500} height={300} className=" w-full h-48 object-cover" />
 
@@ -141,6 +144,7 @@ export default function KunstListe({ onAddArtwork, onRemoveArtwork, selectedArtw
       ) : (
         <p className="text-gray-600">Ingen værker fundet.</p>
       )}
+      <button onClick={() => setRows(rows + 8)}>se mere</button>
     </div>
   );
 }
