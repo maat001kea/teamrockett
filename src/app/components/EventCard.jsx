@@ -8,6 +8,8 @@ import { motion } from "framer-motion";
 import Spinner from "./Spinner";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Image from "next/image";
+import dummy from "../assets/dummy.webp";
 
 export default function EventCard({ event }) {
   if (!event) return <p>Fejl: Event mangler.</p>;
@@ -23,7 +25,7 @@ export default function EventCard({ event }) {
   };
 
   return (
-    <div className="p-4 bg-white/80">
+    <div className="p-4 bg-white/80 flex-grow h-full w-[700px] sm:min-w-[300px] md:min-w-[250px] lg:min-w-[200px] flex-shrink-0 overflow-hidden shadow block mb-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -35,14 +37,18 @@ export default function EventCard({ event }) {
        shadow-md backdrop-blur-sm 
        transition-transform duration-300 hover:scale-[1.02]"
       >
-        <h2 className="text-lg sm:text-xl md:text-2xl font-bold font-playfair text-my-blue py-2 sm:py-3">{event.title}</h2>
+        <div className="flex flex-col gap-4 md:flex-row h-60">
+          <Image src={dummy} alt="dummy" className="h-auto w-60" />
+          <div>
+            <h2 className="text-lg sm:text-xl md:text-2xl font-bold font-playfair text-my-blue py-2 sm:py-3">{event.title}</h2>
 
-        <p className="text-sm sm:text-base font-sans text-my-blue py-2 sm:py-3">{event.description}</p>
+            <p className="text-sm sm:text-base font-sans text-my-blue py-2 sm:py-3">{event.description}</p>
 
-        <p className="text-xs sm:text-sm font-sans font-bold text-my-orangedark py-1.5 sm:py-2.5">Dato: {event.date}</p>
+            <p className="text-xs sm:text-sm font-sans font-bold text-my-orangedark py-1.5 sm:py-2.5">Dato: {event.date}</p>
 
-        <p className="text-xs sm:text-sm font-sans font-bold text-my-orangedark">Lokation: {event.location?.name || "Ukendt"}</p>
-
+            <p className="text-xs sm:text-sm font-sans font-bold text-my-orangedark">Lokation: {event.location?.name || "Ukendt"}</p>
+          </div>
+        </div>
         {/* Buttons inside the card */}
         <div className="mt-6 pt-4 border-t border-my-orangedark/20 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-0">
           {/* Left side: curator buttons */}
@@ -58,7 +64,7 @@ export default function EventCard({ event }) {
             <AnimatedButton onClick={handleViewClick} disabled={viewLoading} className="flex items-center gap-2">
               {viewLoading ? (
                 <>
-                  <Spinner /> Åbner...
+                  <Spinner color="white" /> Åbner...
                 </>
               ) : (
                 "View"
