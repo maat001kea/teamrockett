@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import EventCard from "../components/EventCard";
 import { getAllEvents } from "@/lib/api";
+import { eventsFilter } from "@/lib/eventsFilter";
 import Spinner from "../components/Spinner";
 import { SignedIn } from "@clerk/nextjs"; // <-- VIGTIGT!
 import AnimatedButton from "../components/AnimatedButton";
@@ -11,18 +12,31 @@ import AnimatedButton from "../components/AnimatedButton";
 
 export default function EventsPage() {
   const [events, setEvents] = useState([]);
+  const [locations, setLocations] = useState([]);
   const [error, setError] = useState(null);
   const [loadingTarget, setLoadingTarget] = useState(null);
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchLocations = async () => {
+      const allLocations = await eventsFilter();
+      console.log("all locations", locations);
+      setLocations(allLocations);
+      console.log("locations", locations);
+    };
+
+    fetchLocations();
+  }, []);
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
         const allEvents = await getAllEvents();
 
+        // Sortering så den tidligste dato viser mest
         const sortedEvents = allEvents.sort((a, b) => {
-          const idA = a.artworkIds?.[0] || "";
-          const idB = b.artworkIds?.[0] || "";
+          const idA = a.date || "";
+          const idB = b.date || "";
           return idA.localeCompare(idB);
         });
 
@@ -72,16 +86,12 @@ export default function EventsPage() {
           </div>
         </SignedIn>
       </div>
-
-      {events.length === 0 ? (
-        <p className="text-center text-gray-500">Ingen events at vise.</p>
-      ) : (
-        <div className="space-y-4 mt-6">
-          {events.map((ev) => (
-            <EventCard key={ev.id} event={ev} showDelete onDelete={handleDeleteLocally} />
-          ))}
+      {locations.map((loc) => (
+        <div>
+          <h2>{loc.name}</h2>
+          {events.length === 0 ? <p className="text-center text-gray-500">Ingen events at vise.</p> : <div className="space-y-4  mt-6 flex flex-col md:flex-row overflow-x-auto gap-4 pb-4 scroll-smooth mb-30 scrollbar-hide">{events.map((ev) => (ev.location.id === loc.id ? <EventCard key={ev.id} event={ev} showDelete onDelete={handleDeleteLocally} /> : ""))}</div>}
         </div>
-      )}
+      ))}
     </div>
   );
 }
