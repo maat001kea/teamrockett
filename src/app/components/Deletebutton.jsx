@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { deleteEvent } from "@/lib/api";
+import { deleteEvent } from "@/lib/api"; // denne kalder stadig din backend
 import { FaTrash } from "react-icons/fa";
 
-export default function DeleteButton({ id }) {
+export default function DeleteButton({ id, imagePath }) {
   const [loading, setLoading] = useState(false);
 
   const handleDelete = async () => {
@@ -14,11 +14,36 @@ export default function DeleteButton({ id }) {
     setLoading(true);
 
     try {
-      await deleteEvent(id);
-      await new Promise((res) => setTimeout(res, 100)); // Optional delay
-      window.location.reload(); // Or call a parent function like onDelete(id)
+      console.log("🗑️ Sletter event med id:", id);
+      await deleteEvent(id); // sletter event fra din backend
+
+      // 🔥 Slet billede via backend (ikke direkte via supabase client)
+      if (imagePath) {
+        console.log("📂 Sletter billede via backend:", imagePath);
+
+        const response = await fetch("http://localhost:3000/events/delete-image", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ imagePath }),
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.warn("⚠️ Fejl ved sletning af billede:", errorText);
+        } else {
+          console.log("✅ Billede slettet via backend");
+        }
+      } else {
+        console.log("ℹ️ Intet billede at slette.");
+      }
+
+      await new Promise((res) => setTimeout(res, 100));
+      window.location.reload();
     } catch (e) {
-      alert(" Kunne ikke slette event.");
+      alert("Kunne ikke slette event.");
+      console.error("🚨 Fejl ved sletning:", e);
     } finally {
       setLoading(false);
     }
