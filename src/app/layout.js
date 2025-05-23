@@ -1,9 +1,11 @@
-// src/app/layout.js
 import { ClerkProvider } from "@clerk/nextjs";
 import { Playfair_Display, Noto_Sans } from "next/font/google";
-import Header from "./components/Header";
+import dynamic from "next/dynamic"; // 👈 tilføj dette
 import Footer from "./components/Footer";
 import "./globals.css";
+
+// Dynamisk import af Header, så Clerk ikke fejler under SSR
+const Header = dynamic(() => import("./components/Header"), { ssr: false });
 
 const playfair = Playfair_Display({
   weight: ["400", "800"],
