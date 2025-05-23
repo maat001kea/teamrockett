@@ -46,7 +46,7 @@ const KunstGalleri = () => {
     visible: { opacity: 1 },
   };
   return (
-    <section className="p-6 min-h-[600px] ">
+    <section className="py-4 px-2 ">
       {/* <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-12 font-playfair text-my-blue mt-10">Andre kunstværker</h2> */}
       <motion.h2 variants={container} initial="hidden" animate="visible" className="text-2xl sm:text-3xl md:text-4xl font-bold mb-12 font-playfair text-my-blue mt-10 flex flex-wrap">
         {text.split("").map((char, i) => (
@@ -56,7 +56,7 @@ const KunstGalleri = () => {
         ))}
       </motion.h2>
 
-      <div className="relative bg-my-blue pt-10">
+      <div className="relative bg-my-blue pt-10 px-6 m-auto">
         {/* scroll icons */}
         <button onClick={scrollLeft} className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow z-10" aria-label="Scroll left">
           <HiChevronLeft className="w-6 h-6 text-my-blue cursor-pointer" />
@@ -67,11 +67,11 @@ const KunstGalleri = () => {
         </button>
 
         {/* horizontal scrollable gallery */}
-        <div ref={scrollRef} className="flex overflow-x-auto gap-4 pb-4 scroll-smooth mb-30 scrollbar-hide">
+
+        <div ref={scrollRef} className=" pt-10 px-6 w-full flex overflow-x-auto gap-4 pb-4 scroll-smooth mb-30 scrollbar-hide ">
           {artworks.map((art, index) => (
-            <Link key={art.id || index} href={`/kunstvaerker/${art.object_number}`} className="min-w-[80%] sm:min-w-[300px] md:min-w-[250px] lg:min-w-[200px] flex-shrink-0 overflow-hidden shadow block mb-4">
-              {/* <img src={art.image_thumbnail || "/dummy.webp"} alt={art.titles?.[0]?.title || "Artwork"} className="object-cover w-full h-60 sm:h-48 transition-transform duration-300 hover:scale-105" /> */}
-              <div className="relative w-full h-60 sm:h-48">
+            <Link key={art.id || index} href={`/kunstvaerker/${art.object_number}`} className=" bg-my-white min-w-[80%] sm:min-w-[300px] md:min-w-[250px] lg:min-w-[200px] flex-shrink-0 overflow-hidden shadow block mb-18 mx-3 border-[8px] border-[#807B7A]">
+              <div className="relative w-full h-80 sm:h-60 sm:max-w-90">
                 <Image
                   src={art.image_thumbnail || "/dummy.webp"}
                   alt={art.titles?.[0]?.title || "Artwork"}
@@ -79,11 +79,11 @@ const KunstGalleri = () => {
                   // height={600}
                   fill
                   style={{ objectFit: "cover" }}
-                  className="transition-transform duration-300 hover:scale-105 rounded"
+                  className="transition-transform duration-300 hover:scale-105"
                 />
               </div>
 
-              <div className="p-4 pt-4 text-sm text-my-white font-noto italic">{art.titles?.[0]?.title || "Uden titel"}</div>
+              <div className="p-4 pt-4 text-sm text-my-blue font-sans italic truncate mb-4">{art.titles?.[0]?.title || "Uden titel"}</div>
             </Link>
           ))}
         </div>
