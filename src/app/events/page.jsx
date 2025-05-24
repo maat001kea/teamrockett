@@ -86,10 +86,77 @@ export default function EventsPage() {
           </div>
         </SignedIn>
       </div>
-      {locations.map((loc) => (
-        <div>
+      {/* {locations.map((loc) => (
+        <div key={loc.id}>
           <h2>{loc.name}</h2>
           {events.length === 0 ? <p className="text-center text-gray-500">Ingen events at vise.</p> : <div className="space-y-4  mt-6 flex flex-col md:flex-row overflow-x-auto gap-4 pb-4 scroll-smooth mb-30 scrollbar-hide">{events.map((ev) => (ev.location.id === loc.id ? <EventCard key={ev.id} event={ev} showDelete onDelete={handleDeleteLocally} /> : ""))}</div>}
+        </div>
+      ))} */}
+
+      {/* 
+      {locations.map((loc) => (
+        <div key={loc.id} className="mb-10">
+      
+        
+          <h2 className="text-xl font-semibold mb-4">{loc.name}</h2>
+          {events.length === 0 ? (
+            <p className="text-center text-gray-500">Ingen events at vise.</p>
+          ) : (
+            <div
+              className="
+          flex flex-row 
+          overflow-x-auto 
+          space-x-4 
+          pb-4 
+          scrollbar-hide
+          scroll-smooth
+          max-w-full
+        "
+            >
+              {events
+                .filter((ev) => ev.location.id === loc.id)
+                .map((ev) => (
+                  <div key={ev.id} className="min-w-[250px] flex-shrink-0">
+                
+                
+                    <EventCard event={ev} showDelete onDelete={handleDeleteLocally} />
+                  </div>
+                ))}
+            </div>
+          )}
+        </div>
+      ))} */}
+
+      {locations.map((loc) => (
+        <div key={loc.id} className="mb-10 px-4 md:px-0 max-w-full overflow-hidden">
+          {" "}
+          {/* Overflow hidden here to prevent page overflow */}
+          <h2 className="text-xl font-semibold mb-4">{loc.name}</h2>
+          {events.length === 0 ? (
+            <p className="text-center text-gray-500">Ingen events at vise.</p>
+          ) : (
+            <div
+              className="
+          flex flex-row
+          overflow-x-auto
+          space-x-4
+          pb-4
+          scrollbar-hide
+          scroll-smooth
+          max-w-full
+          -mx-4 md:mx-0  /* Negative margin to offset padding on parent for full-width scroll */
+        "
+              style={{ scrollPaddingLeft: "1rem" }} // for smooth snap offset if you want snapping later
+            >
+              {events
+                .filter((ev) => ev.location.id === loc.id)
+                .map((ev) => (
+                  <div key={ev.id} className="min-w-[250px] flex-shrink-0">
+                    <EventCard event={ev} showDelete onDelete={handleDeleteLocally} />
+                  </div>
+                ))}
+            </div>
+          )}
         </div>
       ))}
     </div>

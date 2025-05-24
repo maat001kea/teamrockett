@@ -18,18 +18,6 @@
   }
 }
 
-/* @layer utilities {
-  .text-fluid-sm {
-    font-size: clamp(0.875rem, 1.5vw, 1.125rem);
-  }
-  .text-fluid {
-    font-size: clamp(1rem, 2vw, 1.5rem);
-  }
-  .text-fluid-lg {
-    font-size: clamp(1.25rem, 3vw, 2rem);
-  }
-} */
-
 :root {
   --background: #fffefe;
   --foreground: #171717;
@@ -126,6 +114,17 @@ img {
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+/* event card and page*/
+body,
+html {
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
 }
 
 /** flip-card animation */
