@@ -1,3 +1,5 @@
+"use client";
+
 import { SignedIn } from "@clerk/nextjs";
 // import BookButton from "./BookButton";
 import DeleteButton from "./Deletebutton";
@@ -75,24 +77,12 @@ export default function EventCard({ event }) {
     //   </motion.div>
     // </div>
 
-    <div className="p-4 bg-white/80 flex-grow h-full w-[700px] max-w-full sm:min-w-[300px] md:min-w-[250px] lg:min-w-[200px] flex-shrink-0 overflow-hidden shadow block mb-4">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className="
-      w-full max-w-md mx-auto 
-      sm:max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-3xl 
-      p-4 sm:p-6 md:p-8 
-      border border-my-orangedark/20 
-      bg-gradient-to-br from-white/70 to-my-bluelight/40 
-      shadow-md backdrop-blur-sm 
-      transition-transform duration-300 hover:scale-[1.02]
-    "
-      >
+    // <div className="p-4 bg-white/80 flex-grow h-full w-[700px] max-w-full sm:min-w-[300px] md:min-w-[250px] lg:min-w-[200px] flex-shrink-0 overflow-hidden shadow block mb-4">
+    <div className="p-4 bg-white/80 flex-grow h-full w-full max-w-[700px] min-w-[250px] flex-shrink-0 overflow-hidden shadow block mb-4">
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: "easeOut" }} className="w-full mx-auto p-4 sm:p-6 md:p-8 border border-my-bluedark/20 bg-gradient-to-br from-white/70 to-my-bluelight/40 shadow-md backdrop-blur-sm transition-transform duration-300 hover:scale-[1.02]">
         <div className="flex flex-col md:flex-row gap-4 h-auto md:h-60">
           {/* Image */}
-          <Image src={dummy} alt="dummy" className="w-full max-w-full md:w-60 h-auto object-cover rounded-md" />
+          <Image src={dummy} alt="dummy" className="w-full max-w-full md:w-60 h-auto object-cover" />
 
           {/* Text content */}
           <div className="flex flex-col justify-between">
