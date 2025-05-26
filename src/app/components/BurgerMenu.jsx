@@ -4,6 +4,7 @@ import { useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { AiOutlineAlignRight } from "react-icons/ai";
 import Link from "next/link";
+import { UserButton } from "@clerk/nextjs";
 
 const BurgerMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -30,6 +31,9 @@ const BurgerMenu = () => {
 
         {/* Menu Links */}
         <ul className="space-y-4 text-my-white text-lg mt-8 px-2.5 py-2.5">
+          <li>
+            <UserButton />
+          </li>
           <li>
             <Link href="/events" className="hover:text-my-graylight font-playfair text-2xl" onClick={toggleMenu}>
               Event Liste
