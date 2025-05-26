@@ -2,19 +2,32 @@
 import React from "react";
 
 export default function KunstTextBox({ data, className }) {
+  /*  defensive guard clause at the top*/
+  if (!data || !data.items || data.items.length === 0) {
+    return <div className={`text-red-500 ${className}`}>No data available</div>;
+  }
   const item = data?.items[0];
-  // const title = item?.titles[0].title || "Ukendt dokumentationstitel";
-  const fullTitle = item?.titles[0].title || "Ukendt dokumentationstitel";
+
+  // const fullTitle = item?.titles[0].title || "Ukendt dokumentationstitel";
+  const fullTitle = item?.titles?.[0]?.title || "Ukendt dokumentationstitel";
+
   const title = fullTitle.split(":")[0];
-  const creatorForename = item?.production[0]?.creator_forename;
+  // const creatorForename = item?.production[0]?.creator_forename;
+  // const creatorSurname = item?.production?.[0]?.creator_surname;
+  // const birth = item?.production?.[0]?.creator_date_of_birth?.slice(0, 4);
+  // const death = item?.production?.[0]?.creator_date_of_death?.slice(0, 4);
+  const creatorForename = item?.production?.[0]?.creator_forename;
   const creatorSurname = item?.production?.[0]?.creator_surname;
   const birth = item?.production?.[0]?.creator_date_of_birth?.slice(0, 4);
-  const death = item?.production?.[0]?.creator_date_of_death?.slice(0, 4);
+  const death = item?.production?.[0]?.creator_date_of_death?.slice(0, 4); /* tjek item existere så production exitere*/
 
-  const fullCreator = `${creatorForename} ${creatorSurname}`;
+  // const fullCreator = `${creatorForename} ${creatorSurname}`;
+  const fullCreator = [creatorForename, creatorSurname].filter(Boolean).join(" ") || "Ukendt kunstner";
+
   const lifeSpan = birth && death ? ` (${birth}–${death})` : "";
   const techniques = item?.techniques?.join(", ") || "Ukendt";
-  const Dimensions = item?.dimensions?.[0]?.value || "Ukendt størrelse";
+  // const Dimensions = item?.dimensions?.[0]?.value || "Ukendt størrelse";
+  const dimensions = item?.dimensions?.[0]?.value || "Ukendt størrelse";
   const collection = item?.collection?.join(", ") || "Ukendt samling";
   const placering = item?.responsible_department || "Ukendt afdeling";
   const documentation = item?.documentation || [];
@@ -61,7 +74,7 @@ export default function KunstTextBox({ data, className }) {
             <strong className="font-playfair">Techniques:</strong> <span className="font-sans">{techniques}</span>
           </li>
           <li className="mb-2 mt-2 ">
-            <strong className="font-playfair">Dimensions:</strong> <span className="font-sans">{Dimensions}</span>
+            <strong className="font-playfair">Dimensions:</strong> <span className="font-sans">{dimensions}</span>
           </li>
           <li className="mb-2 mt-2 ">
             <strong className="font-playfair">Placering:</strong> <span className="font-sans">{placering}</span>
