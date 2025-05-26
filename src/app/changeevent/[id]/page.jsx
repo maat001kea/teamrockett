@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -20,21 +20,20 @@ const eventSchema = z.object({
 });
 
 export default function ChangeEventPage({ params }) {
-  const { id } = params;
+  const { id } = use(params); // ✅ Unwrap med use()
   const router = useRouter();
 
-  const [artworks, setArtworks] = useState([]); // Valgte kunstværker gemmes her
+  const [artworks, setArtworks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // React Hook Form setup med Zod validering
   const {
-    register, // Binder inputfelter til RHF
-    handleSubmit, // Håndterer submit + validering
-    setValue, // Bruges til at pre-utfylde felter
-    formState: { errors }, // Indeholder Zod-valideringsfejl
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
   } = useForm({
-    resolver: zodResolver(eventSchema), // Bruger Zod til at validere formular
+    resolver: zodResolver(eventSchema),
     defaultValues: {
       title: "",
       description: "",
@@ -44,7 +43,6 @@ export default function ChangeEventPage({ params }) {
     },
   });
 
-  // Henter event-data og SMK-kunstværker ved sideindlæsning
   useEffect(() => {
     const loadEvent = async () => {
       try {
@@ -52,29 +50,20 @@ export default function ChangeEventPage({ params }) {
         const found = events.find((e) => e.id === id);
         if (!found) throw new Error("Event ikke fundet.");
 
-        // Udfylder formularfelter
         setValue("title", found.title);
         setValue("description", found.description);
         setValue("date", found.date);
         setValue("locationId", found.location?.id || "");
         setValue("curator", found.curator || "");
 
-        // Finder SMK-data til hvert værk-id
         const artworkIds = found.artworkIds || [];
-
         const responses = await Promise.all(
-          artworkIds.map((id) =>
-            fetch(`https://api.smk.dk/api/v1/art/search/?keys=${id}&object_number=${id}`)
+          artworkIds.map((artId) =>
+            fetch(`https://api.smk.dk/api/v1/art/search/?keys=${artId}&object_number=${artId}`)
               .then((res) => res.json())
               .then((data) => {
                 const item = data.items?.[0];
-                return item
-                  ? {
-                      id: id,
-                      title: item.titles?.[0]?.title || id,
-                      image: item.image_thumbnail || "",
-                    }
-                  : { id, title: id, image: "" };
+                return item ? { id: artId, title: item.titles?.[0]?.title || artId, image: item.image_thumbnail || "" } : { id: artId, title: artId, image: "" };
               })
           )
         );
@@ -94,19 +83,18 @@ export default function ChangeEventPage({ params }) {
     }
   };
 
-  const handleRemoveArtwork = (id) => {
-    setArtworks(artworks.filter((a) => a.id !== id));
+  const handleRemoveArtwork = (removeId) => {
+    setArtworks(artworks.filter((a) => a.id !== removeId));
   };
 
-  // Når formularen sendes og valideres
   const onSubmit = async (data) => {
     setLoading(true);
     try {
       await updateEvent(id, {
         ...data,
-        artworkIds: artworks.map((a) => a.id), // Sender kun ID’er til backend
+        artworkIds: artworks.map((a) => a.id),
       });
-      alert(" Event opdateret!");
+      alert("Event opdateret!");
       router.push("/events");
     } catch (err) {
       setError("Kunne ikke opdatere eventet: " + err.message);
@@ -123,12 +111,8 @@ export default function ChangeEventPage({ params }) {
         <BackButton />
       </div>
       <div className="w-full max-w-3xl mx-auto p-6 bg-white shadow mt-6">
-        {/* <BackButton /> */}
-        <div>
-          <h2 className="text-xl md:text-2xl font-bold mb-8 font-playfair text-my-blue">Redigere Event</h2>
-        </div>
+        <h2 className="text-xl md:text-2xl font-bold mb-8 font-playfair text-my-blue">Redigere Event</h2>
 
-        {/* Form med RHF og Zod */}
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <label className="block font-semibold font-sans text-my-blue">Titel</label>
@@ -160,7 +144,6 @@ export default function ChangeEventPage({ params }) {
             <input {...register("curator")} className="w-full p-2 border text-my-blue font-sans" />
           </div>
 
-          {/* Viser valgte værker */}
           <div className="mb-4">
             <label className="block font-sans text-gray-600 mb-5">Valgte kunstværker:</label>
             <div className="flex flex-wrap gap-4">
@@ -176,16 +159,12 @@ export default function ChangeEventPage({ params }) {
             </div>
           </div>
 
-          {/* <button type="submit" disabled={loading} className="px-4 py-2 bg-green-600 text-white  hover:bg-green-700 disabled:opacity-50 font-sans">
-            Gem ændringer
-          </button> */}
           <AnimatedButton type="submit" disabled={loading}>
             Gem ændringer
           </AnimatedButton>
         </form>
-
-        {/* Kunstværk-komponent */}
       </div>
+
       <KunstListe onAddArtwork={handleAddArtwork} onRemoveArtwork={handleRemoveArtwork} selectedArtworks={artworks.map((a) => a.id)} />
     </>
   );
