@@ -13,8 +13,6 @@ export async function uploadImage(file) {
       upsert: false,
     });
 
-  console.log("🔄 Upload response:", { uploadData, uploadError });
-
   if (uploadError) throw uploadError;
 
   const { data: publicData, error: publicError } = supabase.storage.from("artworks").getPublicUrl(filePath);
