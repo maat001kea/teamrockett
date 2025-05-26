@@ -5,6 +5,8 @@ import SortSelector from "@/app/components/SortSelector";
 import dummy from "../assets/dummy.webp";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import Spinner from "./Spinner";
+import AnimatedButton from "./AnimatedButton";
 
 export default function KunstListe({ onAddArtwork, onRemoveArtwork, selectedArtworks }) {
   const [events, setEvents] = useState([]);
@@ -63,26 +65,30 @@ export default function KunstListe({ onAddArtwork, onRemoveArtwork, selectedArtw
     <div className="mb-15">
       <h2 className="text-2xl font-bold mb-8 mt-20 font-playfair text-my-blue">SMK Kunstværker ({sortedEvents.length})</h2>
       {/* sort drop down */}
-      <SortSelector
-        sortBy={sortBy}
-        onChange={(val) => {
-          console.log(" Sortering ændret til:", val);
-          setSortBy(val);
-        }}
-      />
+
       {/* form opret event */}
-      <div className="w-full max-w-2xl ">
-        <form className="flex mb-4" onSubmit={handleSearchSubmit}>
-          <input type="text" value={searchInput} onChange={handleSearchChange} className="flex-grow border border-gray-500 bg-white p-2 focus:outline-none focus:ring-2 focus:ring-my-blue transition-all duration-200 rounded-l" placeholder="Søg..." />
-          <button type="submit" className="bg-my-blue text-white px-4 py-2 rounded-r hover:bg-my-orangedark transition">
-            Søg
-          </button>
-        </form>
+      <div className="flex justify-between">
+        <div className="w-full max-w-2xl ">
+          <form className="flex mb-4" onSubmit={handleSearchSubmit}>
+            <input type="text" value={searchInput} onChange={handleSearchChange} className="flex-grow border border-gray-500 bg-white p-2 focus:outline-none focus:ring-2 focus:ring-my-blue transition-all duration-200 rounded-l" placeholder="Søg..." />
+            <button type="submit" className="bg-my-blue text-white px-4 py-2 rounded-r hover:bg-my-orangedark transition">
+              Søg
+            </button>
+          </form>
+        </div>
+        <SortSelector
+          sortBy={sortBy}
+          onChange={(val) => {
+            console.log(" Sortering ændret til:", val);
+            setSortBy(val);
+          }}
+        />
       </div>
       {/* sort */}
       <p className="mb-15 text-sm text-gray-700">
         Søger efter: <strong>{searchQuery}</strong>
       </p>
+
       {/* sort */}
       {error && <p className="text-red-600 mb-4">{error}</p>}
       {sortedEvents.length > 0 ? (
@@ -144,7 +150,10 @@ export default function KunstListe({ onAddArtwork, onRemoveArtwork, selectedArtw
       ) : (
         <p className="text-gray-600">Ingen værker fundet.</p>
       )}
-      <button onClick={() => setRows(rows + 8)}>se mere</button>
+
+      <button onClick={() => setRows(rows + 8)} className="mt-10 bg-my-blue text-white px-4 py-2 rounded-r hover:bg-my-orangedark transition">
+        se mere
+      </button>
     </div>
   );
 }
