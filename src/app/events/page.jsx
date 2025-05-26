@@ -103,7 +103,7 @@ export default function EventsPage() {
             <AnimatedButton onClick={() => handleNavigate("create")} disabled={loadingTarget === "create"} className="flex items-center gap-2">
               {loadingTarget === "create" ? (
                 <>
-                  <Spinner />
+                  <Spinner color="white" />
                   Åbner...
                 </>
               ) : (
