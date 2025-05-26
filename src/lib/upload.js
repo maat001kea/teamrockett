@@ -31,7 +31,7 @@
 //   const { error } = await supabase.storage.from("artworks").remove([filename]);
 //   if (error) throw error;
 // }
-ss;
+
 import { supabase } from "./supabase";
 
 // 🔼 Upload billede og returnér public URL
