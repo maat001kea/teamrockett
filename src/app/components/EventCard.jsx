@@ -90,7 +90,8 @@ export default function EventCard({ event }) {
               <h2 className="text-lg sm:text-xl md:text-2xl font-bold font-playfair text-my-blue py-2 sm:py-3">{event.title}</h2>
 
               <p className="text-sm sm:text-base font-sans text-my-blue py-2 sm:py-3">{event.description}</p>
-
+            </div>
+            <div>
               <p className="text-xs sm:text-sm font-sans font-bold text-my-orangedark py-1.5 sm:py-2.5">Dato: {event.date}</p>
 
               <p className="text-xs sm:text-sm font-sans font-bold text-my-orangedark">Lokation: {event.location?.name || "Ukendt"}</p>
