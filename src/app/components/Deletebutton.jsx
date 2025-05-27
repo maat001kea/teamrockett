@@ -62,9 +62,8 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@clerk/nextjs";
 import { FaTrash } from "react-icons/fa";
 
-export default function DeleteButton({ id, imageFilename }) {
+export default function DeleteButton({ id, imageFilename, onDeleted }) {
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
   const { getToken } = useAuth();
 
   const handleDelete = async () => {
@@ -90,7 +89,8 @@ export default function DeleteButton({ id, imageFilename }) {
       }
 
       alert("Event og billede slettet!");
-      router.push("/events");
+      // Kald onDeleted callback, hvis givet
+      onDeleted?.();
     } catch (error) {
       alert(error.message);
     } finally {
@@ -99,7 +99,7 @@ export default function DeleteButton({ id, imageFilename }) {
   };
 
   return (
-    <button onClick={handleDelete} disabled={loading} style={{ backgroundColor: "transparent", padding: 0 }} title="Slet event" className={`transition ${loading ? "cursor-wait opacity-60" : "hover:text-[#FFA04E] text-my-orangedark"}`}>
+    <button onClick={handleDelete} disabled={loading} title="Slet event" className={`transition ${loading ? "cursor-wait opacity-60" : "hover:text-[#FFA04E] text-my-orangedark"}`} style={{ backgroundColor: "transparent", padding: 0 }}>
       {loading ? (
         <svg className="animate-spin h-5 w-5 text-my-orangedark" viewBox="0 0 24 24" fill="none">
           <path fill="currentColor" d="M12 2a10 10 0 1 0 10 10h-2a8 8 0 1 1-8-8V2z" />

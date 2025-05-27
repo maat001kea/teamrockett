@@ -92,7 +92,7 @@ import { useState } from "react";
 import Image from "next/image";
 import dummy from "../assets/dummy.webp";
 
-export default function EventCard({ event }) {
+export default function EventCard({ event, onDelete }) {
   if (!event) return <p>Fejl: Event mangler.</p>;
 
   const router = useRouter();
@@ -131,7 +131,7 @@ export default function EventCard({ event }) {
         <div className="mt-6 pt-4 border-t border-my-orangedark/20 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-0">
           <SignedIn>
             <div className="flex gap-2 justify-start sm:justify-start">
-              <DeleteButton id={event.id} />
+              <DeleteButton id={event.id} imageFilename={event.imageFilename} onDeleted={() => onDelete?.(event.id)} />
               <ChangeEventsButton id={event.id} />
             </div>
           </SignedIn>
