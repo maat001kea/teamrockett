@@ -32,7 +32,7 @@
 //         console.warn("⚠️ Ingen billedfilnavn angivet – billede springes over.");
 //       }
 
-//       alert("Event og billede slettet!");
+//       alert("Event og billede slettet!");ww
 //       router.push("/events");
 //     } catch (e) {
 //       console.error("❌ FEJL under sletning:", e);
