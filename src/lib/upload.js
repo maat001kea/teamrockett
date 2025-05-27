@@ -29,4 +29,3 @@ export async function deleteImage(filename) {
   const { error } = await supabase.storage.from("artworks").remove([filename]);
   if (error) throw error;
 }
-//dlkdokd
