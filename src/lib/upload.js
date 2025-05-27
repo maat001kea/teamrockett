@@ -2,15 +2,13 @@ import { supabase } from "./supabase";
 
 // 🔼 Upload billede og returnér public URL
 export async function uploadImage(file) {
-  const fileExt = file.name.split(".").pop();
-  const fileName = `${Date.now()}.${fileExt}`;
-  const filePath = `${fileName}`;
+  const filePath = file.name; // Brug det originale filnavn
 
   const { data: uploadData, error: uploadError } = await supabase.storage
     .from("artworks") // Bucket-navn — tjek at den matcher i Supabase
     .upload(filePath, file, {
       cacheControl: "3600",
-      upsert: false,
+      upsert: false, // Undgå at overskrive eksisterende filer
     });
 
   if (uploadError) throw uploadError;

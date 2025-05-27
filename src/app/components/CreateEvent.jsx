@@ -9,9 +9,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FaTrash, FaCheck } from "react-icons/fa";
 import AnimatedButton from "./AnimatedButton";
 import Spinner from "./Spinner";
-import { uploadImage, deleteImage } from "@/lib/upload"; // Sørg for denne fil og funktioner findes
+import { uploadImage, deleteImage } from "@/lib/upload";
 
-// Validering med Zod
 const eventSchema = z.object({
   title: z.string().min(1, "Titel er påkrævet"),
   date: z.string().min(1, "Dato er påkrævet"),
@@ -26,8 +25,8 @@ const CreateEvent = (props) => {
   const [availableDates, setAvailableDates] = useState([]);
   const [locations, setLocations] = useState([]);
   const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
-  const [uploadedImageName, setUploadedImageName] = useState(null);
-  const [errorMessage, setErrorMessage] = useState(null); // Til fejlbeskeder
+  const [uploadedImageName, setUploadedImageName] = useState(null); // Gem filnavnet, ikke url
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     setAvailableDates(props.date || []);
@@ -66,12 +65,15 @@ const CreateEvent = (props) => {
 
   const onSubmit = async (data) => {
     setLoading(true);
-    setErrorMessage(null); // Ryd fejl
+    setErrorMessage(null);
+
+    // Her sender vi kun filnavnet (uploadedImageName), IKKE URL'en
+    // Hvis du har flere artworks valgt, skal du sikre at artworkIds indeholder korrekte filnavne
+    const artworkFileNames = artworks.length > 0 ? artworks.map((a) => a.id) : uploadedImageName ? [uploadedImageName] : [];
 
     const dataToSend = {
       ...data,
-      artworkIds: artworks.map((a) => a.id),
-      image: uploadedImageUrl || null,
+      artworkIds: artworkFileNames,
     };
 
     try {
@@ -150,11 +152,11 @@ const CreateEvent = (props) => {
               onChange={async (e) => {
                 const file = e.target.files[0];
                 if (!file) return;
-                setErrorMessage(null); // ryd tidligere fejl
+                setErrorMessage(null);
                 try {
                   const url = await uploadImage(file);
                   setUploadedImageUrl(url);
-                  setUploadedImageName(url.split("/").pop());
+                  setUploadedImageName(file.name); // Gem det originale filnavn
                 } catch (err) {
                   alert("Fejl ved upload");
                   console.error("Upload error:", err);

@@ -92,30 +92,16 @@ import { useState } from "react";
 import Image from "next/image";
 import dummy from "../assets/dummy.webp";
 
-const SUPABASE_PUBLIC_URL = "https://laqizwqplonobdzjohhg.supabase.co/storage/v1/object/public/artworks";
-
-// Funktion som matcher backend (undgår //)
-function getArtworkUrl(eventId) {
-  const base = SUPABASE_PUBLIC_URL.endsWith("/") ? SUPABASE_PUBLIC_URL.slice(0, -1) : SUPABASE_PUBLIC_URL;
-  const idPart = eventId.startsWith("/") ? eventId.slice(1) : eventId;
-  return `${base}/${idPart}.png`;
-}
-
 export default function EventCard({ event }) {
   if (!event) return <p>Fejl: Event mangler.</p>;
 
   const router = useRouter();
   const [viewLoading, setViewLoading] = useState(false);
-
-  const initialImage = event.imageUrl || getArtworkUrl(event.id);
-  const [imgSrc, setImgSrc] = useState(initialImage);
+  const [imgSrc, setImgSrc] = useState(event.imageUrl);
 
   const handleError = () => {
-    console.log("Billedet kunne ikke indlæses, skifter til dummy");
     setImgSrc(dummy.src);
   };
-
-  console.log("Billede URL i EventCard:", imgSrc);
 
   const handleViewClick = () => {
     setViewLoading(true);
@@ -128,7 +114,7 @@ export default function EventCard({ event }) {
     <div className="p-4 bg-white/80 flex-grow h-full w-full max-w-[700px] min-w-[250px] flex-shrink-0 overflow-hidden shadow block mb-4">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: "easeOut" }} className="w-full mx-auto p-4 sm:p-6 md:p-8 border border-my-bluedark/20 bg-gradient-to-br from-white/70 to-my-bluelight/40 shadow-md backdrop-blur-sm transition-transform duration-300 hover:scale-[1.02]">
         <div className="flex flex-col md:flex-row gap-4 h-auto md:h-60">
-          <Image src={imgSrc} alt={event.title} width={400} height={300} onError={handleError} className="w-full max-w-full md:w-60 h-auto object-cover rounded" />
+          <Image src={imgSrc} alt={event.title} width={400} height={300} className="w-full max-w-full md:w-60 h-auto object-cover rounded" onError={handleError} />
 
           <div className="flex flex-col justify-between">
             <div>
