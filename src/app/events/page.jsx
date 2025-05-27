@@ -10,6 +10,7 @@ import { SignedIn } from "@clerk/nextjs"; // <-- VIGTIGT!
 import AnimatedButton from "../components/AnimatedButton";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { motion } from "framer-motion";
+import TestImage from "../components/TestImage";
 
 /* Typing animation effekt */
 
@@ -110,6 +111,7 @@ export default function EventsPage() {
                 "CreateEvent"
               )}
             </AnimatedButton>
+            <TestImage />
           </div>
         </SignedIn>
       </div>
