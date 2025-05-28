@@ -18,10 +18,12 @@ export default function EventCard({ event, onDelete }) {
   const [viewLoading, setViewLoading] = useState(false);
   const [imgSrc, setImgSrc] = useState(event.imageUrl);
 
+  // Hvis billedet fejler, brug dummy
   const handleError = () => {
     setImgSrc(dummy.src);
   };
 
+  // Klik på "View"-knappen
   const handleViewClick = () => {
     setViewLoading(true);
     setTimeout(() => {
@@ -47,6 +49,7 @@ export default function EventCard({ event, onDelete }) {
           </div>
         </div>
 
+        {/* Knapper */}
         <div className="mt-6 pt-4 border-t border-my-orangedark/20 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-0">
           <SignedIn>
             <div className="flex gap-2 justify-start sm:justify-start">
@@ -55,6 +58,7 @@ export default function EventCard({ event, onDelete }) {
             </div>
           </SignedIn>
 
+          {/* "View"-knap uden ikon */}
           <div className="font-sans mt-4 sm:mt-0 flex justify-start sm:justify-end">
             <AnimatedButton onClick={handleViewClick} disabled={viewLoading} className="flex items-center gap-2">
               {viewLoading ? (
@@ -62,7 +66,7 @@ export default function EventCard({ event, onDelete }) {
                   <Spinner color="white" /> Åbner...
                 </>
               ) : (
-                "View"
+                "Åbn"
               )}
             </AnimatedButton>
           </div>

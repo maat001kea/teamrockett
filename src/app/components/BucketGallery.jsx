@@ -4,10 +4,12 @@ import { useEffect, useState, forwardRef, useImperativeHandle } from "react";
 import { supabase } from "@/lib/supabase";
 import { deleteImage } from "@/lib/upload";
 
+// forwardRef for at kunne slette fra forældre-komponenter
 const BucketGallery = forwardRef((props, ref) => {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  // Hent billeder fra bucket
   const loadImages = async () => {
     const { data, error } = await supabase.storage.from("artworks").list("", {
       limit: 100,
@@ -17,6 +19,8 @@ const BucketGallery = forwardRef((props, ref) => {
       console.error("Fejl:", error);
       return;
     }
+
+    // Gem billeder med public URL
     const imageObjects = data.map((file) => ({
       name: file.name,
       url: supabase.storage.from("artworks").getPublicUrl(file.name).data.publicUrl,
@@ -24,6 +28,7 @@ const BucketGallery = forwardRef((props, ref) => {
     setImages(imageObjects);
   };
 
+  // Slet billede
   const handleDelete = async (filename) => {
     const confirmed = window.confirm(`Slet billede: ${filename}?`);
     if (!confirmed) return;
@@ -31,6 +36,7 @@ const BucketGallery = forwardRef((props, ref) => {
     setLoading(true);
     try {
       await deleteImage(filename);
+      // Opdater billeder efter sletning
       setImages((prev) => prev.filter((img) => img.name !== filename));
     } catch (err) {
       console.error("Fejl:", err);
@@ -40,10 +46,12 @@ const BucketGallery = forwardRef((props, ref) => {
     }
   };
 
+  // Gør handleDelete tilgængelig for forældre via ref
   useImperativeHandle(ref, () => ({
     deleteFromGallery: handleDelete,
   }));
 
+  // Hent billeder når komponenten mountes
   useEffect(() => {
     loadImages();
   }, []);
@@ -55,7 +63,9 @@ const BucketGallery = forwardRef((props, ref) => {
         {images.map(({ name, url }) => (
           <div key={name} className="relative group">
             <img src={url} alt={name} className="rounded shadow w-full" />
-            <button onClick={() => handleDelete(name)} disabled={loading} className="absolute top-1 right-1 bg-red-600 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100">
+
+            {/* Slet-knap uden ikoner */}
+            <button onClick={() => handleDelete(name)} disabled={loading} className="absolute top-1 right-1 bg-red-600 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition">
               Slet
             </button>
           </div>
