@@ -14,13 +14,19 @@ export default function KunstListe({ onAddArtwork, onRemoveArtwork, selectedArtw
   const [sortBy, setSortBy] = useState("artist");
   const [searchInput, setSearchInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("*");
+  const [filter, setFilter] = useState("");
   const [rows, setRows] = useState(52);
 
   // Fetch data when searchQuery changes
   useEffect(() => {
     // console.log(" Udfører fetch med søgeord:", searchQuery);
+    // Filter til årstal
+    //api.smk.dk/api/v1/art/search/?keys=*&fields=titles&ranges=[production_dates_start:{*;1010-05-28T09:35:58Z}]&offset=0&rows=30
+    // Filter til farver og andre filtre
+    //api.smk.dk/api/v1/art/search/?keys=*&filters=[colors:#FFFFFF]&offset=0&rows=30
+    //[production_dates_start:{2019-05-28T09:35:58Z;2022-05-28T09:35:58Z}]
 
-    fetch(`https://api.smk.dk/api/v1/art/search/?keys=${searchQuery}&offset=0&rows=${rows}`)
+    https: fetch(`https://api.smk.dk/api/v1/art/search/?keys=${searchQuery}&filters=[has_image:true]${filter}&offset=0&rows=${rows}`)
       .then((res) => {
         // console.log("Forespørgsel sendt, venter på svar...");
         return res.json();
@@ -34,7 +40,7 @@ export default function KunstListe({ onAddArtwork, onRemoveArtwork, selectedArtw
         console.error(" Fejl under hentning:", err);
         setError("Kunne ikke hente værker fra SMK.");
       });
-  }, [searchQuery, rows]);
+  }, [searchQuery, rows, filter]);
 
   // Search input change
   const handleSearchChange = (e) => {
@@ -75,6 +81,15 @@ export default function KunstListe({ onAddArtwork, onRemoveArtwork, selectedArtw
               Søg
             </button>
           </form>
+          {/* <button onClick={() => setFilter("&filters=%5Bcolors%3A%23FFFFFF%5D")} className="bg-my-blue text-white px-4 py-2 rounded-r hover:bg-my-orangedark transition">
+            filtrer hvid
+          </button>
+          <button onClick={() => setFilter("&filters=%5Bcolors%3A%23000000%5D")} className="bg-my-blue text-white px-4 py-2 rounded-r hover:bg-my-orangedark transition">
+            filtrer sort
+          </button>
+          <button onClick={() => setFilter("")} className="bg-my-blue text-white px-4 py-2 rounded-r hover:bg-my-orangedark transition">
+            reset
+          </button> */}
         </div>
         <SortSelector
           sortBy={sortBy}
