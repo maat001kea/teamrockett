@@ -1,6 +1,6 @@
 // import { ClerkProvider } from "@clerk/nextjs";
 // import { Playfair_Display, Noto_Sans } from "next/font/google";
-// import dynamic from "next/dynamic"; // 👈 tilføj dette
+// import dynamic from "next/dynamic"; //  tilføj dette
 // import Footer from "./components/Footer";
 // import "./globals.css";
 

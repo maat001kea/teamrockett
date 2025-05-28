@@ -20,7 +20,7 @@ const eventSchema = z.object({
 });
 
 export default function ChangeEventPage({ params }) {
-  const { id } = use(params); // ✅ Unwrap med use()
+  const { id } = use(params); // Unwrap med use()
   const router = useRouter();
 
   const [artworks, setArtworks] = useState([]);

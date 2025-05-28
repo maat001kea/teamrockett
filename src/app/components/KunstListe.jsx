@@ -34,7 +34,7 @@ export default function KunstListe({ onAddArtwork, onRemoveArtwork, selectedArtw
         console.error(" Fejl under hentning:", err);
         setError("Kunne ikke hente værker fra SMK.");
       });
-  }, [searchQuery][rows]);
+  }, [searchQuery, rows]);
 
   // Search input change
   const handleSearchChange = (e) => {

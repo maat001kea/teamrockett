@@ -18,7 +18,7 @@ export default function EventDetailsBox({ eventId, className }) {
 
     const handleVisibilityChange = () => {
       if (document.visibilityState === "visible") {
-        fetchEvent(); // Refetch when user comes back to tab
+        fetchEvent();
       }
     };
 

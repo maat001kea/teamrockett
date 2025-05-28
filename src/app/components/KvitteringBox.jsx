@@ -17,7 +17,7 @@ const KvitteringBox = ({ data }) => {
           <h1 className="text-2xl sm:text-3xl font-playfair font-bold text-center">Tak for tilmelding</h1>
 
           <p className="text-base sm:text-lg font-sans text-center px-4.5 max-[400px]:px-1.5 ">
-            Du har bestilt billetter til <strong>{data.title}</strong>. Vi glæder os til at møde dig den <strong>{data.dato}</strong> i <strong>{data.location.name}</strong>.
+            Du har bestilt billetter til <strong>{data.title}</strong>. Vi glæder os til at møde dig den <strong>{data.date}</strong> i <strong>{data.location.name}</strong>.
           </p>
 
           <p className="text-base sm:text-lg font-sans text-center px-4.5 max-[400px]:px-1.5">Hvis du gerne vil have en mail med dine billetter, kan du skrive din mail herunder:</p>
@@ -35,22 +35,3 @@ const KvitteringBox = ({ data }) => {
 };
 
 export default KvitteringBox;
-
-//       {/* Content box fixed inside frame */}
-//       <div
-//         className="relative z-20 px-6 py-5 flex justify-center items-center h-full mx-5 max-[400px]:p-0 max-[400px]:mx-0 max-[500px]:bg-gradient-to-br
-//     max-[500px]:from-white
-//     max-[500px]:to-gray-100"
-//       >
-//         <motion.div
-//           initial={{ opacity: 0, y: 20 }}
-//           animate={{ opacity: 1, y: 0 }}
-//           transition={{ duration: 0.5, ease: "easeOut" }}
-//           className="w-full max-w-xl
-//                    p-6 sm:p-8
-//                    border border-my-orangedark/20
-//                    bg-gradient-to-br from-white/70 to-my-bluelight/40
-//                    shadow-md backdrop-blur-sm
-//                    transition-transform duration-300 hover:scale-[1.02]
-//                    space-y-6 text-my-blue"
-//         >

@@ -4,7 +4,7 @@ import Image from "next/image";
 import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import image from "../assets/heropic.png";
+import image from "../assets/heropic.webp";
 import AnimatedButton from "./AnimatedButton";
 
 const headingWords = ["STATENS", "MUSEUM", "FOR", "KUNST"];
