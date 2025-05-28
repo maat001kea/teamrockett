@@ -52,9 +52,10 @@ flex flex-wrap p-2 break-keep leading-relaxed"
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 mt-10 mb-20 p-4 md:p-6 sm:p-10 sm:gap-12">
           {images.map((img, index) => (
-            <Link key={index} href={`/kunstvaerker/${img.objectNumber}`}>
-              <FlipCard data={img} />
-            </Link>
+            // <Link key={index} href={`/kunstvaerker/${img.objectNumber}`}>
+            //   <FlipCard data={img} />
+            // </Link>
+            <FlipCard data={img} key={index} />
           ))}
         </div>
       </div>

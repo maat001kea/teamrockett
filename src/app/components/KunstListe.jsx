@@ -97,7 +97,7 @@ export default function KunstListe({ onAddArtwork, onRemoveArtwork, selectedArtw
         </button> */}
 
         {/* Sort + Søger efter */}
-        <div className="flex flex-col max-[1000px]:items-start items-end gap-2 w-full">
+        <div className="flex flex-col max-[1000px]:items-start items-end gap-2 w-full mb-10">
           <SortSelector
             sortBy={sortBy}
             onChange={(val) => {
@@ -105,9 +105,9 @@ export default function KunstListe({ onAddArtwork, onRemoveArtwork, selectedArtw
               setSortBy(val);
             }}
           />
-          <p className="text-sm text-gray-700 p-2 mb-3.5 max-[1000px]-flex-end">
+          {/* <p className="text-sm text-gray-700 p-2 mb-3.5 max-[1000px]-flex-end">
             Søger efter: <strong>{searchQuery}</strong>
-          </p>
+          </p> */}
         </div>
       </div>
 
@@ -173,7 +173,7 @@ export default function KunstListe({ onAddArtwork, onRemoveArtwork, selectedArtw
       {/* <button onClick={() => setRows(rows + 8)} className="mt-10 bg-my-blue px-4 py-2 flex items-center gap-2 text-my-blue hover:text-my-orange disabled:opacity-50 focus:outline-none transition">
         se mere
       </button> */}
-      <button onClick={() => setRows(rows + 8)} className="mt-10 bg-white border-2 border-my-blue text-my-blue px-4 py-2 flex items-center gap-2 hover:text-my-orange hover:border-my-orangelight disabled:opacity-50 cursor-pointer transition font-sans">
+      <button onClick={() => setRows(rows + 8)} className="mt-10 bg-white border-2 border-my-blue text-my-blue px-4 py-2 flex items-center gap-2 hover:text-my-orange hover:border-my-orangelight disabled:opacity-50 cursor-pointer transition font-s">
         se mere <FaArrowRight />
       </button>
     </div>
