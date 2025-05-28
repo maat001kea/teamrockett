@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import BucketGallery from "../components/BucketGalleryt";
+import BucketGallery from "../components/BucketGallery";
 
 export default function Dashboard() {
   // Ref til BucketGallery for at kunne kalde deleteFromGallery
