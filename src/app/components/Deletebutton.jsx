@@ -15,36 +15,30 @@ export default function DeleteButton({ id, imageFilename }) {
     if (!confirmed) return;
 
     setLoading(true);
-    console.log("🚨 Sletning påbegyndt");
-    console.log("🆔 Event ID:", id);
-    console.log("🖼️ Billed-filnavn:", imageFilename);
-
     try {
-      console.log("📡 Sender DELETE request til API...");
       await deleteEvent(id);
-      console.log("✅ Event slettet fra backend");
-
       if (imageFilename) {
-        console.log("🗑️ Kalder deleteImage() med:", imageFilename);
         await deleteImage(imageFilename);
-        console.log("✅ Billede slettet fra Supabase");
-      } else {
-        console.warn("⚠️ Ingen billedfilnavn angivet – billede springes over.");
       }
-
       alert("Event og billede slettet!");
-      router.push("/events");
+      router.refresh(); // 🔄 Opdater siden
     } catch (e) {
-      console.error("❌ FEJL under sletning:", e);
+      console.error("Fejl ved sletning:", e);
       alert("Kunne ikke slette event.");
     } finally {
       setLoading(false);
-      console.log("🛑 Sletningsproces afsluttet");
     }
   };
 
   return (
-    <button onClick={handleDelete} disabled={loading} className={`transition ${loading ? "cursor-wait opacity-60" : "hover:text-[#FFA04E] text-my-orangedark"}`} style={{ backgroundColor: "transparent", padding: 0 }} title="Slet event">
+    <button
+      onClick={handleDelete}
+      disabled={loading}
+      // 👇 Samme farve og hover som 'redigere' & 'view' knapperne
+      className={`transition ${loading ? "cursor-wait opacity-60" : "hover:text-my-orangedark text-my-orangedark"}`}
+      style={{ backgroundColor: "transparent", padding: 0 }}
+      title="Slet event"
+    >
       {loading ? (
         <svg className="animate-spin h-5 w-5 text-my-orangedark" viewBox="0 0 24 24" fill="none">
           <path fill="currentColor" d="M12 2a10 10 0 1 0 10 10h-2a8 8 0 1 1-8-8V2z" />

@@ -22,12 +22,12 @@ const KvitteringBox = ({ data }) => {
 
           <p className="text-base sm:text-lg font-sans text-center px-4.5 max-[400px]:px-1.5">Hvis du gerne vil have en mail med dine billetter, kan du skrive din mail herunder:</p>
 
-          <form className="flex flex-col sm:flex-row gap-3 sm:gap-0 justify-center">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-0 justify-center">
             <input type="email" className="border border-my-blue bg-gray-100 px-4 py-2 sm:max-w-xs focus:outline-none focus:ring-2 focus:ring-my-blue" placeholder="placeholder@mail.com" />
             <button type="submit" className="bg-my-blue hover:bg-my-bluedark text-white px-6 py-2 transition-all">
               Send
             </button>
-          </form>
+          </div>
         </div>
       </div>
     </div>
