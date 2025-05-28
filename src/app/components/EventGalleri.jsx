@@ -37,7 +37,7 @@ const EventGalleri = ({ objectNumbers = [] }) => {
           variants={container}
           initial="hidden"
           animate="visible"
-          className="text-xl sm:text-3xl md:text-4xl font-bold mb-12 font-playfair text-my-blue mt-40 max-[450px]:mt-20
+          className="text-xl sm:text-3xl md:text-4xl font-bold mb-12 font-playfair text-my-blue mt-25 max-[450px]:mt-20
 flex flex-wrap p-2 break-keep leading-relaxed"
         >
           {"Oplev kunsterne fra ".split("").map((char, i) => (
