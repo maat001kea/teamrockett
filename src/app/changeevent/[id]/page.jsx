@@ -170,6 +170,7 @@
 //   );
 // }
 "use client";
+import React from "react";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -192,12 +193,15 @@ const eventSchema = z.object({
 });
 
 export default function ChangeEventPage({ params }) {
-  const { id } = params;
+  const { id } = React.use(params);
+
   const router = useRouter();
 
   const [artworks, setArtworks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [availableDates, setAvailableDates] = useState([]);
+  const [locations, setLocations] = useState([]);
 
   const [imgSrc, setImgSrc] = useState(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
@@ -220,7 +224,7 @@ export default function ChangeEventPage({ params }) {
   });
 
   useEffect(() => {
-    const loadEvent = async () => {
+    const loadData = async () => {
       try {
         const events = await getAllEvents();
         const found = events.find((e) => e.id === id);
@@ -232,6 +236,9 @@ export default function ChangeEventPage({ params }) {
         setValue("locationId", found.location?.id || "");
         setValue("curator", found.curator || "");
 
+        setAvailableDates([...new Set(events.map((e) => e.date))]);
+        setLocations(events.map((e) => e.location).filter((loc, i, self) => loc && i === self.findIndex((l) => l.id === loc.id)));
+
         setImgSrc(found.imageUrl || dummy.src);
         setUploadedImageUrl(found.imageUrl || null);
         setUploadedImageName(found.imageUrl?.split("/").pop() || null);
@@ -239,38 +246,29 @@ export default function ChangeEventPage({ params }) {
         const artworkIds = found.artworkIds || [];
         const responses = await Promise.all(
           artworkIds.map(async (artId) => {
-            const artIdWithoutPng = artId.replace(/\.png$/, "");
-
-            // Hvis det er cover-billede fra Supabase, brug direkte Supabase URL
-            if (artId === uploadedImageName) {
-              const supabaseUrl = `https://laqizwqplonobdzjohhg.supabase.co/storage/v1/object/public/artworks/${artId}`;
-              return { id: artId, title: artId, image: supabaseUrl };
-            }
-
-            // Ellers hent billede fra SMK API
-            const res = await fetch(`https://api.smk.dk/api/v1/art/search/?keys=${artIdWithoutPng}&object_number=${artIdWithoutPng}`);
+            const artIdWithoutExt = artId.replace(/\.(png|jpg|jpeg|webp)$/i, "");
+            const res = await fetch(`https://api.smk.dk/api/v1/art/search/?keys=${artIdWithoutExt}&object_number=${artIdWithoutExt}`);
             const data = await res.json();
             const item = data.items?.[0];
-
             if (item) {
               return {
-                id: artIdWithoutPng,
-                title: item.titles?.[0]?.title || artIdWithoutPng,
+                id: artIdWithoutExt,
+                title: item.titles?.[0]?.title || artIdWithoutExt,
                 image: item.image_thumbnail || dummy.src,
               };
             }
-            return { id: artIdWithoutPng, title: artIdWithoutPng, image: dummy.src };
+            return { id: artIdWithoutExt, title: artIdWithoutExt, image: dummy.src };
           })
         );
         setArtworks(responses);
       } catch (err) {
-        console.error("Fejl under hentning:", err);
+        console.error("Fejl:", err);
         setError(err.message);
       }
     };
 
-    loadEvent();
-  }, [id, setValue, uploadedImageName]);
+    loadData();
+  }, [id, setValue]);
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
@@ -278,7 +276,6 @@ export default function ChangeEventPage({ params }) {
     try {
       if (uploadedImageName) {
         await deleteImage(uploadedImageName);
-        setArtworks((prev) => prev.filter((a) => a.id !== uploadedImageName));
       }
       const url = await uploadImage(file);
       setUploadedImageUrl(url);
@@ -298,7 +295,10 @@ export default function ChangeEventPage({ params }) {
         setUploadedImageUrl(null);
         setUploadedImageName(null);
         setImgSrc(dummy.src);
-        setArtworks((prev) => prev.filter((a) => a.id !== uploadedImageName));
+
+        // Fjern det uploadede billede fra artworks (det kan have .png/.jpg etc)
+        const cleanId = uploadedImageName.replace(/\.(png|jpg|jpeg|webp)$/i, "");
+        setArtworks((prev) => prev.filter((art) => art.id !== cleanId));
       }
     } catch (err) {
       console.error("Fejl ved sletning:", err);
@@ -321,15 +321,12 @@ export default function ChangeEventPage({ params }) {
     try {
       await updateEvent(id, {
         ...data,
-        artworkIds: [
-          ...(uploadedImageName ? [uploadedImageName] : []),
-          ...artworks.filter((a) => a.id !== uploadedImageName).map((a) => a.id.replace(/\.png$/, "")), // gem kun object_number
-        ],
+        artworkIds: [...(uploadedImageName ? [uploadedImageName] : []), ...artworks.filter((a) => a.id !== uploadedImageName).map((a) => a.id)],
       });
       alert("Event opdateret!");
       router.push("/events");
     } catch (err) {
-      console.error("Fejl under opdatering:", err);
+      console.error("Fejl:", err);
       setError("Kunne ikke opdatere eventet: " + err.message);
     } finally {
       setLoading(false);
@@ -339,7 +336,7 @@ export default function ChangeEventPage({ params }) {
   if (error) return <p className="text-red-600 p-4">{error}</p>;
 
   return (
-    <>
+    <div>
       <div className="cursor-pointer hover:opacity-80 transition font-sans font-semibold">
         <BackButton />
       </div>
@@ -347,58 +344,57 @@ export default function ChangeEventPage({ params }) {
       <div className="w-full max-w-3xl mx-auto p-6 bg-white shadow mt-6">
         <h2 className="text-xl md:text-2xl font-bold mb-8 font-playfair text-my-blue">Rediger Event</h2>
 
-        <div className="mb-4 flex justify-center">
-          <img src={imgSrc} alt="Event billede" className="w-48 h-auto rounded" />
-        </div>
-
-        <div className="mb-4">
-          <label className="block font-sans text-gray-600 mb-2">Upload billede:</label>
-          <input type="file" accept="image/*" onChange={handleImageUpload} />
-          {uploadedImageUrl && (
-            <div className="mt-2">
-              <img src={uploadedImageUrl} alt="Uploaded" className="w-32 rounded" />
-              <button onClick={handleDeleteImage} className="mt-1 text-sm text-red-600 underline">
-                Slet billede
-              </button>
-            </div>
-          )}
-        </div>
-
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div>
-            <label className="block font-semibold text-my-blue font-sans">Titel</label>
-            <input {...register("title")} className="block w-full p-2 border text-my-blue font-sans" />
-            {errors.title && <p className="text-red-600 text-sm font-sans">{errors.title.message}</p>}
-          </div>
-
-          <div>
-            <label className="block font-semibold text-my-blue font-sans">Beskrivelse</label>
-            <textarea {...register("description")} className="w-full p-2 border text-my-blue font-sans" />
-            {errors.description && <p className="text-red-600 text-sm font-sans">{errors.description.message}</p>}
-          </div>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 text-my-blue">
+          <input {...register("title")} placeholder="Titel" className="block w-full p-2 border text-my-blue font-sans" />
+          {errors.title && <p className="text-red-600 text-sm">{errors.title.message}</p>}
 
           <div className="flex gap-4">
             <div className="w-1/2">
-              <label className="block font-semibold text-my-blue font-sans">Dato</label>
-              <input type="date" {...register("date")} className="w-full p-2 border text-my-blue font-sans" />
+              <select {...register("date")} className="block w-full p-2 border text-my-blue font-sans">
+                <option value="">Vælg dato</option>
+                {availableDates.map((date) => (
+                  <option key={date} value={date}>
+                    {date}
+                  </option>
+                ))}
+              </select>
               {errors.date && <p className="text-red-600 text-sm">{errors.date.message}</p>}
             </div>
+
             <div className="w-1/2">
-              <label className="block font-semibold text-my-blue font-sans">Lokation ID</label>
-              <input {...register("locationId")} className="w-full p-2 border text-my-blue font-sans" />
+              <select {...register("locationId")} className="block w-full p-2 border text-my-blue font-sans">
+                <option value="">Vælg lokation</option>
+                {locations.map((loc) => (
+                  <option key={loc.id} value={loc.id}>
+                    {loc.name}
+                  </option>
+                ))}
+              </select>
             </div>
+          </div>
+
+          <input {...register("curator")} placeholder="Kurator" className="block w-full p-2 border text-my-blue font-sans" />
+          <textarea {...register("description")} placeholder="Beskrivelse" className="block w-full p-2 border text-my-blue font-sans" />
+          {errors.description && <p className="text-red-600 text-sm">{errors.description.message}</p>}
+
+          <div>
+            <label className="block font-sans text-gray-600">Upload billede:</label>
+            <input type="file" accept="image/*" onChange={handleImageUpload} />
+            {uploadedImageUrl && (
+              <div className="mt-2">
+                <img src={uploadedImageUrl} alt="Uploaded" className="w-32 rounded" />
+                <button type="button" onClick={handleDeleteImage} className="mt-1 text-sm text-red-600 underline">
+                  Slet billede
+                </button>
+              </div>
+            )}
           </div>
 
           <div>
-            <label className="block font-semibold text-my-blue font-sans">Kurator</label>
-            <input {...register("curator")} className="w-full p-2 border text-my-blue font-sans" />
-          </div>
-
-          <div className="mb-4">
-            <label className="block font-sans text-gray-600 mb-2">Valgte kunstværker:</label>
+            <label className="block font-sans text-gray-600">Valgte kunstværker:</label>
             <div className="flex flex-wrap gap-4">
               {artworks
-                .filter((art) => art.id !== uploadedImageName)
+                .filter((a) => a.id !== uploadedImageName?.replace(/\.(png|jpg|jpeg|webp)$/i, ""))
                 .map((art) => (
                   <div key={art.id} className="relative p-2 bg-gray-100 border max-w-[120px] group font-sans">
                     <button
@@ -407,11 +403,10 @@ export default function ChangeEventPage({ params }) {
                         handleRemoveArtwork(art.id);
                       }}
                       className="absolute top-1 right-1 bg-red-600 text-white text-xs px-1 rounded transition"
-                      title="Fjern"
                     >
                       ✕
                     </button>
-                    <img src={art.image || dummy.src} alt={art.title} className="w-full h-auto mb-1 rounded" />
+                    <img src={art.image} alt={art.title} className="w-full h-auto mb-1 rounded" />
                     <p className="text-xs font-medium break-words">{art.title}</p>
                   </div>
                 ))}
@@ -425,8 +420,8 @@ export default function ChangeEventPage({ params }) {
       </div>
 
       <div className="w-full px-6">
-        <KunstListe onAddArtwork={handleAddArtwork} onRemoveArtwork={handleRemoveArtwork} selectedArtworks={artworks.filter((a) => a.id !== uploadedImageName).map((a) => a.id.replace(/\.png$/, ""))} />
+        <KunstListe onAddArtwork={handleAddArtwork} onRemoveArtwork={handleRemoveArtwork} selectedArtworks={artworks.map((a) => a.id)} />
       </div>
-    </>
+    </div>
   );
 }

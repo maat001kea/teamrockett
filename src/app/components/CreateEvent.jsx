@@ -10,6 +10,7 @@ import { FaTrash, FaCheck } from "react-icons/fa";
 import AnimatedButton from "./AnimatedButton";
 import Spinner from "./Spinner";
 import { uploadImage, deleteImage } from "@/lib/upload";
+import { useRouter } from "next/navigation";
 
 const eventSchema = z.object({
   title: z.string().min(1, "Titel er påkrævet"),
@@ -20,12 +21,13 @@ const eventSchema = z.object({
 });
 
 const CreateEvent = (props) => {
+  const router = useRouter();
   const [artworks, setArtworks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [availableDates, setAvailableDates] = useState([]);
   const [locations, setLocations] = useState([]);
   const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
-  const [uploadedImageName, setUploadedImageName] = useState(null); // Gem filnavnet, ikke url
+  const [uploadedImageName, setUploadedImageName] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
@@ -67,13 +69,12 @@ const CreateEvent = (props) => {
     setLoading(true);
     setErrorMessage(null);
 
-    // Her sender vi kun filnavnet (uploadedImageName), IKKE URL'en
-    // Hvis du har flere artworks valgt, skal du sikre at artworkIds indeholder korrekte filnavne
     const artworkFileNames = artworks.length > 0 ? artworks.map((a) => a.id) : uploadedImageName ? [uploadedImageName] : [];
 
     const dataToSend = {
       ...data,
       artworkIds: artworkFileNames,
+      imageUrl: uploadedImageUrl || null, // 👈 GEM billede-URL
     };
 
     try {
@@ -89,6 +90,7 @@ const CreateEvent = (props) => {
         setArtworks([]);
         setUploadedImageUrl(null);
         setUploadedImageName(null);
+        router.push("/events"); // 🚀 Redirect
       } else {
         const errorText = await response.text();
         console.error("Fejl fra server:", errorText);
@@ -107,6 +109,7 @@ const CreateEvent = (props) => {
       <div className="cursor-pointer hover:opacity-80 transition font-sans font-semibold">
         <BackButton />
       </div>
+
       <div className="w-full max-w-3xl mx-auto p-6 bg-white shadow mt-6">
         <h2 className="text-xl md:text-2xl font-bold mb-8 font-playfair text-my-blue">Opret Nyt Event</h2>
 
@@ -156,7 +159,7 @@ const CreateEvent = (props) => {
                 try {
                   const url = await uploadImage(file);
                   setUploadedImageUrl(url);
-                  setUploadedImageName(file.name); // Gem det originale filnavn
+                  setUploadedImageName(file.name);
                 } catch (err) {
                   alert("Fejl ved upload");
                   console.error("Upload error:", err);
@@ -186,10 +189,8 @@ const CreateEvent = (props) => {
             )}
           </div>
 
-          {/* Vis fejl */}
           {errorMessage && <p className="text-red-600">{errorMessage}</p>}
 
-          {/* Valgte kunstværker */}
           <div>
             <label className="block font-sans text-gray-600">Valgte kunstværker:</label>
             <div className="flex flex-wrap gap-4">
@@ -205,7 +206,6 @@ const CreateEvent = (props) => {
             </div>
           </div>
 
-          {/* Knapper */}
           <div className="flex flex-col sm:flex-row gap-4 w-full">
             <AnimatedButton type="submit" disabled={loading} className={`${loading ? "cursor-wait opacity-70" : "hover:bg-[#FFA04E]"} flex items-center justify-center gap-2 w-full sm:w-auto`}>
               {loading ? (
