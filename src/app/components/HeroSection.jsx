@@ -69,7 +69,7 @@ const HeroSection = () => {
         </Link>
       </div>
 
-      <motion.div className="relative w-full h-[400px] md:h-auto overflow-hidden" initial={{ clipPath: "inset(0% 100% 0% 0%)" }} animate={{ clipPath: "inset(0% 0% 0% 0%)" }} transition={{ delay: 0.8, duration: 1.2, ease: "easeInOut" }}>
+      <motion.div className="relative w-full h-[400px] md:h-auto overflow-hidden " initial={{ clipPath: "inset(0% 100% 0% 0%)" }} animate={{ clipPath: "inset(0% 0% 0% 0%)" }} transition={{ delay: 0.8, duration: 1.2, ease: "easeInOut" }}>
         <Image src={image} alt="Hero" fill className="object-contain md:object-cover" priority />
       </motion.div>
     </section>

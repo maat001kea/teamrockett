@@ -12,7 +12,18 @@ import Image from "next/image";
 import dummy from "../assets/dummy.webp";
 
 export default function EventCard({ event, onDelete }) {
-  if (!event) return <p>Fejl: Event mangler.</p>;
+  // if (!event) return <p>Fejl: Event mangler.</p>;
+
+  // if (!event) {
+  //   return <div className="flex items-center justify-center h-40 text-my-blue text-sm font-sans animate-pulse">Indlæser begivenhed...</div>;
+  // }
+  if (!event) {
+    return (
+      <div className="flex justify-center items-center h-40">
+        <Spinner color="blue" />
+      </div>
+    );
+  }
 
   const router = useRouter();
   const [viewLoading, setViewLoading] = useState(false);

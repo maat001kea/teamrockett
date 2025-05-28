@@ -5,8 +5,10 @@ import SortSelector from "@/app/components/SortSelector";
 import dummy from "../assets/dummy.webp";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import Spinner from "./Spinner";
-import AnimatedButton from "./AnimatedButton";
+import { FaArrowRight } from "react-icons/fa";
+
+// import Spinner from "./Spinner";
+// import AnimatedButton from "./AnimatedButton";
 
 export default function KunstListe({ onAddArtwork, onRemoveArtwork, selectedArtworks }) {
   const [events, setEvents] = useState([]);
@@ -73,36 +75,41 @@ export default function KunstListe({ onAddArtwork, onRemoveArtwork, selectedArtw
       {/* sort drop down */}
 
       {/* form opret event */}
-      <div className="flex justify-between">
-        <div className="w-full max-w-2xl ">
+      <div className="flex flex-row [&>div]:w-full max-[1000px]:flex-col max-[1000px]-flex-end gap-8">
+        {/* Search */}
+        <div className="max-w-2xl w-full">
           <form className="flex mb-4" onSubmit={handleSearchSubmit}>
             <input type="text" value={searchInput} onChange={handleSearchChange} className="flex-grow border border-gray-500 bg-white p-2 focus:outline-none focus:ring-2 focus:ring-my-blue transition-all duration-200 rounded-l" placeholder="Søg..." />
             <button type="submit" className="bg-my-blue text-white px-4 py-2 rounded-r hover:bg-my-orangedark transition">
               Søg
             </button>
           </form>
-          {/* <button onClick={() => setFilter("&filters=%5Bcolors%3A%23FFFFFF%5D")} className="bg-my-blue text-white px-4 py-2 rounded-r hover:bg-my-orangedark transition">
-            filtrer hvid
-          </button>
-          <button onClick={() => setFilter("&filters=%5Bcolors%3A%23000000%5D")} className="bg-my-blue text-white px-4 py-2 rounded-r hover:bg-my-orangedark transition">
-            filtrer sort
-          </button>
-          <button onClick={() => setFilter("")} className="bg-my-blue text-white px-4 py-2 rounded-r hover:bg-my-orangedark transition">
-            reset
-          </button> */}
         </div>
-        <SortSelector
-          sortBy={sortBy}
-          onChange={(val) => {
-            console.log(" Sortering ændret til:", val);
-            setSortBy(val);
-          }}
-        />
+
+        {/* <button onClick={() => setFilter("&filters=%5Bcolors%3A%23FFFFFF%5D")} className="bg-my-blue text-white px-4 py-2 rounded-r hover:bg-my-orangedark transition">
+          filtrer hvid
+        </button>
+        <button onClick={() => setFilter("&filters=%5Bcolors%3A%23000000%5D")} className="bg-my-blue text-white px-4 py-2 rounded-r hover:bg-my-orangedark transition">
+          filtrer sort
+        </button>
+        <button onClick={() => setFilter("")} className="bg-my-blue text-white px-4 py-2 rounded-r hover:bg-my-orangedark transition">
+          reset
+        </button> */}
+
+        {/* Sort + Søger efter */}
+        <div className="flex flex-col max-[1000px]:items-start items-end gap-2 w-full">
+          <SortSelector
+            sortBy={sortBy}
+            onChange={(val) => {
+              console.log(" Sortering ændret til:", val);
+              setSortBy(val);
+            }}
+          />
+          <p className="text-sm text-gray-700 p-2 mb-3.5 max-[1000px]-flex-end">
+            Søger efter: <strong>{searchQuery}</strong>
+          </p>
+        </div>
       </div>
-      {/* sort */}
-      <p className="mb-15 text-sm text-gray-700">
-        Søger efter: <strong>{searchQuery}</strong>
-      </p>
 
       {/* sort */}
       {error && <p className="text-red-600 mb-4">{error}</p>}
@@ -111,9 +118,6 @@ export default function KunstListe({ onAddArtwork, onRemoveArtwork, selectedArtw
           {sortedEvents.map((item) => {
             const isSelected = selectedArtworks.includes(item.object_number);
             const title = item.titles?.[0]?.title || "Ukendt titel";
-
-            // const fullTitle = item.titles?.[0]?.title || "Ukendt titel";
-            // const title = fullTitle.split(":")[0]; /* slice title array til semi colon */
 
             return (
               <div key={item.id} className=" p-4  bg-white shadow hover:shadow-md transition">
@@ -166,8 +170,11 @@ export default function KunstListe({ onAddArtwork, onRemoveArtwork, selectedArtw
         <p className="text-gray-600">Ingen værker fundet.</p>
       )}
 
-      <button onClick={() => setRows(rows + 8)} className="mt-10 bg-my-blue text-white px-4 py-2 rounded-r hover:bg-my-orangedark transition">
+      {/* <button onClick={() => setRows(rows + 8)} className="mt-10 bg-my-blue px-4 py-2 flex items-center gap-2 text-my-blue hover:text-my-orange disabled:opacity-50 focus:outline-none transition">
         se mere
+      </button> */}
+      <button onClick={() => setRows(rows + 8)} className="mt-10 bg-white border-2 border-my-blue text-my-blue px-4 py-2 flex items-center gap-2 hover:text-my-orange hover:border-my-orangelight disabled:opacity-50 cursor-pointer transition font-sans">
+        se mere <FaArrowRight />
       </button>
     </div>
   );

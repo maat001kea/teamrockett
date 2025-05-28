@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import lightgray from "../assets/lightgray.svg";
 import Image from "next/image";
+import { FaHandPointer } from "react-icons/fa";
 
 const FlipCard = ({ data }) => {
   const [flipped, setFlipped] = useState(false);
@@ -14,26 +15,6 @@ const FlipCard = ({ data }) => {
       onHoverEnd={() => setFlipped(false)}
       onClick={() => setFlipped((prev) => !prev)} // mobile on tap
     >
-      {/* <motion.div animate={{ rotateY: flipped ? 180 : 0 }} transition={{ duration: 1.5, delay: 0.2, ease: "easeInOut" }} className="relative w-full h-full" style={{ transformStyle: "preserve-3d" }}>
-      
-          <div className="absolute w-full h-full backface-hidden">
-            <img src={data.image} alt={data.title} className="w-full h-full object-cover shadow-xl" />
-          </div>
-        
-
-      
-        <div className="absolute w-full h-full backface-hidden rotate-y-180 bg-my-blue shadow-xl p-4 flex flex-col justify-center items-center text-center">
-        
-          <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-my-blue/60 z-0" />
-
-      
-          <div className="relative z-10">
-            <h2 className="hidden min-[420px]:block text-base sm:text-lg md:text-xl lg:text-2xl font-semibold mb-2 font-playfair text-my-white">{data.title}</h2>
-            <p className="text-sm sm:text-base text-my-flipcardgray font-sans italic font-medium">{data.artist}</p>
-          </div>
-        </div>
-      </motion.div> */}
-
       <motion.div animate={{ rotateY: flipped ? 180 : 0 }} transition={{ duration: 1.5, delay: 0.2, ease: "easeInOut" }} className="relative w-full h-full" style={{ transformStyle: "preserve-3d" }}>
         {/* Front side */}
 
@@ -44,17 +25,27 @@ const FlipCard = ({ data }) => {
           {/* SVG Frame Overlay*/}
 
           <Image src={lightgray} alt="Museum Frame" className="absolute inset-0 w-full h-full pointer-events-none z-10 scale-[1.05]" />
+
+          {/* Tap Hint (Mobile Only) */}
+          <span className="absolute inset-0 flex justify-center items-center sm:hidden animate-pulse gap-2 bg-black/20 px-4 py-2 z-20">
+            <FaHandPointer className="text-2xl" />
+            <span className="text-lg text-white">Tap</span>
+          </span>
         </div>
 
         {/* Back side */}
         <div className="absolute w-full h-full backface-hidden rotate-y-180 bg-my-blue shadow-xl p-4 flex flex-col justify-center items-center text-center">
           {/* Overlay */}
-          {/* <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-my-blue/60 z-0" /> */}
 
           {/* Content */}
           <div className="relative z-10">
-            <h2 className="hidden min-[420px]:block text-base sm:text-lg md:text-xl lg:text-2xl font-semibold mb-2 font-playfair text-my-white max-[640px]:text-2xl">{data.title}</h2>
-            {/* <p className="text-sm sm:text-base text-my-flipcardgray font-sans italic font-medium">{data.artist}</p> */}
+            <h2
+              className="hidden min-[420px]:block text-base sm:text-lg md:text-xl lg:text-2xl font-semibold mb-2 font-playfair text-my-white max-[640px]:text-2xl [@media(min-width:750px)_and_(max-width:980px)]:text-[18px]
+"
+            >
+              {data.title}
+            </h2>
+
             <p className="text-sm sm:text-base text-my-flipcardgray font-sans italic font-medium max-[419px]:text-xl max-[419px]:text-my-white max-[640px]:text-lg">{data.artist}</p>
 
             <button className="text-sm sm:text-base font-sans italic font-medium text-my-flipcardgray border-b border-my-flipcardgray hover:border-b-2 transition duration-200">læse mere om kunst</button>
