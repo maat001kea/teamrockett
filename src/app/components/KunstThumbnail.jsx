@@ -44,7 +44,7 @@ const KunstThumbnail = ({ images }) => {
       <img src={selectedImage} alt="Main image" className="w-full h-full object-cover relative z-0" />
 
       {/* frame overlay */}
-      <img src={lightgray.src} alt="Museum Frame" className="absolute inset-0 w-full h-full z-20 pointer-events-none scale-[1.22]" style={{ transformOrigin: "center" }} />
+      {/* <img src={lightgray.src} alt="Museum Frame" className="absolute inset-0 w-full h-full z-20 pointer-events-none scale-[1.22]" style={{ transformOrigin: "center" }} /> */}
     </div>
   );
 };

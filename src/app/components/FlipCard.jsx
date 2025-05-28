@@ -22,7 +22,7 @@ const FlipCard = ({ data }) => {
         {/* Front side */}
         <div className="absolute w-full h-full backface-hidden">
           <Image src={data.image} alt={data.title} fill className="object-cover" />
-          <Image src={lightgray} alt="Museum Frame" className="absolute inset-0 w-full h-full pointer-events-none z-10 scale-[1.05]" />
+          {/* <Image src={lightgray} alt="Museum Frame" className="absolute inset-0 w-full h-full pointer-events-none z-10 scale-[1.05]" /> */}
 
           <span className="absolute inset-0 flex justify-center items-center sm:hidden animate-pulse gap-2 bg-black/20 px-4 py-2 z-20 pointer-events-none">
             <FaHandPointer className="text-2xl text-white" />
