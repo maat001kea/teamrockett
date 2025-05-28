@@ -108,7 +108,8 @@
 // }
 // lib/api.js
 
-// Definerer base-URL til API'et – bruger miljøvariabel hvis den findes, ellers fallback til localhost
+import useStore from "@/store/cartStore"; // importér Zustand-store
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://async-exhibit-server-2awc.onrender.com";
 
 // Hent alle events fra API'et
@@ -184,6 +185,11 @@ export async function deleteEvent(id) {
     const error = await res.json();
     throw new Error(error.message || "Kunne ikke slette event");
   }
+
+  // ✅ Opdater Zustand-store, så events listen fjernes globalt
+  const { events, setEvents } = useStore.getState();
+  const updatedEvents = events.filter((event) => event.id !== id);
+  setEvents(updatedEvents);
 
   return true; // Returnér successtatus
 }
