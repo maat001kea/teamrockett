@@ -35,3 +35,21 @@ pnpm dev
 # or
 bun dev
 ```
+
+Framer Motion
+React Animation Library , lettere at animere forskellige komponneter med forskellige animationer , meget mindre kode hvis man sammenligner med Css og bedre læsebarhed.
+run the development server:
+
+```bash
+ npm install motion
+  # ind i komponent , skal du importere sådan
+  import { motion } from "framer-motion";
+```
+
+## https://motion.dev/docs/react-transitions#spring (Staggered effekt)....
+
+animate og clippath effekt på forsiden...........
+
+## https://motion.dev/docs/react-quick-start ( whileHover ,whileTap og transition på AnimatedButton komponet, alle primære knapper)............
+
+Brugt perpective, transform og backface visibilty til flipcard sammen med motion div ....
