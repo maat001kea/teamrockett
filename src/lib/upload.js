@@ -1,34 +1,7 @@
-// import { supabase } from "./supabase";
+//kilder til koden
 
-// // 🔼 Upload billede og returnér public URL
-// export async function uploadImage(file) {
-//   const filePath = file.name; // Brug det originale filnavn
-
-//   const { data: uploadData, error: uploadError } = await supabase.storage
-//     .from("artworks") // Bucket-navn — tjek at den matcher i Supabase
-//     .upload(filePath, file, {
-//       cacheControl: "3600",
-//       upsert: false, // Undgå at overskrive eksisterende filer
-//     });
-
-//   if (uploadError) throw uploadError;
-
-//   const { data: publicData, error: publicError } = supabase.storage.from("artworks").getPublicUrl(filePath);
-
-//   console.log("🌐 Public URL response:", { publicData, publicError });
-
-//   if (publicError) throw publicError;
-
-//   return publicData.publicUrl;
-// }
-
-// // 🗑️ Slet billede
-// export async function deleteImage(filename) {
-//   const { error } = await supabase.storage.from("artworks").remove([filename]);
-//   if (error) throw error;
-// }
-
-// src/lib/upload.js
+//https://supabase.com/docs/reference/javascript/installing
+//Jeg har det samme, men du bruger miljøvariabler "process.env"
 import { createClient } from "@supabase/supabase-js";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -37,56 +10,26 @@ export const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function uploadImage(file) {
   const filePath = file.name;
+  // Kilde  https://supabase.com/docs/reference/javascript/storage-from-upload
+  // Uploader et billede og generere en tidsbegrænset URL, som jeg kan dele med brugeren, ved at bruge createSignedUrl
+
   const { data: uploadData, error: uploadError } = await supabase.storage.from("artworks").upload(filePath, file, {
     cacheControl: "3600",
     upsert: false,
   });
   if (uploadError) throw uploadError;
 
+  //Kilde https://supabase.com/docs/reference/javascript/storage-from-getpublicurl
+  // funktion for at få URL’en til en fil i en offentlig bucket.
+
   const { data: publicData, error: publicError } = supabase.storage.from("artworks").getPublicUrl(filePath);
   if (publicError) throw publicError;
 
   return publicData.publicUrl;
 }
-
+//https://supabase.com/docs/reference/javascript/storage-from-remove
+//sletter filer i bucket
 export async function deleteImage(fileName) {
   const { error } = await supabase.storage.from("artworks").remove([fileName]);
   if (error) throw error;
 }
-
-// import { supabase } from "./supabase";
-
-// // 🔼 Upload billede og returnér public URL
-// export async function uploadImage(file) {
-//   const fileExt = file.name.split(".").pop();
-//   const fileName = `${Date.now()}.${fileExt}`;
-//   const filePath = `event-images/${fileName}`; // Organiseret sti
-
-//   const { data: uploadData, error: uploadError } = await supabase.storage
-//     .from("artworks") // Bucket-navn
-//     .upload(filePath, file, {
-//       cacheControl: "3600",
-//       upsert: false,
-//     });
-
-//   console.log("🔄 Upload response:", { uploadData, uploadError });
-
-//   if (uploadError) throw uploadError;
-
-//   const { data: publicData, error: publicError } = supabase.storage.from("artworks").getPublicUrl(filePath);
-
-//   console.log("🌐 Public URL response:", { publicData, publicError });
-
-//   if (publicError) throw publicError;
-
-//   return {
-//     publicUrl: publicData.publicUrl,
-//     filePath, // Gem stien, hvis du vil slette billedet senere
-//   };
-// }
-
-// // 🗑️ Slet billede
-// export async function deleteImage(filePath) {
-//   const { error } = await supabase.storage.from("artworks").remove([filePath]);
-//   if (error) throw error;
-// }

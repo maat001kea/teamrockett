@@ -1,6 +1,8 @@
 "use client";
+// https://react-hook-form.com/get-started
+// https://zod.dev/
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,7 +13,11 @@ import AnimatedButton from "./AnimatedButton";
 import Spinner from "./Spinner";
 import { uploadImage, deleteImage } from "@/lib/upload";
 
-// Valideringsschema
+// Definér et string felt og bruger .min()
+// https://zod.dev/api?id=strings
+// Brug optional() for valgfri felter
+// https://zod.dev/api?id=optional
+
 const eventSchema = z.object({
   title: z.string().min(1, "Titel er påkrævet"),
   date: z.string().min(1, "Dato er påkrævet"),
@@ -23,14 +29,14 @@ const eventSchema = z.object({
 export default function CreateEvent({ date, locations }) {
   const router = useRouter();
 
-  // States
   const [artworks, setArtworks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
   const [uploadedImageName, setUploadedImageName] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
-  // react-hook-form setup
+  const fileInputRef = useRef(null);
+
   const {
     register,
     handleSubmit,
@@ -47,52 +53,53 @@ export default function CreateEvent({ date, locations }) {
     },
   });
 
-  // Tilføj kunstværk
   const handleAddArtwork = (artwork) => {
     if (!artworks.find((a) => a.id === artwork.id)) {
       setArtworks([...artworks, artwork]);
     }
   };
 
-  // Fjern enkelt kunstværk
   const handleRemoveArtwork = (id) => {
     setArtworks(artworks.filter((a) => a.id !== id));
   };
 
-  // Slet alle kunstværker
   const handleClearAllArtworks = () => {
     setArtworks([]);
   };
 
-  // Upload billede
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
     setErrorMessage(null);
+
     try {
-      const url = await uploadImage(file);
+      // Omdøb filen til et unikt navn
+      const uniqueName = `${Date.now()}-${file.name}`;
+      const fileWithUniqueName = new File([file], uniqueName, { type: file.type });
+
+      const url = await uploadImage(fileWithUniqueName);
       setUploadedImageUrl(url);
-      setUploadedImageName(file.name);
+      setUploadedImageName(uniqueName);
+      if (fileInputRef.current) fileInputRef.current.value = "";
     } catch (err) {
-      console.error("Upload error:", err);
+      console.error("Upload error:", err?.message || err || "Ukendt fejl");
       setErrorMessage("Fejl ved upload af billede.");
     }
   };
 
-  // Slet billede
   const handleDeleteImage = async () => {
     try {
       if (uploadedImageName) {
         await deleteImage(uploadedImageName);
         setUploadedImageUrl(null);
         setUploadedImageName(null);
+        if (fileInputRef.current) fileInputRef.current.value = "";
       }
     } catch (err) {
       alert("Kunne ikke slette billede");
     }
   };
 
-  // Gem event
   const onSubmit = async (data) => {
     setLoading(true);
     setErrorMessage(null);
@@ -118,11 +125,12 @@ export default function CreateEvent({ date, locations }) {
         setArtworks([]);
         setUploadedImageUrl(null);
         setUploadedImageName(null);
+        if (fileInputRef.current) fileInputRef.current.value = "";
         router.push("/events");
       } else {
         const errorText = await response.text();
         console.error("Fejl fra server:", errorText);
-        setErrorMessage("Event blev ikke oprettet. Server svarede med fejl.");
+        setErrorMessage("Location date er optaget!");
       }
     } catch (error) {
       console.error("Fejl under oprettelse:", error);
@@ -176,16 +184,19 @@ export default function CreateEvent({ date, locations }) {
           <textarea {...register("description")} placeholder="Beskrivelse" className="block w-full p-2 border text-my-blue font-sans" />
           {errors.description && <p className="text-red-600 text-sm">{errors.description.message}</p>}
 
-          {/* Billede upload */}
+          {/* Billede upload / Fjern billede toggle */}
           <div>
-            <label className="block font-sans text-gray-600">Upload billede:</label>
-            <input type="file" accept="image/*" onChange={handleImageUpload} />
+            <label className="block font-sans text-gray-600 mb-1">{uploadedImageUrl ? "Fjern billede:" : "Upload hoved billede til events:"}</label>
+            {!uploadedImageUrl ? (
+              <input ref={fileInputRef} id="fileUpload" type="file" accept="image/*" onChange={handleImageUpload} className="block w-30 text-white file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-sans file:font-medium file:bg-[#FFA04E] file:text-white hover:file:bg-my-orange cursor-pointer" />
+            ) : (
+              <button type="button" onClick={handleDeleteImage} className="block text-sm w-40 py-2 rounded font-sans font-medium text-white bg-red-500 hover:bg-red-800 transition cursor-pointer">
+                Fjern billede
+              </button>
+            )}
             {uploadedImageUrl && (
               <div className="mt-2">
                 <img src={uploadedImageUrl} alt="Uploaded" className="w-32 rounded" />
-                <button type="button" onClick={handleDeleteImage} className="mt-1 text-sm text-red-600 underline">
-                  Slet billede
-                </button>
               </div>
             )}
           </div>
@@ -198,7 +209,6 @@ export default function CreateEvent({ date, locations }) {
             <div className="flex flex-wrap gap-4">
               {artworks.map((art) => (
                 <div key={art.id} className="relative p-2 bg-gray-100 border max-w-[120px] group">
-                  {/* Fjern-knap uden ikoner */}
                   <button onClick={() => handleRemoveArtwork(art.id)} className="absolute top-1 right-1 bg-red-600 text-white text-xs px-1 rounded transition" title="Fjern">
                     Fjern
                   </button>

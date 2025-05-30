@@ -1,11 +1,9 @@
 "use client";
-import React from "react";
-
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form"; // react-hook-form - https://react-hook-form.com/get-started
+import { z } from "zod"; // Zod - https://zod.dev
+import { zodResolver } from "@hookform/resolvers/zod"; // Zod integration - https://react-hook-form.com/get-started#SchemaValidation
 import { getAllEvents, updateEvent } from "@/lib/api";
 import BackButton from "../../components/BackButton";
 import KunstListe from "@/app/components/KunstListe";
@@ -26,7 +24,6 @@ export default function ChangeEventPage({ params }) {
   const { id } = React.use(params);
   const router = useRouter();
 
-  // States
   const [artworks, setArtworks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -36,7 +33,9 @@ export default function ChangeEventPage({ params }) {
   const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
   const [uploadedImageName, setUploadedImageName] = useState(null);
 
-  // react-hook-form setup
+  const fileInputRef = useRef(null);
+
+  // react-hook-form setup - https://react-hook-form.com/get-started
   const {
     register,
     handleSubmit,
@@ -53,7 +52,6 @@ export default function ChangeEventPage({ params }) {
     },
   });
 
-  // Hent event og data
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -61,23 +59,19 @@ export default function ChangeEventPage({ params }) {
         const found = events.find((e) => e.id === id);
         if (!found) throw new Error("Event ikke fundet.");
 
-        // Udfyld formular med eksisterende data
         setValue("title", found.title);
         setValue("description", found.description);
         setValue("date", found.date);
         setValue("locationId", found.location?.id || "");
         setValue("curator", found.curator || "");
 
-        // Find unikke datoer og lokationer
         setAvailableDates([...new Set(events.map((e) => e.date))]);
         setLocations(events.map((e) => e.location).filter((loc, i, self) => loc && i === self.findIndex((l) => l.id === loc.id)));
 
-        // Billede og kunstværker
         setImgSrc(found.imageUrl || dummy.src);
         setUploadedImageUrl(found.imageUrl || null);
         setUploadedImageName(found.imageUrl?.split("/").pop() || null);
 
-        // Hent SMK-kunstværker
         const artworkIds = found.artworkIds || [];
         const responses = await Promise.all(
           artworkIds.map(async (artId) => {
@@ -105,26 +99,29 @@ export default function ChangeEventPage({ params }) {
     loadData();
   }, [id, setValue]);
 
-  // Upload billede
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
+    setError(null);
+
     try {
+      const uniqueName = `${Date.now()}-${file.name}`;
+      const fileWithUniqueName = new File([file], uniqueName, { type: file.type });
+
       if (uploadedImageName) {
         await deleteImage(uploadedImageName);
       }
-      const url = await uploadImage(file);
+      const url = await uploadImage(fileWithUniqueName);
       setUploadedImageUrl(url);
-      setUploadedImageName(file.name);
+      setUploadedImageName(uniqueName);
       setImgSrc(url);
-      e.target.value = "";
+      if (fileInputRef.current) fileInputRef.current.value = "";
     } catch (err) {
       console.error("Fejl ved upload:", err);
       setError("Upload fejlede: " + (err.message || JSON.stringify(err)));
     }
   };
 
-  // Slet billede
   const handleDeleteImage = async () => {
     try {
       if (uploadedImageName) {
@@ -132,8 +129,8 @@ export default function ChangeEventPage({ params }) {
         setUploadedImageUrl(null);
         setUploadedImageName(null);
         setImgSrc(dummy.src);
+        if (fileInputRef.current) fileInputRef.current.value = "";
 
-        // Fjern fra artworks
         const cleanId = uploadedImageName.replace(/\.(png|jpg|jpeg|webp)$/i, "");
         setArtworks((prev) => prev.filter((art) => art.id !== cleanId));
       }
@@ -142,19 +139,16 @@ export default function ChangeEventPage({ params }) {
     }
   };
 
-  // Tilføj kunstværk
   const handleAddArtwork = (artwork) => {
     if (!artworks.find((a) => a.id === artwork.id)) {
       setArtworks([...artworks, artwork]);
     }
   };
 
-  // Fjern kunstværk
   const handleRemoveArtwork = (removeId) => {
     setArtworks(artworks.filter((a) => a.id !== removeId));
   };
 
-  // Gem ændringer
   const onSubmit = async (data) => {
     setLoading(true);
     setError(null);
@@ -177,12 +171,10 @@ export default function ChangeEventPage({ params }) {
 
   return (
     <div>
-      {/* Tilbage-knap */}
       <div className="cursor-pointer hover:opacity-80 transition font-sans font-semibold">
         <BackButton />
       </div>
 
-      {/* Formular */}
       <div className="w-full max-w-3xl mx-auto p-6 bg-white shadow mt-6">
         <h2 className="text-xl md:text-2xl font-bold mb-8 font-playfair text-my-blue">Rediger Event</h2>
 
@@ -202,7 +194,6 @@ export default function ChangeEventPage({ params }) {
               </select>
               {errors.date && <p className="text-red-600 text-sm">{errors.date.message}</p>}
             </div>
-
             <div className="w-1/2">
               <select {...register("locationId")} className="block w-full p-2 border text-my-blue font-sans">
                 <option value="">Vælg lokation</option>
@@ -219,43 +210,20 @@ export default function ChangeEventPage({ params }) {
           <textarea {...register("description")} placeholder="Beskrivelse" className="block w-full p-2 border text-my-blue font-sans" />
           {errors.description && <p className="text-red-600 text-sm">{errors.description.message}</p>}
 
-          {/* Billede upload */}
           <div>
-            <label className="block font-sans text-gray-600">Upload billede:</label>
-            <input type="file" accept="image/*" onChange={handleImageUpload} />
+            <label className="block font-sans text-gray-600 mb-1">{uploadedImageUrl ? "Fjern billede:" : "Upload hoved billedet til events:"}</label>
+            {!uploadedImageUrl ? (
+              <input ref={fileInputRef} id="fileUpload" type="file" accept="image/*" onChange={handleImageUpload} className="block w-30 text-white file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-sans file:font-medium file:bg-[#FFA04E] file:text-white hover:file:bg-my-orange cursor-pointer" />
+            ) : (
+              <button type="button" onClick={handleDeleteImage} className="block text-sm w-40 py-2 rounded font-sans font-medium text-white bg-[#FFA04E] hover:bg-[#FFA04E] transition cursor-pointer">
+                Fjern billede
+              </button>
+            )}
             {uploadedImageUrl && (
               <div className="mt-2">
                 <img src={uploadedImageUrl} alt="Uploaded" className="w-32 rounded" />
-                <button type="button" onClick={handleDeleteImage} className="mt-1 text-sm text-red-600 underline">
-                  Slet billede
-                </button>
               </div>
             )}
-          </div>
-
-          {/* Viste kunstværker uden ikoner */}
-          <div>
-            <label className="block font-sans text-gray-600">Valgte kunstværker:</label>
-            <div className="flex flex-wrap gap-4">
-              {artworks
-                .filter((a) => a.id !== uploadedImageName?.replace(/\.(png|jpg|jpeg|webp)$/i, ""))
-                .map((art) => (
-                  <div key={art.id} className="relative p-2 bg-gray-100 border max-w-[120px] group">
-                    {/* Enkel tekst-knap i stedet for ✕ */}
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleRemoveArtwork(art.id);
-                      }}
-                      className="absolute top-1 right-1 bg-red-600 text-white text-xs px-1 rounded transition"
-                    >
-                      Fjern
-                    </button>
-                    <img src={art.image} alt={art.title} className="w-full h-auto mb-1 rounded" />
-                    <p className="text-xs font-medium break-words">{art.title}</p>
-                  </div>
-                ))}
-            </div>
           </div>
 
           <AnimatedButton type="submit" disabled={loading}>
@@ -264,7 +232,6 @@ export default function ChangeEventPage({ params }) {
         </form>
       </div>
 
-      {/* Kunstværks-liste */}
       <div className="w-full px-6">
         <KunstListe onAddArtwork={handleAddArtwork} onRemoveArtwork={handleRemoveArtwork} selectedArtworks={artworks.map((a) => a.id)} />
       </div>

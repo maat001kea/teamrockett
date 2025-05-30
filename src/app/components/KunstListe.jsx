@@ -5,8 +5,8 @@ import SortSelector from "@/app/components/SortSelector";
 import dummy from "../assets/dummy.webp";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import Spinner from "./Spinner";
-import AnimatedButton from "./AnimatedButton";
+import Spinner from "../components/Spinner";
+import AnimatedButton from "../components/AnimatedButton";
 
 export default function KunstListe({ onAddArtwork, onRemoveArtwork, selectedArtworks }) {
   const [events, setEvents] = useState([]);
@@ -18,53 +18,54 @@ export default function KunstListe({ onAddArtwork, onRemoveArtwork, selectedArtw
   const [rows, setRows] = useState(52);
 
   // Fetch data when searchQuery changes
-  useEffect(() => {
-    // console.log(" Udfører fetch med søgeord:", searchQuery);
-    // Filter til årstal
-    //api.smk.dk/api/v1/art/search/?keys=*&fields=titles&ranges=[production_dates_start:{*;1010-05-28T09:35:58Z}]&offset=0&rows=30
-    // Filter til farver og andre filtre
-    //api.smk.dk/api/v1/art/search/?keys=*&filters=[colors:#FFFFFF]&offset=0&rows=30
-    //[production_dates_start:{2019-05-28T09:35:58Z;2022-05-28T09:35:58Z}]
+  //useEffect(() => {
+  // console.log(" Udfører fetch med søgeord:", searchQuery);
+  // Filter til årstal
+  //api.smk.dk/api/v1/art/search/?keys=*&fields=titles&ranges=[production_dates_start:{*;1010-05-28T09:35:58Z}]&offset=0&rows=30
+  // Filter til farver og andre filtre
+  //api.smk.dk/api/v1/art/search/?keys=*&filters=[colors:#FFFFFF]&offset=0&rows=30
+  //[production_dates_start:{2019-05-28T09:35:58Z;2022-05-28T09:35:58Z}]
 
-    https: fetch(`https://api.smk.dk/api/v1/art/search/?keys=${searchQuery}&filters=[has_image:true]${filter}&offset=0&rows=${rows}`)
+  // Fetch data fra SMK API når searchQuery, rows eller filter ændres
+  useEffect(() => {
+    fetch(`https://api.smk.dk/api/v1/art/search/?keys=${searchQuery}&filters=[has_image:true]${filter}&offset=0&rows=${rows}`)
       .then((res) => {
-        // console.log("Forespørgsel sendt, venter på svar...");
         return res.json();
       })
       .then((data) => {
-        console.log(" Data modtaget:", data);
-        setEvents(data.items || []);
-        setError(null);
+        console.log("Data modtaget:", data);
+        setEvents(data.items || []); // Gemmer kunstværker i state
+        setError(null); // Nulstiller fejl
       })
       .catch((err) => {
-        console.error(" Fejl under hentning:", err);
+        console.error("Fejl under hentning:", err);
         setError("Kunne ikke hente værker fra SMK.");
       });
   }, [searchQuery, rows, filter]);
 
-  // Search input change
+  // Opdaterer søgefeltets indhold når brugeren skriver
   const handleSearchChange = (e) => {
-    console.log(" Skriver i søgefeltet:", e.target.value);
+    console.log("Skriver i søgefeltet:", e.target.value);
     setSearchInput(e.target.value);
   };
-
-  // Search form submit
+  // Når brugeren sender søgeformularen
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    console.log(" Søgeformular sendt med:", searchInput);
-    setSearchQuery(searchInput.trim() || "*");
+    console.log("Søgeformular sendt med:", searchInput);
+    setSearchQuery(searchInput.trim() || "*"); // Sætter query - fallback til "*"
   };
 
-  // Sorting
+  // Sortering af kunstværker alt efter valgt sorteringskriterie
   const sortedEvents = [...events].sort((a, b) => {
     if (sortBy === "artist") {
+      // Sammenligner kunstnernavne / titler /produktionsår - hvis ingen navn, title eller år - tom streng
       return (a.artist_names?.[0] || "").localeCompare(b.artist_names?.[0] || "");
     } else if (sortBy === "title") {
       return (a.titles?.[0]?.title || "").localeCompare(b.titles?.[0]?.title || "");
     } else if (sortBy === "year") {
       return (a.production_date?.[0].period || "").localeCompare(b.production_date?.[0].period || "");
     }
-    return 0;
+    return 0; // fallback hvis ingen af ovenstående
   });
 
   return (
