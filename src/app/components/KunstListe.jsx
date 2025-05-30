@@ -20,43 +20,42 @@ export default function KunstListe({ onAddArtwork, onRemoveArtwork, selectedArtw
   useEffect(() => {
     fetch(`https://api.smk.dk/api/v1/art/search/?keys=${searchQuery}&filters=[has_image:true]${filter}&offset=0&rows=${rows}`)
       .then((res) => {
-        // console.log("Forespørgsel sendt, venter på svar...");
         return res.json();
       })
       .then((data) => {
-        console.log(" Data modtaget:", data);
-        setEvents(data.items || []);
-        setError(null);
+        console.log("Data modtaget:", data);
+        setEvents(data.items || []); // Gemmer kunstværker i state
+        setError(null); // Nulstiller fejl
       })
       .catch((err) => {
-        console.error(" Fejl under hentning:", err);
+        console.error("Fejl under hentning:", err);
         setError("Kunne ikke hente værker fra SMK.");
       });
   }, [searchQuery, rows, filter]);
 
-  // Search input change
+  // Opdaterer søgefeltets indhold når brugeren skriver
   const handleSearchChange = (e) => {
-    console.log(" Skriver i søgefeltet:", e.target.value);
+    console.log("Skriver i søgefeltet:", e.target.value);
     setSearchInput(e.target.value);
   };
-
-  // Search form submit
+  // Når brugeren sender søgeformularen
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    console.log(" Søgeformular sendt med:", searchInput);
-    setSearchQuery(searchInput.trim() || "*");
+    console.log("Søgeformular sendt med:", searchInput);
+    setSearchQuery(searchInput.trim() || "*"); // Sætter query - fallback til "*"
   };
 
-  // Sorting
+  // Sortering af kunstværker alt efter valgt sorteringskriterie
   const sortedEvents = [...events].sort((a, b) => {
     if (sortBy === "artist") {
+      // Sammenligner kunstnernavne / titler /produktionsår - hvis ingen navn, title eller år - tom streng
       return (a.artist_names?.[0] || "").localeCompare(b.artist_names?.[0] || "");
     } else if (sortBy === "title") {
       return (a.titles?.[0]?.title || "").localeCompare(b.titles?.[0]?.title || "");
     } else if (sortBy === "year") {
       return (a.production_date?.[0].period || "").localeCompare(b.production_date?.[0].period || "");
     }
-    return 0;
+    return 0; // fallback hvis ingen af ovenstående
   });
 
   return (
