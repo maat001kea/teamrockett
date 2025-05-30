@@ -68,8 +68,16 @@ const HeroSection = () => {
         </Link>
       </div>
 
-      <motion.div className="relative w-full h-[400px] md:h-auto overflow-hidden" initial={{ clipPath: "inset(0% 100% 0% 0%)" }} animate={{ clipPath: "inset(0% 0% 0% 0%)" }} transition={{ delay: 0.8, duration: 1.2, ease: "easeInOut" }}>
-        <Image src={image} alt="Hero" fill className="object-contain md:object-cover" priority />
+      <motion.div className="relative w-full h-[400px] md:h-full overflow-hidden mt-5" initial={{ clipPath: "inset(0% 100% 0% 0%)" }} animate={{ clipPath: "inset(0% 0% 0% 0%)" }} transition={{ delay: 0.8, duration: 1.2, ease: "easeInOut" }}>
+        {/* Mobile skærm med  fast width and height */}
+        <div className="block md:hidden">
+          <Image src={image} alt="Hero" width={500} height={700} className="object-contain w-full h-full" />
+        </div>
+
+        {/* Desktop skærm  med fill */}
+        <div className="hidden md:block">
+          <Image src={image} alt="Hero" fill className="object-cover" />
+        </div>
       </motion.div>
     </section>
   );
