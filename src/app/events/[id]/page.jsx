@@ -5,18 +5,16 @@ import EventGalleri from "@/app/components/EventGalleri";
 import BackButton from "@/app/components/BackButton";
 
 export default async function Page({ params }) {
-  const { id } = params; // params er allerede et objekt
+  const { id } = params;
 
   const response = await fetch(`https://async-exhibit-server-2awc.onrender.com/events/${id}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
-    // cache: 'no-store', // hvis du vil sikre frisk data
   });
 
   if (!response.ok) {
-    // Håndter fejl fx returner en fejlside eller lign.
     throw new Error("Failed to fetch event data");
   }
 

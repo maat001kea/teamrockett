@@ -16,7 +16,7 @@ const BurgerMenu = () => {
 
   return (
     <>
-      {/* Burger Ikon kun for mobil skærm */}
+      {/* Burger Ikon */}
       <div className="lg:hidden cursor-pointer" onClick={toggleMenu}>
         <FaTimes size={30} className={`${isMenuOpen ? "block" : "hidden"} text-my-blue`} />
         <AiOutlineAlignRight size={30} className={`${isMenuOpen ? "hidden" : "block"} text-my-blue`} />
@@ -24,7 +24,6 @@ const BurgerMenu = () => {
 
       {/* Mobile Menu */}
       <div className={`${isMenuOpen ? "block" : "hidden"} absolute top-0 right-0 bg-my-blue w-full h-screen z-20 p-4`}>
-        {/* kryds-knap til højere side  */}
         <div className="flex justify-end">
           <FaTimes size={30} className="text-my-white cursor-pointer mt-4" onClick={toggleMenu} />
         </div>
@@ -46,8 +45,6 @@ const BurgerMenu = () => {
           </li>
         </ul>
       </div>
-
-      {/* {isMenuOpen && <div className="absolute inset-0 bg-my-blue opacity-50 z-10" onClick={toggleMenu}></div>} */}
     </>
   );
 };

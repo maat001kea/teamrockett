@@ -47,7 +47,6 @@ const KunstGalleri = () => {
   };
   return (
     <section className="py-4 px-2 ">
-      {/* <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-12 font-playfair text-my-blue mt-10">Andre kunstværker</h2> */}
       <motion.h2 variants={container} initial="hidden" animate="visible" className="text-2xl sm:text-3xl md:text-4xl font-bold mb-12 font-playfair text-my-blue mt-10 flex flex-wrap">
         {text.split("").map((char, i) => (
           <motion.span key={i} variants={letter}>

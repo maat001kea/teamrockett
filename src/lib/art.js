@@ -8,23 +8,23 @@ export const fetchArtworks = async (objectNumbers) => {
       const response = await fetch(`https://api.smk.dk/api/v1/art/?object_number=${id}`);
       const data = await response.json();
 
-      console.log(`API response for ID ${id}:`, data);
+      console.log(`Artworks IDS ${id}:`, data);
 
       const item = data.items?.[0];
       if (!item) {
-        console.warn(`No item found for ID: ${id}`);
+        console.warn(`no item for id: ${id}`);
         return null;
       }
 
       const image = item.has_image ? item.image_thumbnail : dummy.src;
       const objectNumber = item.object_number;
 
-      const fullTitle = item.titles?.[0]?.title ?? "Untitled";
+      const fullTitle = item.titles?.[0]?.title ?? "Unkendt";
       const title = fullTitle.split(":")[0];
 
-      const artist = item.artist?.[0] ?? "Unknown artist";
+      const artist = item.artist?.[0] ?? "Unkendt artist";
 
-      console.log(`Processed artwork [${objectNumber}]:`, { title, artist, image });
+      console.log(`artwork [${objectNumber}]:`, { title, artist, image });
 
       return {
         image,
@@ -33,7 +33,7 @@ export const fetchArtworks = async (objectNumbers) => {
         artist,
       };
     } catch (error) {
-      console.error(`Error fetching artwork for ID ${id}:`, error);
+      console.error(`Error detching single artwork for ID ${id}:`, error);
       return null;
     }
   });

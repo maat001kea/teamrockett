@@ -14,7 +14,7 @@ export default function EventDetailsBox({ eventId, className }) {
   };
 
   useEffect(() => {
-    fetchEvent(); // Fetch on initial load
+    fetchEvent();
 
     const handleVisibilityChange = () => {
       if (document.visibilityState === "visible") {

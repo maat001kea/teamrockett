@@ -2,31 +2,26 @@
 import React from "react";
 
 export default function KunstTextBox({ data, className }) {
-  /*  defensive guard clause at the top*/
+  /* for at undgå render crash error*/
   if (!data || !data.items || data.items.length === 0) {
     return <div className={`text-red-500 ${className}`}>No data available</div>;
   }
   const item = data?.items[0];
 
-  // const fullTitle = item?.titles[0].title || "Ukendt dokumentationstitel";
-  const fullTitle = item?.titles?.[0]?.title || "Ukendt dokumentationstitel";
+  const fullTitle = item?.titles?.[0]?.title || "titel";
 
   const title = fullTitle.split(":")[0];
-  // const creatorForename = item?.production[0]?.creator_forename;
-  // const creatorSurname = item?.production?.[0]?.creator_surname;
-  // const birth = item?.production?.[0]?.creator_date_of_birth?.slice(0, 4);
-  // const death = item?.production?.[0]?.creator_date_of_death?.slice(0, 4);
+
   const creatorForename = item?.production?.[0]?.creator_forename;
   const creatorSurname = item?.production?.[0]?.creator_surname;
   const birth = item?.production?.[0]?.creator_date_of_birth?.slice(0, 4);
-  const death = item?.production?.[0]?.creator_date_of_death?.slice(0, 4); /* tjek item existere så production exitere*/
+  const death = item?.production?.[0]?.creator_date_of_death?.slice(0, 4);
 
-  // const fullCreator = `${creatorForename} ${creatorSurname}`;
   const fullCreator = [creatorForename, creatorSurname].filter(Boolean).join(" ") || "Ukendt kunstner";
 
   const lifeSpan = birth && death ? ` (${birth}–${death})` : "";
   const techniques = item?.techniques?.join(", ") || "Ukendt";
-  // const Dimensions = item?.dimensions?.[0]?.value || "Ukendt størrelse";
+
   const dimensions = item?.dimensions?.[0]?.value || "Ukendt størrelse";
   const collection = item?.collection?.join(", ") || "Ukendt samling";
   const placering = item?.responsible_department || "Ukendt afdeling";
@@ -38,10 +33,10 @@ export default function KunstTextBox({ data, className }) {
 
   return (
     <div className={`sm:px-4 md:px-10 space-y-4 h-auto ${className}`}>
-      <header className="mt-10 mr-23">
-        <h1 className="text-[20px] sm:text-lg md:text-4xl font-bold text-my-blue font-playfair whitespace-nowrap">{title}</h1>
+      <div className="mt-10 mr-23">
+        <h1 className="text-[20px] sm:text-lg md:text-4xl font-bold text-my-blue font-playfair whitespace-nowrap [@media(min-width:500px)_and_(max-width:770px)]:text-[35px] [@media(min-width:500px)_and_(max-width:990px)]:mt-[50px] [@media(min-width:790px)_and_(max-width:990px)]:ml-[10px]">{title}</h1>
 
-        <p className="text-sm sm:text-base md:text-lg text-my-blue mt-1  font-sans font-light  md:whitespace-nowrap">
+        <p className="text-sm sm:text-base md:text-lg text-my-blue mt-1  font-sans font-light  md:whitespace-nowrap [@media(min-width:500px)_and_(max-width:980px)]:text-[20px]">
           af{" "}
           <span className="italic">
             {fullCreator}
@@ -49,7 +44,7 @@ export default function KunstTextBox({ data, className }) {
           </span>{" "}
           {period}
         </p>
-      </header>
+      </div>
 
       {/* beskrivelse */}
       {documentation.length > 0 && (

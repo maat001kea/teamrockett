@@ -7,6 +7,7 @@ export const gallerivaerk = async () => {
   try {
     const response = await fetch(apiUrl);
     const data = await response.json();
+
     return data.items || [];
   } catch (error) {
     console.error("Error fetching artworks:", error);

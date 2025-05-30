@@ -6,7 +6,7 @@ import EventCard from "../components/EventCard";
 import { getAllEvents } from "@/lib/api";
 import { eventsFilter } from "@/lib/eventsFilter";
 import Spinner from "../components/Spinner";
-import { SignedIn } from "@clerk/nextjs"; // <-- VIGTIGT!
+import { SignedIn } from "@clerk/nextjs";
 import AnimatedButton from "../components/AnimatedButton";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { motion } from "framer-motion";
@@ -88,8 +88,6 @@ export default function EventsPage() {
   return (
     <div className="p-6 max-w-4xl mx-auto mb-15 max-[400px]:p-0.5  max-[400px]:mx-1.5 max-400:max-w-3xl ">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 mt-10 gap-4">
-        {/* <h1 className="text-3xl font-bold mb-6 font-playfair text-my-blue mt-5">Upcoming Events</h1> */}
-        {/* <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 mt-10 gap-4"> */}
         <motion.h1 variants={container} initial="hidden" animate="visible" className="text-3xl sm:text-4xl font-bold mb-6 font-playfair text-my-blue mt-5 flex flex-wrap">
           {heading.split("").map((char, i) => (
             <motion.span key={i} variants={letter}>
@@ -113,17 +111,9 @@ export default function EventsPage() {
           </div>
         </SignedIn>
       </div>
-      {/* {locations.map((loc) => (
-        <div key={loc.id}>
-          <h2>{loc.name}</h2>
-          {events.length === 0 ? <p className="text-center text-gray-500">Ingen events at vise.</p> : <div className="space-y-4  mt-6 flex flex-col md:flex-row overflow-x-auto gap-4 pb-4 scroll-smooth mb-30 scrollbar-hide">{events.map((ev) => (ev.location.id === loc.id ? <EventCard key={ev.id} event={ev} showDelete onDelete={handleDeleteLocally} /> : ""))}</div>}
-        </div>
-      ))} */}
 
       {locations.map((loc) => (
         <div key={loc.id} className="mb-10 px-4 md:px-0 max-w-full overflow-hidden">
-          {/* Overflow hidden here to prevent page overflow */}
-          {/* <h2 className="text-xl font-semibold mb-4">{loc.name}</h2> */}
           <h2 className="flex items-center gap-2 border border-my-orangedark text-my-orangedark px-3 py-1 w-fit font-semibold text-lg mb-6 mt-8">
             <FaMapMarkerAlt className="text-my-orangedark" />
             {loc.name}

@@ -61,7 +61,6 @@ const HeroSection = () => {
           Vi bevarer og formidler historien gennem kunst og kultur
         </motion.h2>
 
-        {/* <AnimatedButton className="mt-2.5">See events</AnimatedButton> */}
         <Link href="/events">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.2, duration: 0.6, ease: "easeOut" }}>
             <AnimatedButton className="mt-2.5 font-sans">See events</AnimatedButton>

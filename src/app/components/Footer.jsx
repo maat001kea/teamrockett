@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import crownImg from "@/app/assets/crown.png";
+import crownImg from "@/app/assets/crown.webp";
 
 const Footer = () => {
   return (

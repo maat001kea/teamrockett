@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import dummy from "../assets/dummy.webp"; // fallback img
+import dummy from "../assets/dummy.webp";
 import KunstThumbnail from "./KunstThumbnail";
 
 const KunstBilledeBox = ({ data }) => {
@@ -8,7 +8,6 @@ const KunstBilledeBox = ({ data }) => {
 
   // console.log("Item data:", item);
 
-  // vis fetch img ellers fallback img
   const hasImage = item?.has_image;
 
   const imageUrl = hasImage ? item.image_thumbnail : dummy;

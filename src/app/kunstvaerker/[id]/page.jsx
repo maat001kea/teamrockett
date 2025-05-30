@@ -14,7 +14,6 @@ export default async function Page({ params }) {
     headers: {
       "Content-Type": "application/json",
     },
-    // cache: "no-store",
   });
 
   const data = await response.json();

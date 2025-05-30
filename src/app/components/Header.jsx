@@ -11,7 +11,7 @@ import { motion } from "framer-motion";
 
 const Header = () => {
   return (
-    <header className="sticky top-0 z-50 bg-background" style={{ gridColumn: "full-bleed" }}>
+    <header className="sticky top-0 z-50 bg-background pt-5 pb-3" style={{ gridColumn: "full-bleed" }}>
       <div className="grid grid-cols-subgrid" style={{ gridColumn: "content" }}>
         <div className="flex justify-between items-center py-4 px-2 w-full ">
           {/* Logo */}
@@ -38,7 +38,6 @@ const Header = () => {
             </SignedOut>
 
             <SignedIn>
-              <NavLink href="/dashboard">Min side</NavLink>
               <UserButton afterSignOutUrl="/" />
             </SignedIn>
           </div>
