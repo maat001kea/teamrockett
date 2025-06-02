@@ -14,11 +14,8 @@ export default async function Page({ params }) {
     },
   });
 
-  if (!response.ok) {
-    throw new Error("Failed to fetch event data");
-  }
-
   const data = await response.json();
+  console.log("event data:", data);
 
   return (
     <div>

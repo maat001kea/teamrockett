@@ -5,7 +5,7 @@ import EventButton from "@/app/components/EventButton";
 
 export default function EventDetailsBox({ eventId, className }) {
   const [eventData, setEventData] = useState(null);
-  const [tickets, setTickets] = useState(1);
+  const [tickets, setTickets] = useState(0);
 
   const fetchEvent = async () => {
     const res = await fetch(`https://async-exhibit-server-2awc.onrender.com/events/${eventId}`);
@@ -66,11 +66,11 @@ export default function EventDetailsBox({ eventId, className }) {
         <p className="text-sm sm:text-base text-green-700 font-sans font-medium">Billetter tilbage: {ticketsLeft}</p>
 
         <div className="flex items-center space-x-2">
-          <button onClick={handleDecrement} className="px-2 py-1 bg-[#bcc2ef] w-8 h-8 text-xl rounded">
+          <button onClick={handleDecrement} className="px-2 py-1 bg-[#bcc2ef] w-8 h-8 text-xl ">
             -
           </button>
           <span className="text-lg font-medium">{tickets}</span>
-          <button onClick={handleIncrement} className="px-2 py-1 bg-[#bcc2ef] w-8 h-8 text-xl rounded">
+          <button onClick={handleIncrement} className="px-2 py-1 bg-[#bcc2ef] w-8 h-8 text-xl">
             +
           </button>
         </div>

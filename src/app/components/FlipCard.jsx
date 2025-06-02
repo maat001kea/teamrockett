@@ -13,7 +13,7 @@ const FlipCard = ({ data }) => {
 
   return (
     <motion.div
-      className="relative w-full aspect-[3/4] perspective cursor-pointer transition duration-300"
+      className="relative w-full aspect-[3/4] perspective cursor-pointer"
       onHoverStart={() => setFlipped(true)}
       onHoverEnd={() => setFlipped(false)}
       onClick={() => setFlipped((prev) => !prev)} //flip on tap/ click on  mobil skærm
@@ -37,13 +37,7 @@ const FlipCard = ({ data }) => {
 
             <p className="text-sm sm:text-base text-my-flipcardgray font-sans italic font-medium max-[419px]:text-xl max-[419px]:text-my-white max-[640px]:text-lg">{data.artist}</p>
 
-            <button
-              className="text-sm sm:text-base font-sans italic font-medium text-my-flipcardgray border-b border-my-flipcardgray hover:border-b-2 transition duration-200 cursor-pointer"
-              onClick={(e) => {
-                e.stopPropagation(); // Prevent flip toggle
-                router.push(`/kunstvaerker/${data.objectNumber}`);
-              }}
-            >
+            <button className="text-sm sm:text-base font-sans italic font-medium text-my-flipcardgray border-b border-my-flipcardgray hover:border-b-2 transition duration-200 cursor-pointer" onClick={() => router.push(`/kunstvaerker/${data.objectNumber}`)}>
               læse mere om kunst
             </button>
           </div>

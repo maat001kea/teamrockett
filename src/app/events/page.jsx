@@ -1,7 +1,7 @@
 "use client";
 
 export const dynamic = "force-dynamic";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import EventCard from "../components/EventCard";
 import { getAllEvents } from "@/lib/api";
@@ -10,27 +10,26 @@ import Spinner from "../components/Spinner";
 import { SignedIn } from "@clerk/nextjs";
 import AnimatedButton from "../components/AnimatedButton";
 import { FaMapMarkerAlt } from "react-icons/fa";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 
-/* Typing animation effekt */
-
-const heading = "Upcoming Events";
+// Animation variants for staggered effekt
 
 const container = {
   hidden: { opacity: 1 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.07,
+      staggerChildren: 0.2,
     },
   },
 };
 
-const letter = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1 },
+const wordVariants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0 },
 };
-/* Typing animation effekt */
+
+// Animation variants for staggered effekt
 
 export default function EventsPage() {
   const [events, setEvents] = useState([]);
@@ -38,6 +37,13 @@ export default function EventsPage() {
   const [error, setError] = useState(null);
   const [loadingTarget, setLoadingTarget] = useState(null);
   const router = useRouter();
+
+  // Refs and inView
+  const headingRef = useRef(null);
+  const isInView = useInView(headingRef, {
+    once: true,
+    margin: "-100px 0px",
+  });
 
   useEffect(() => {
     const fetchLocations = async () => {
@@ -89,10 +95,11 @@ export default function EventsPage() {
   return (
     <div className="p-6 max-w-4xl mx-auto mb-15 max-[400px]:p-0.5  max-[400px]:mx-1.5 max-400:max-w-3xl ">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 mt-10 gap-4">
-        <motion.h1 variants={container} initial="hidden" animate="visible" className="text-3xl sm:text-4xl font-bold mb-6 font-playfair text-my-blue mt-5 flex flex-wrap">
-          {heading.split("").map((char, i) => (
-            <motion.span key={i} variants={letter}>
-              {char === " " ? "\u00A0" : char}
+        <motion.h1 ref={headingRef} variants={container} initial="hidden" animate={isInView ? "visible" : "hidden"} className="text-3xl sm:text-4xl font-bold mb-6 font-playfair text-my-blue mt-5 flex flex-wrap">
+          {"Upcoming Events:".split(" ").map((word, i) => (
+            <motion.span key={i} variants={wordVariants} className="inline-block mr-2 whitespace-nowrap">
+              {" "}
+              {word}
             </motion.span>
           ))}
         </motion.h1>

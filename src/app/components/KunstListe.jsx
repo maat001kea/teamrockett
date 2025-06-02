@@ -68,8 +68,8 @@ export default function KunstListe({ onAddArtwork, onRemoveArtwork, selectedArtw
         {/* Search */}
         <div className="max-w-2xl w-full">
           <form className="flex mb-4" onSubmit={handleSearchSubmit}>
-            <input type="text" value={searchInput} onChange={handleSearchChange} className="flex-grow border border-gray-500 bg-white p-2 focus:outline-none focus:ring-2 focus:ring-my-blue transition-all duration-200 rounded-l" placeholder="Søg..." />
-            <button type="submit" className="bg-my-blue text-white px-4 py-2 rounded-r hover:bg-my-orangedark transition">
+            <input type="text" value={searchInput} onChange={handleSearchChange} className="flex-grow border border-gray-500 bg-white p-2 focus:outline-none focus:ring-2 focus:ring-my-blue transition-all duration-200" placeholder="Søg..." />
+            <button type="submit" className="bg-my-blue text-white px-4 py-2 hover:bg-my-orangedark transition">
               Søg
             </button>
           </form>

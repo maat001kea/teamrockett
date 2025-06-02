@@ -1,4 +1,4 @@
-// '// // src/lib/fetchArtworks.js
+// '// // src/lib/art.js brugt i src/app/components/EventGalleri.jsx
 
 import dummy from "../app/assets/dummy.webp";
 
@@ -8,11 +8,10 @@ export const fetchArtworks = async (objectNumbers) => {
       const response = await fetch(`https://api.smk.dk/api/v1/art/?object_number=${id}`);
       const data = await response.json();
 
-      console.log(`Artworks IDS ${id}:`, data);
+      // console.log(`Artworks IDS ${id}:`, data);
 
       const item = data.items?.[0];
       if (!item) {
-        console.warn(`no item for id: ${id}`);
         return null;
       }
 
@@ -23,8 +22,6 @@ export const fetchArtworks = async (objectNumbers) => {
       const title = fullTitle.split(":")[0];
 
       const artist = item.artist?.[0] ?? "Unkendt artist";
-
-      console.log(`artwork [${objectNumber}]:`, { title, artist, image });
 
       return {
         image,

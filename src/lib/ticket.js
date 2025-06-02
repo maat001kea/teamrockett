@@ -1,4 +1,4 @@
-// src / lib /ticket.js;
+// src / lib /ticket.js; brugt i src/app/components/EventButton.jsx
 
 export const bookEvent = async (eventId, tickets) => {
   try {

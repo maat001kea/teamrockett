@@ -4,7 +4,7 @@ import Link from "next/link";
 import { gallerivaerk } from "@/lib/galleri";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 
 const KunstGalleri = () => {
   const [artworks, setArtworks] = useState([]);
@@ -29,28 +29,35 @@ const KunstGalleri = () => {
 
   /* Typing animation effekt */
 
-  const text = "Andre kunstværker";
+  // Refs and inView
+  const headingRef = useRef(null);
+  const isInView = useInView(headingRef, {
+    once: true,
+    margin: "-100px 0px",
+  });
 
+  // Animation variants for staggered effekt
   const container = {
     hidden: { opacity: 1 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.07,
+        staggerChildren: 0.2,
       },
     },
   };
 
-  const letter = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 },
+  const wordVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: { opacity: 1, y: 0 },
   };
+
   return (
     <section className="py-4 px-2 ">
-      <motion.h2 variants={container} initial="hidden" animate="visible" className="text-2xl sm:text-3xl md:text-4xl font-bold mb-12 font-playfair text-my-blue mt-10 flex flex-wrap">
-        {text.split("").map((char, i) => (
-          <motion.span key={i} variants={letter}>
-            {char === " " ? "\u00A0" : char}
+      <motion.h2 ref={headingRef} variants={container} initial="hidden" animate={isInView ? "visible" : "hidden"} className="text-xl sm:text-3xl md:text-4xl font-bold mb-12 font-playfair text-my-blue mt-40 max-[450px]:mt-20 flex flex-wrap p-2 break-keep leading-relaxed">
+        {"Andre Kunstværker:".split(" ").map((word, i) => (
+          <motion.span key={i} variants={wordVariants} className="inline-block mr-2 whitespace-nowrap">
+            {word}
           </motion.span>
         ))}
       </motion.h2>
@@ -65,7 +72,7 @@ const KunstGalleri = () => {
           <HiChevronRight className="w-6 h-6 text-my-blue cursor-pointer" />
         </button>
 
-        {/* horizontal scrollable gallery */}
+        {/* horizontal scrollable galleri */}
 
         <div ref={scrollRef} className=" pt-10 px-6 w-full flex overflow-x-auto gap-4 pb-4 scroll-smooth mb-30 scrollbar-hide ">
           {artworks.map((art, index) => (

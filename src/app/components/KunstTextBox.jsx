@@ -8,10 +8,7 @@ export default function KunstTextBox({ data, className }) {
   }
   const item = data?.items[0];
 
-  const fullTitle = item?.titles?.[0]?.title || "titel";
-
-  const title = fullTitle.split(":")[0];
-
+  const title = item.titles?.[0]?.title?.split(":")[0] || "titel";
   const creatorForename = item?.production?.[0]?.creator_forename;
   const creatorSurname = item?.production?.[0]?.creator_surname;
   const birth = item?.production?.[0]?.creator_date_of_birth?.slice(0, 4);
@@ -26,10 +23,12 @@ export default function KunstTextBox({ data, className }) {
   const collection = item?.collection?.join(", ") || "Ukendt samling";
   const placering = item?.responsible_department || "Ukendt afdeling";
   const documentation = item?.documentation || [];
+  const firstDoc = documentation[0];
 
-  console.log(collection);
+  // console.log(collection);
 
   const period = data.production_dates_notes?.[1] || "";
+  // const period = item?.production_dates_notes?.[1] || "";
 
   return (
     <div className={`sm:px-4 md:px-10 space-y-4 h-auto ${className}`}>
@@ -47,21 +46,20 @@ export default function KunstTextBox({ data, className }) {
       </div>
 
       {/* beskrivelse */}
-      {documentation.length > 0 && (
+      {firstDoc && (
         <section>
           <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-my-blue font-playfair mb-2 mt-4">Dokumentation</h2>
-          <div className="space-y-2 font-sans font-normal text-my-blue  leading-relaxed text-sm sm:text-base md:text-lg">
-            {documentation.slice(0, 1).map((doc, index) => (
-              <p key={index}>
-                <strong className="font-medium">{doc.title}</strong>
-                {doc.author && <> af {doc.author}</>}
-                {doc.year_of_publication && `, ${doc.year_of_publication}`}
-                {doc.shelfmark && `, Hyldenummer: ${doc.shelfmark}`}
-              </p>
-            ))}
+          <div className="space-y-2 font-sans font-normal text-my-blue leading-relaxed text-sm sm:text-base md:text-lg">
+            <p>
+              <strong className="font-medium">{firstDoc.title}</strong>
+              {firstDoc.author && <> af {firstDoc.author}</>}
+              {firstDoc.year_of_publication && `, ${firstDoc.year_of_publication}`}
+              {firstDoc.shelfmark && `, Hyldenummer: ${firstDoc.shelfmark}`}
+            </p>
           </div>
         </section>
       )}
+
       <section>
         <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-my-blue font-playfair mb-2 mt-2">Detaljer</h2>
         <ul className="text-my-blue space-y-1 text-sm sm:text-base md:text-lg">

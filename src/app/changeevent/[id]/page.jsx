@@ -213,15 +213,15 @@ export default function ChangeEventPage({ params }) {
           <div>
             <label className="block font-sans text-gray-600 mb-1">{uploadedImageUrl ? "Fjern billede:" : "Upload hoved billedet til events:"}</label>
             {!uploadedImageUrl ? (
-              <input ref={fileInputRef} id="fileUpload" type="file" accept="image/*" onChange={handleImageUpload} className="block w-30 text-white file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-sans file:font-medium file:bg-[#FFA04E] file:text-white hover:file:bg-my-orange cursor-pointer" />
+              <input ref={fileInputRef} id="fileUpload" type="file" accept="image/*" onChange={handleImageUpload} className="block w-30 text-white file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-sans file:font-medium file:bg-[#FFA04E] file:text-white hover:file:bg-my-orange cursor-pointer" />
             ) : (
-              <button type="button" onClick={handleDeleteImage} className="block text-sm w-40 py-2 rounded font-sans font-medium text-white bg-[#FFA04E] hover:bg-[#FFA04E] transition cursor-pointer">
+              <button type="button" onClick={handleDeleteImage} className="block text-sm w-40 py-2 font-sans font-medium text-white bg-[#FFA04E] hover:bg-[#FFA04E] transition cursor-pointer">
                 Fjern billede
               </button>
             )}
             {uploadedImageUrl && (
               <div className="mt-2">
-                <img src={uploadedImageUrl} alt="Uploaded" className="w-32 rounded" />
+                <img src={uploadedImageUrl} alt="Uploaded" className="w-32" />
               </div>
             )}
           </div>

@@ -188,15 +188,15 @@ export default function CreateEvent({ date, locations }) {
           <div>
             <label className="block font-sans text-gray-600 mb-1">{uploadedImageUrl ? "Fjern billede:" : "Upload hoved billede til events:"}</label>
             {!uploadedImageUrl ? (
-              <input ref={fileInputRef} id="fileUpload" type="file" accept="image/*" onChange={handleImageUpload} className="block w-30 text-white file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-sans file:font-medium file:bg-[#FFA04E] file:text-white hover:file:bg-my-orange cursor-pointer" />
+              <input ref={fileInputRef} id="fileUpload" type="file" accept="image/*" onChange={handleImageUpload} className="block w-30 text-white file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-sans file:font-medium file:bg-[#FFA04E] file:text-white hover:file:bg-my-orange cursor-pointer" />
             ) : (
-              <button type="button" onClick={handleDeleteImage} className="block text-sm w-40 py-2 rounded font-sans font-medium text-white bg-red-500 hover:bg-red-800 transition cursor-pointer">
+              <button type="button" onClick={handleDeleteImage} className="block text-sm w-40 py-2 font-sans font-medium text-white bg-red-500 hover:bg-red-800 transition cursor-pointer">
                 Fjern billede
               </button>
             )}
             {uploadedImageUrl && (
               <div className="mt-2">
-                <img src={uploadedImageUrl} alt="Uploaded" className="w-32 rounded" />
+                <img src={uploadedImageUrl} alt="Uploaded" className="w-32" />
               </div>
             )}
           </div>
@@ -209,10 +209,10 @@ export default function CreateEvent({ date, locations }) {
             <div className="flex flex-wrap gap-4">
               {artworks.map((art) => (
                 <div key={art.id} className="relative p-2 bg-gray-100 border max-w-[120px] group">
-                  <button onClick={() => handleRemoveArtwork(art.id)} className="absolute top-1 right-1 bg-red-600 text-white text-xs px-1 rounded transition" title="Fjern">
+                  <button onClick={() => handleRemoveArtwork(art.id)} className="absolute top-1 right-1 bg-red-600 text-white text-xs px-1 transition" title="Fjern">
                     Fjern
                   </button>
-                  <img src={art.image} alt={art.title} className="w-full h-auto mb-1 rounded" />
+                  <img src={art.image} alt={art.title} className="w-full h-auto mb-1" />
                   <p className="text-xs font-medium break-words">{art.title}</p>
                 </div>
               ))}

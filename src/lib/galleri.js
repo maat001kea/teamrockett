@@ -1,4 +1,4 @@
-// src/lib/galleri.js
+// src/lib/galleri.js brugt i src/app/components/KunstGalleri.jsx
 
 export const gallerivaerk = async () => {
   const randomOffset = Math.floor(Math.random() * 100);
@@ -9,7 +9,7 @@ export const gallerivaerk = async () => {
     const data = await response.json();
 
     return data.items || [];
-  } catch (error) {
+  } catch {
     console.error("Error fetching artworks:", error);
     return [];
   }
